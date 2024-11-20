@@ -72,12 +72,11 @@ int main(void)
 	Display Dis = Display();
 	Dis.Print2DMap<int>(GridMap);
 
-	WayPointAlgo NewAlgo = WayPointAlgo(23, Point(4,4), Point(1,1));
-	NewAlgo.FindPath();
-
-
+	WayPointAlgo NewAlgo = WayPointAlgo();
+	NewAlgo.FindPathWithBFS(GridMap, MatchingInfo[1].first, MatchingInfo[1].second);
 
 	// 각 로봇마다 경로 출력
+
 
 	return 0;
 }
