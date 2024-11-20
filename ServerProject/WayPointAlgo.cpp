@@ -37,7 +37,7 @@ void WayPointAlgo::FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, cons
 			{
 				if (Point(-1, -1) == CurPos)
 				{
-					std::cout << "Find Path" << std::endl;
+					//std::cout << "Find Path" << std::endl;
 					return;
 				}
 

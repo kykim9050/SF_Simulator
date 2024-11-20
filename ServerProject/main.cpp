@@ -75,16 +75,20 @@ int main(void)
 
 	std::stack<Point> PathStack = std::stack<Point>();
 	WayPointAlgo NewAlgo = WayPointAlgo();
-	NewAlgo.FindPathWithBFS(GridMap, MatchingInfo[1].first, MatchingInfo[1].second, PathStack);
 
-	// 경로 출력
-	std::cout << std::endl;
-	std::cout << "------ResultPath-------" << std::endl;
-	while (!PathStack.empty())
+	for (int i = 1; i <= N; ++i)
 	{
-		Point Pos = PathStack.top();
-		std::cout << "[" << Pos.X << "," << Pos.Y << "]" << std::endl;
-		PathStack.pop();
+		NewAlgo.FindPathWithBFS(GridMap, MatchingInfo[i].first, MatchingInfo[i].second, PathStack);
+
+		// 경로 출력
+		std::cout << std::endl;
+		std::cout << "------[ID :" << i << "] ResultPath------- " << std::endl;
+		while (!PathStack.empty())
+		{
+			Point Pos = PathStack.top();
+			std::cout << "{" << Pos.X << "," << Pos.Y << "}" << " ";
+			PathStack.pop();
+		}
 	}
 
 	return 0;
