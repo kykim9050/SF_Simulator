@@ -50,6 +50,11 @@ public:
 		return DestPos;
 	}
 
+	/// <summary>
+	/// Input 정보를 토대로 경로를 찾는 알고리즘
+	/// </summary>
+	void FindPath();
+
 protected:
 
 private:

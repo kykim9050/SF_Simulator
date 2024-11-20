@@ -7,7 +7,7 @@
     <Filter Include="WayPointAlgorithm">
       <UniqueIdentifier>{e6b46ce9-db8d-42b5-9454-784dd3af7a53}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Basic">
+    <Filter Include="Base">
       <UniqueIdentifier>{7df3406a-494b-4774-96d5-5d29adb0743e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -19,7 +19,7 @@
       <Filter>WayPointAlgorithm</Filter>
     </ClCompile>
     <ClCompile Include="Point.cpp">
-      <Filter>Basic</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -27,7 +27,7 @@
       <Filter>WayPointAlgorithm</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
-      <Filter>Basic</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
