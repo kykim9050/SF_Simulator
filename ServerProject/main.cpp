@@ -3,6 +3,8 @@
 #include "Point.h"
 
 #include <vector>
+#include "Display.h"
+
 
 int main(void)
 {
@@ -25,13 +27,20 @@ int main(void)
 		}
 	}
 
+	// 그리드 맵 생성
+	std::vector<std::vector<int>> GridMap = std::vector<std::vector<int>>(N, std::vector<int>(N));
+
+	// 화면에 그리드 맵의 상황을 보여줌
+	Display Dis = Display();
+	Dis.Print2DMap<int>(GridMap);
+	std::cout << std::endl;
+
+	GridMap[N - 1][N - 1] = 10;
+
 	WayPointAlgo NewAlgo = WayPointAlgo(23, Point(4,4), Point(1,1));
 	NewAlgo.FindPath();
 
-	std::cout << "Input Info" << std::endl;
-	std::cout << "Robot ID : " << NewAlgo.GetRobotID() << std::endl;
-	std::cout << "Start : " << NewAlgo.GetStartPos().X << ", " << NewAlgo.GetStartPos().Y << std::endl;
-	std::cout << "Dest : " << NewAlgo.GetDestPos().X << ", " << NewAlgo.GetDestPos().Y << std::endl;
+	Dis.Print2DMap<int>(GridMap);
 	
 	return 0;
 }
