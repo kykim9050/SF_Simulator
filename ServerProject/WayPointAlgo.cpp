@@ -12,9 +12,16 @@ void WayPointAlgo::FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, cons
 	std::vector<std::vector<Point>> ParentPos = std::vector<std::vector<Point>>(Size, std::vector<Point>(Size, Point(-1, -1)));
 
 	Point CurPos = Point(_StartPos);
+	Point EndPos = _DestPos;
 
 	Q.push(CurPos);
 	Visited[CurPos.X][CurPos.Y] = true;
+	
+	// 최종 위치는 미리 Stack에 넣어놓는다.
+	_ResPath.push(EndPos);
+	// 목적지 앞까지 올 수 있도록 X값 +1
+	EndPos.X += 1;
+
 
 	// Q에 넣은 좌표들을 Pop하면서 좌표 이동
 	// _DestPos에 같아질 때 경로를 찾은 것
@@ -23,7 +30,7 @@ void WayPointAlgo::FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, cons
 		CurPos = Q.front();
 		Q.pop();
 
-		if (_DestPos.X == CurPos.X && _DestPos.Y == CurPos.Y)
+		if (CurPos == EndPos)
 		{
 			// 경로 출력 내용 구현
 			while (true)

@@ -42,6 +42,13 @@ struct Point
 		return !(X == _OtherPos.X && Y == _OtherPos.Y);
 	}
 
+	Point& operator=(const Point& _OtherPos)
+	{
+		X = _OtherPos.X;
+		Y = _OtherPos.Y;
+		return *this;
+	}
+
 	/// <summary>
 	/// Point ¿ä¼Ò
 	/// </summary>
