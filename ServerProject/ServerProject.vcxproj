@@ -152,6 +152,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Point.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WayPointAlgo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Point.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WayPointAlgo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
