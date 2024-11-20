@@ -71,7 +71,7 @@ private:
 	Point DestPos = Point();
 
 	// 상, 좌, 우 이동 (하 이동은 생략)
-	std::vector<int> g_Dx = std::vector<int>{ -1, 0, 0 };
-	std::vector<int> g_Dy = std::vector<int>{ 0, -1, 1 };
+	std::vector<int> Dx = std::vector<int>{ -1, 0, 0 };
+	std::vector<int> Dy = std::vector<int>{ 0, -1, 1 };
 };
 

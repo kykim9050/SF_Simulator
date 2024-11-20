@@ -70,13 +70,16 @@ int main(void)
 
 	// 화면에 그리드 맵의 상황을 보여줌
 	Display Dis = Display();
+	std::cout << "------Init-------" << std::endl;
 	Dis.Print2DMap<int>(GridMap);
 
 	WayPointAlgo NewAlgo = WayPointAlgo();
 	NewAlgo.FindPathWithBFS(GridMap, MatchingInfo[1].first, MatchingInfo[1].second);
 
-	// 각 로봇마다 경로 출력
-
+	// 경로 출력
+	std::cout << std::endl;
+	std::cout << "------Result-------" << std::endl;
+	Dis.Print2DMap<int>(GridMap);
 
 	return 0;
 }
