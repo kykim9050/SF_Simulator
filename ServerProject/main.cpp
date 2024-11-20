@@ -73,13 +73,19 @@ int main(void)
 	std::cout << "------Init-------" << std::endl;
 	Dis.Print2DMap<int>(GridMap);
 
+	std::stack<Point> PathStack = std::stack<Point>();
 	WayPointAlgo NewAlgo = WayPointAlgo();
-	NewAlgo.FindPathWithBFS(GridMap, MatchingInfo[1].first, MatchingInfo[1].second);
+	NewAlgo.FindPathWithBFS(GridMap, MatchingInfo[1].first, MatchingInfo[1].second, PathStack);
 
 	// 경로 출력
 	std::cout << std::endl;
-	std::cout << "------Result-------" << std::endl;
-	Dis.Print2DMap<int>(GridMap);
+	std::cout << "------ResultPath-------" << std::endl;
+	while (!PathStack.empty())
+	{
+		Point Pos = PathStack.top();
+		std::cout << "[" << Pos.X << "," << Pos.Y << "]" << std::endl;
+		PathStack.pop();
+	}
 
 	return 0;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Point.h"
-#include "vector"
+#include <vector>
+#include <stack>
 
 // 설명 : WayPoint 알고리즘을 담당하는 클래스
 class WayPointAlgo
@@ -54,7 +55,7 @@ public:
 	/// <summary>
 	/// Input 정보를 토대로 경로를 찾는 알고리즘
 	/// </summary>
-	void FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, const Point& _StartPos, const Point& _DestPos);
+	void FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, const Point& _StartPos, const Point& _DestPos, std::stack<Point>& _ResPath);
 
 protected:
 

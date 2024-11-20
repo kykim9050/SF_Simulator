@@ -2,11 +2,14 @@
 #include <queue>
 #include <iostream>
 
-void WayPointAlgo::FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, const Point& _StartPos, const Point& _DestPos)
+void WayPointAlgo::FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, const Point& _StartPos, const Point& _DestPos, std::stack<Point>& _ResPath)
 {
 	int Size = static_cast<int>(_GridMap.size());
 	std::queue<Point> Q = std::queue<Point>();
 	std::vector<std::vector<bool>> Visited = std::vector<std::vector<bool>>(Size, std::vector<bool>(Size, false));
+	// 각 그리드 요소마다 어떤 위치 위치에서 파생되었는지에 대한 정보
+	// _ResPath에 경로를 넣어서 전달할 때 필요
+	std::vector<std::vector<Point>> ParentPos = std::vector<std::vector<Point>>(Size, std::vector<Point>(Size, Point(-1, -1)));
 
 	Point CurPos = Point(_StartPos);
 
@@ -23,8 +26,17 @@ void WayPointAlgo::FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, cons
 		if (_DestPos.X == CurPos.X && _DestPos.Y == CurPos.Y)
 		{
 			// 경로 출력 내용 구현
-			std::cout << "Find Path" << std::endl;
-			return;
+			while (true)
+			{
+				if (Point(-1, -1) == CurPos)
+				{
+					std::cout << "Find Path" << std::endl;
+					return;
+				}
+
+				_ResPath.push(CurPos);
+				CurPos = ParentPos[CurPos.X][CurPos.Y];
+			}
 		}
 
 		for (size_t i = 0; i < Dx.size(); ++i)
@@ -36,6 +48,7 @@ void WayPointAlgo::FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, cons
 			{
 				Q.push(NextPos);
 				Visited[NextPos.X][NextPos.Y] = true;
+				ParentPos[NextPos.X][NextPos.Y] = CurPos;
 			}
 		}
 	}

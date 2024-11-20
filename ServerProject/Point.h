@@ -22,6 +22,26 @@ struct Point
 
 	}
 
+	bool operator==(Point& _OtherPos)
+	{
+		return (X == _OtherPos.X && Y == _OtherPos.Y);
+	}
+
+	bool operator==(const Point& _OtherPos)
+	{
+		return (X == _OtherPos.X && Y == _OtherPos.Y);
+	}
+
+	bool operator!=(Point& _OtherPos)
+	{
+		return !(X == _OtherPos.X && Y == _OtherPos.Y);
+	}
+
+	bool operator!=(const Point& _OtherPos)
+	{
+		return !(X == _OtherPos.X && Y == _OtherPos.Y);
+	}
+
 	/// <summary>
 	/// Point ¿ä¼Ò
 	/// </summary>
