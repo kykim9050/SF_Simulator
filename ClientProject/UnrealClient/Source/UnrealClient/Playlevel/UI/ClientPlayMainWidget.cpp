@@ -3,3 +3,7 @@
 
 #include "Playlevel/UI/ClientPlayMainWidget.h"
 
+const FText UClientPlayMainWidget::GetPaletteCategory()
+{
+	return FText::FromString(FString("ClientPlay Widget"));
+}
