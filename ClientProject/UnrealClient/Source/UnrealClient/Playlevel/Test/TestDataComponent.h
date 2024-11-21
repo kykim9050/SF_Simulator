@@ -19,29 +19,6 @@ public:
 };
 
 /// <summary>
-/// 블루프린트 에디터 상에서 편리하게 테스트 데이터를 수정할 수 있는 클래스
-/// </summary>
-UCLASS(BlueprintType)
-class ATestData : public AActor
-{
-	GENERATED_BODY()
-public:
-
-protected:
-
-private:
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test", meta = (AllowPrivateAccess = "true"))
-	//TMap<int, FMatchPos> MatchingData;
-
-	/// <summary>
-	/// Key는 이동체의 ID
-	/// Value는 이동체 별 이동 경로 좌표 데이터
-	/// </summary>
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test", meta = (AllowPrivateAccess = "true"))
-	TMap<int, FCourse> CourseInfo;
-};
-
-/// <summary>
 /// 테스트 데이터를 보유한 객체의 클래스 정보를 포함
 /// </summary>
 USTRUCT(BlueprintType)
@@ -49,8 +26,12 @@ struct FTestDataSet
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test")
-	TSubclassOf<AActor> TestDataClass = nullptr;
+	/// <summary>
+	/// Key는 이동체의 ID
+	/// Value는 이동체 별 이동 경로 좌표 데이터
+	/// </summary>
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test", meta = (AllowPrivateAccess = "true"))
+	TMap<int, FCourse> CourseInfo;
 };
 
 /// <summary>
@@ -64,6 +45,11 @@ class UNREALCLIENT_API UTestDataComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTestDataComponent();
+
+	FORCEINLINE FTestDataSet GetTestData() const
+	{
+		return TestData;
+	}
 
 protected:
 	// Called when the game starts

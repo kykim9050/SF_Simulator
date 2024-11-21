@@ -36,6 +36,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnMover(FVector _Pos = FVector(.0f, .0f, .0f));
 
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE void SetIsMoversSpawnable()
+	{
+		bIsMoversSpawnable = true;
+	}
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -66,4 +72,19 @@ private:
 	/// 생성될 Mover 객체들 정보 소유
 	/// </summary>
 	TArray<TObjectPtr<AMover>> Movers = TArray<TObjectPtr<AMover>>();
+	
+	/// <summary>
+	/// Mover를 연속적으로 출력하기 위한 시그널 변수
+	/// </summary>
+	bool bIsMoversSpawnable = false;
+
+
+
+
+
+
+	/// <summary>
+	/// Test N값
+	/// </summary>
+	int NValue = 1;
 };

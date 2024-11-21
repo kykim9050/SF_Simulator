@@ -19,13 +19,28 @@ ASimulatorManager::ASimulatorManager()
 void ASimulatorManager::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	// TestCode
+	NValue = TestDataComponent->GetTestData().CourseInfo.Num();
 }
 
 // Called every frame
 void ASimulatorManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (true == bIsMoversSpawnable)
+	{
+		static float Deltatime = 0.0f;
+		Deltatime += DeltaTime;
+		// n값을 받아서 Spawn을 일정 주기로 하는 함수 추가
+		if (Deltatime >= 3.0f)
+		{
+			Deltatime = 0.0f;
+			bIsMoversSpawnable = false;
+			SpawnMover(FVector(NValue * 100.0f, 0.0f, 300.0f));
+		}
+	}
 }
 
 void ASimulatorManager::SpawnGridPlatform(FVector _Pos, int _N)
