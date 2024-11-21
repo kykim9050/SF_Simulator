@@ -32,26 +32,30 @@ void ASimulatorManager::Tick(float DeltaTime)
 	if (true == bIsMoversSpawnable)
 	{
 		static float Deltatime = 0.0f;
+		static int N = NValue;
+
 		Deltatime += DeltaTime;
 		// n값을 받아서 Spawn을 일정 주기로 하는 함수 추가
 		if (Deltatime >= 1.0f)
 		{
 			Deltatime = 1.0f - Deltatime;
-			SpawnMover(FVector(0.0f, (NValue--) * 150.0f, 300.0f));
+			SpawnMover(FVector(0.0f, (N--) * 150.0f, 300.0f));
 			
-			if (0 >= NValue)
+			if (0 >= N)
 			{
+				Deltatime = 0.0f;
+				N = NValue;
 				bIsMoversSpawnable = false;
 			}
 		}
 	}
 }
 
-void ASimulatorManager::SpawnGridPlatform(FVector _Pos, int _N)
+void ASimulatorManager::SpawnGridPlatform(FVector _Pos)
 {
 	if (nullptr != GridPlatformClass)
 	{
-		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(_N * 1.0f, _N * 1.0f, 1.0f));
+		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(NValue * 1.0f, NValue * 1.0f, 1.0f));
 		GridPlatform = GetWorld()->SpawnActor<AGridPlatform>(GridPlatformClass, TransValue);
 	}
 }

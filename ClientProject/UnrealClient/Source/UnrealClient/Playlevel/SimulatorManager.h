@@ -31,7 +31,7 @@ public:
 	/// _N : 서버로 부터 수신 받은 N값
 	/// </summary>
 	UFUNCTION(BlueprintCallable)
-	void SpawnGridPlatform(FVector _Pos = FVector(.0f, .0f, .0f), int _N = 1);
+	void SpawnGridPlatform(FVector _Pos = FVector(.0f, .0f, .0f));
 
 	UFUNCTION(BlueprintCallable)
 	void SpawnMover(FVector _Pos = FVector(.0f, .0f, .0f));
@@ -74,17 +74,13 @@ private:
 	TArray<TObjectPtr<AMover>> Movers = TArray<TObjectPtr<AMover>>();
 	
 	/// <summary>
+	/// 서버에서 받아올 N값
+	/// </summary>
+	int NValue = 1;
+
+	/// <summary>
 	/// Mover를 연속적으로 출력하기 위한 시그널 변수
 	/// </summary>
 	bool bIsMoversSpawnable = false;
 
-
-
-
-
-
-	/// <summary>
-	/// Test N값
-	/// </summary>
-	int NValue = 1;
 };
