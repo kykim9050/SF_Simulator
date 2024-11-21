@@ -4,7 +4,7 @@
 #include "Playlevel/SimulatorManager.h"
 #include "Playlevel/Test/TestDataComponent.h"
 #include "Playlevel/Actor/GridPlatform.h"
-
+#include "Playlevel/Actor/Mover.h"
 
 // Sets default values
 ASimulatorManager::ASimulatorManager()
@@ -34,6 +34,16 @@ void ASimulatorManager::SpawnGridPlatform(FVector _Pos, int _N)
 	{
 		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(_N * 1.0f, _N * 1.0f, 1.0f));
 		GridPlatform = GetWorld()->SpawnActor<AGridPlatform>(GridPlatformClass, TransValue);
+	}
+}
+
+void ASimulatorManager::SpawnMover(FVector _Pos)
+{
+	if (nullptr != MoverClass)
+	{
+		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(1.0f, 1.0f, 1.0f));
+		AMover* Obj = GetWorld()->SpawnActor<AMover>(MoverClass, TransValue);
+		Movers.Add(Obj);
 	}
 }
 

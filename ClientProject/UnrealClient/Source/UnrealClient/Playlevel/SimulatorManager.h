@@ -11,6 +11,8 @@
 */
 class UTestDataComponent;
 class AGridPlatform;
+class AMover;
+class APawn;
 UCLASS()
 class UNREALCLIENT_API ASimulatorManager : public AActor
 {
@@ -31,6 +33,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnGridPlatform(FVector _Pos = FVector(.0f, .0f, .0f), int _N = 1);
 
+	UFUNCTION(BlueprintCallable)
+	void SpawnMover(FVector _Pos = FVector(.0f, .0f, .0f));
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -41,7 +46,7 @@ private:
 	TObjectPtr<UTestDataComponent> TestDataComponent = nullptr;
 
 	/// <summary>
-	/// 블루프린트 상에서 생성할 GridPlatform 객체를 지정
+	/// 블루프린트 상에서 생성할 GridPlatform 객체를 지정, 클래스 정보 저장
 	/// </summary>
 	UPROPERTY(Editanywhere, Category = "Insert Parameter", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> GridPlatformClass = nullptr;
@@ -50,4 +55,15 @@ private:
 	/// GridPlatform의 포인터를 소유
 	/// </summary>
 	TObjectPtr<AGridPlatform> GridPlatform = nullptr;
+
+	/// <summary>
+	/// 블루프린트 상에서 생성할 Mover 객체를 지정, 클래스 정보 저장
+	/// </summary>
+	UPROPERTY(Editanywhere, Category = "Insert Parameter", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<APawn> MoverClass = nullptr;
+
+	/// <summary>
+	/// 생성될 Mover 객체들 정보 소유
+	/// </summary>
+	TArray<TObjectPtr<AMover>> Movers = TArray<TObjectPtr<AMover>>();
 };
