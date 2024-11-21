@@ -3,6 +3,8 @@
 
 #include "Playlevel/SimulatorManager.h"
 #include "Playlevel/Test/TestDataComponent.h"
+#include "Playlevel/Actor/GridPlatform.h"
+
 
 // Sets default values
 ASimulatorManager::ASimulatorManager()
@@ -24,6 +26,10 @@ void ASimulatorManager::BeginPlay()
 void ASimulatorManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
+void ASimulatorManager::SpawnGridPlatform()
+{
+	GridPlatform = MakeWeakObjectPtr<AGridPlatform>(GetWorld()->SpawnActor<AGridPlatform>());
 }
 
