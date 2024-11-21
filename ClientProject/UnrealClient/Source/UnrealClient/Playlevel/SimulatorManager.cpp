@@ -28,11 +28,12 @@ void ASimulatorManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ASimulatorManager::SpawnGridPlatform(int _N, FVector _Pos)
+void ASimulatorManager::SpawnGridPlatform(FVector _Pos, int _N)
 {
 	if (nullptr != GridPlatformClass)
 	{
-		GridPlatform = GetWorld()->SpawnActor<AGridPlatform>(GridPlatformClass, _Pos, FRotator(.0f, .0f, .0f));
+		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(_N * 1.0f, _N * 1.0f, 1.0f));
+		GridPlatform = GetWorld()->SpawnActor<AGridPlatform>(GridPlatformClass, TransValue);
 	}
 }
 

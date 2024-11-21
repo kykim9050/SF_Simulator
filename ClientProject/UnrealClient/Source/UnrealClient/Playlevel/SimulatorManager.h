@@ -27,7 +27,7 @@ public:
 	/// GridPlatform을 Spawn하는 함수
 	/// </summary>
 	UFUNCTION(BlueprintCallable)
-	void SpawnGridPlatform(int _N, FVector _Pos);
+	void SpawnGridPlatform(FVector _Pos = FVector(.0f, .0f, .0f), int _N = 1);
 
 protected:
 	// Called when the game starts or when spawned
