@@ -20,7 +20,7 @@ void ASimulatorManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// TestCode
+	// TestCode NValue Get
 	NValue = TestDataComponent->GetTestData().CourseInfo.Num();
 }
 
@@ -34,11 +34,15 @@ void ASimulatorManager::Tick(float DeltaTime)
 		static float Deltatime = 0.0f;
 		Deltatime += DeltaTime;
 		// n값을 받아서 Spawn을 일정 주기로 하는 함수 추가
-		if (Deltatime >= 3.0f)
+		if (Deltatime >= 1.0f)
 		{
-			Deltatime = 0.0f;
-			bIsMoversSpawnable = false;
-			SpawnMover(FVector(NValue * 100.0f, 0.0f, 300.0f));
+			Deltatime = 1.0f - Deltatime;
+			SpawnMover(FVector(0.0f, (NValue--) * 150.0f, 300.0f));
+			
+			if (0 >= NValue)
+			{
+				bIsMoversSpawnable = false;
+			}
 		}
 	}
 }
