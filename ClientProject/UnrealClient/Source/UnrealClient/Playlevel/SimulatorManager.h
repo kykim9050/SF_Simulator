@@ -47,6 +47,18 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	/// <summary>
+	/// Mover Spawn을 여러번 수행하는 함수
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void SpawnMoverRepeatedly(float _DeltaTime);
+
+	/// <summary>
+	/// N의 크기에 맞게 MoverSpawnTimes의 배열 요소와 크기를 조정하는 함수
+	/// </summary>
+	void InitMoverSpawnTimes(int _N);
+
+private:
 	// Test용 데이터 (로봇 아이디, 경로 정보 전달 용)
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test Prop", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UTestDataComponent> TestDataComponent = nullptr;
@@ -74,6 +86,11 @@ private:
 	TArray<TObjectPtr<AMover>> Movers = TArray<TObjectPtr<AMover>>();
 	
 	/// <summary>
+	/// 
+	/// </summary>
+	TArray<float> MoverSpawnTimes = TArray<float>({ 0.0f, 1.0f, 2.0f });
+
+	/// <summary>
 	/// 서버에서 받아올 N값
 	/// </summary>
 	int NValue = 1;
@@ -82,5 +99,4 @@ private:
 	/// Mover를 연속적으로 출력하기 위한 시그널 변수
 	/// </summary>
 	bool bIsMoversSpawnable = false;
-
 };

@@ -22,6 +22,7 @@ void ASimulatorManager::BeginPlay()
 
 	// TestCode NValue Get
 	NValue = TestDataComponent->GetTestData().CourseInfo.Num();
+	InitMoverSpawnTimes(NValue);
 }
 
 // Called every frame
@@ -31,23 +32,7 @@ void ASimulatorManager::Tick(float DeltaTime)
 
 	if (true == bIsMoversSpawnable)
 	{
-		static float Deltatime = 0.0f;
-		static int N = NValue;
-
-		Deltatime += DeltaTime;
-		// n값을 받아서 Spawn을 일정 주기로 하는 함수 추가
-		if (Deltatime >= 1.0f)
-		{
-			Deltatime = 1.0f - Deltatime;
-			SpawnMover(FVector(0.0f, (N--) * 150.0f, 300.0f));
-			
-			if (0 >= N)
-			{
-				Deltatime = 0.0f;
-				N = NValue;
-				bIsMoversSpawnable = false;
-			}
-		}
+		SpawnMoverRepeatedly(DeltaTime);
 	}
 }
 
@@ -70,3 +55,31 @@ void ASimulatorManager::SpawnMover(FVector _Pos)
 	}
 }
 
+void ASimulatorManager::SpawnMoverRepeatedly(float _DeltaTime)
+{
+	static float Deltatime = 0.0f;
+	static int N = NValue;
+
+	Deltatime += _DeltaTime;
+	// n값을 받아서 Spawn을 일정 주기로 하는 함수 추가
+	if (Deltatime >= 1.0f)
+	{
+		Deltatime = 1.0f - Deltatime;
+		SpawnMover(FVector(0.0f, (N--) * 150.0f, 300.0f));
+
+		if (0 >= N)
+		{
+			Deltatime = 0.0f;
+			N = NValue;
+			bIsMoversSpawnable = false;
+		}
+	}
+}
+
+void ASimulatorManager::InitMoverSpawnTimes(int _N)
+{
+	for (int i = 3; i < _N; ++i)
+	{
+		MoverSpawnTimes.Add(MoverSpawnTimes[i - 1] + MoverSpawnTimes[i - 2]);
+	}
+}
