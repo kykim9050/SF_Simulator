@@ -13,5 +13,11 @@ UCLASS()
 class UNREALCLIENT_API AClientPlayGameMode : public AGlobalGameMode
 {
 	GENERATED_BODY()
+public:
+
+protected:
+	virtual void BeginPlay() override;
+
+private:
 	
 };

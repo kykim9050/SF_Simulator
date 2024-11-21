@@ -3,3 +3,7 @@
 
 #include "Playlevel/ClientPlayGameMode.h"
 
+void AClientPlayGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+}
