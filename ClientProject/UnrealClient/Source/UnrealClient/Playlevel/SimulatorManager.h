@@ -24,7 +24,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	/// <summary>
-	/// GridPlatform을 Spawn하는 함수
+	/// GridPlatform을 원하는 크기에 맞게 Spawn하는 함수
+	/// _Pos : World에서 생성하고자 하는 위치 (중심)
+	/// _N : 서버로 부터 수신 받은 N값
 	/// </summary>
 	UFUNCTION(BlueprintCallable)
 	void SpawnGridPlatform(FVector _Pos = FVector(.0f, .0f, .0f), int _N = 1);
