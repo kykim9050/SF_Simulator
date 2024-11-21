@@ -26,7 +26,8 @@ public:
 	/// <summary>
 	/// GridPlatform을 Spawn하는 함수
 	/// </summary>
-	void SpawnGridPlatform();
+	UFUNCTION(BlueprintCallable)
+	void SpawnGridPlatform(int _N, FVector _Pos);
 
 protected:
 	// Called when the game starts or when spawned
@@ -37,7 +38,11 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test Prop", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UTestDataComponent> TestDataComponent = nullptr;
 
-
+	/// <summary>
+	/// 블루프린트 상에서 생성할 GridPlatform 객체를 지정
+	/// </summary>
+	UPROPERTY(Editanywhere, Category = "Insert Parameter", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> GridPlatformClass = nullptr;
 
 	/// <summary>
 	/// GridPlatform의 포인터를 소유

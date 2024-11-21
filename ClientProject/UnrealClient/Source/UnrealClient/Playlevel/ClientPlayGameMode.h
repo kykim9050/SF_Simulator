@@ -23,7 +23,8 @@ private:
 	/// <summary>
 	/// 실제 플레이 모드에서 생성된 ASimulatorManager의 주소
 	/// </summary>
-	ASimulatorManager* MainSimulator = nullptr;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Manager", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<ASimulatorManager> MainSimulator = nullptr;
 
 	/// <summary>
 	/// GameMode 블루프린트 상에서 생성할 매니저 블루프린트 객체를 지정
