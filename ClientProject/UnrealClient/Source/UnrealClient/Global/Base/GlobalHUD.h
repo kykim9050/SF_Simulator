@@ -7,7 +7,7 @@
 #include "GlobalHUD.generated.h"
 
 /**
- * 
+ * 컨텐츠에서 생성할 모든 HUD의 기본 부모 클래스
  */
 UCLASS()
 class UNREALCLIENT_API AGlobalHUD : public AHUD

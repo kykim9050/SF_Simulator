@@ -6,7 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "TestDataComponent.generated.h"
 
-
+/// <summary>
+/// 이동체의 Course 정보
+/// </summary>
 USTRUCT(BlueprintType)
 struct FCourse
 {
@@ -16,6 +18,9 @@ public:
 	TArray<FVector2D> CourseArray;
 };
 
+/// <summary>
+/// 블루프린트 에디터 상에서 편리하게 테스트 데이터를 수정할 수 있는 클래스
+/// </summary>
 UCLASS(BlueprintType)
 class ATestData : public AActor
 {
@@ -36,6 +41,9 @@ private:
 	TMap<int, FCourse> CourseInfo;
 };
 
+/// <summary>
+/// 테스트 데이터를 보유한 객체의 클래스 정보를 포함
+/// </summary>
 USTRUCT(BlueprintType)
 struct FTestDataSet
 {
@@ -45,6 +53,9 @@ public:
 	TSubclassOf<AActor> TestDataClass = nullptr;
 };
 
+/// <summary>
+/// Test 데이터를 활용할 수 있게 해주는 컴포넌트
+/// </summary>
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREALCLIENT_API UTestDataComponent : public UActorComponent
 {
