@@ -99,4 +99,14 @@ private:
 	/// Mover를 연속적으로 출력하기 위한 시그널 변수
 	/// </summary>
 	bool bIsMoversSpawnable = false;
+
+	/// <summary>
+	/// Mover를 연속으로 Spawn할때 활용할 시간 데이터
+	/// </summary>
+	float SpawnMoverDeltatime = 0.0f;
+
+	/// <summary>
+	/// Mover를 연속으로 몇 개 카운트 했는지 연산을 적용할 변수
+	/// </summary>
+	int MoverSpawnCount = 0;
 };

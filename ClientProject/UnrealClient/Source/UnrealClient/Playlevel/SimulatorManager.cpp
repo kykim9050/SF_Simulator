@@ -57,20 +57,15 @@ void ASimulatorManager::SpawnMover(FVector _Pos)
 
 void ASimulatorManager::SpawnMoverRepeatedly(float _DeltaTime)
 {
-	static float Deltatime = 0.0f;
-	static int N = NValue;
+	SpawnMoverDeltatime += _DeltaTime;
 
-	Deltatime += _DeltaTime;
-	// n값을 받아서 Spawn을 일정 주기로 하는 함수 추가
-	if (Deltatime >= 1.0f)
+	if (SpawnMoverDeltatime >= MoverSpawnTimes[MoverSpawnCount])
 	{
-		Deltatime = 1.0f - Deltatime;
-		SpawnMover(FVector(0.0f, (N--) * 150.0f, 300.0f));
+		SpawnMover(FVector(0.0f, MoverSpawnCount * 150.0f, 300.0f));
+		++MoverSpawnCount;
 
-		if (0 >= N)
+		if (NValue <= MoverSpawnCount)
 		{
-			Deltatime = 0.0f;
-			N = NValue;
 			bIsMoversSpawnable = false;
 		}
 	}
