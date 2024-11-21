@@ -6,6 +6,11 @@
 #include "GameFramework/Pawn.h"
 #include "Mover.generated.h"
 
+/*
+* 이동체 클레스
+*/
+class UStaticMeshComponent;
+class UArrowComponent;
 UCLASS()
 class UNREALCLIENT_API AMover : public APawn
 {
@@ -26,4 +31,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UStaticMeshComponent> MoverMeshComponent = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UArrowComponent> HedingComponent = nullptr;
 };

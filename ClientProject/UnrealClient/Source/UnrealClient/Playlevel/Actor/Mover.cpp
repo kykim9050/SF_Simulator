@@ -2,6 +2,8 @@
 
 
 #include "Playlevel/Actor/Mover.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/ArrowComponent.h"
 
 // Sets default values
 AMover::AMover()
@@ -9,6 +11,8 @@ AMover::AMover()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	MoverMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MoverMeshComponent"));
+	HedingComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("HedingComponent"));
 }
 
 // Called when the game starts or when spawned
