@@ -6,6 +6,10 @@
 #include "GameFramework/Actor.h"
 #include "GridPlatform.generated.h"
 
+/*
+* 이동체가 이동할 격자 플랫폼관련 클래스
+*/
+class UStaticMeshComponent;
 UCLASS()
 class UNREALCLIENT_API AGridPlatform : public AActor
 {
@@ -23,4 +27,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UStaticMeshComponent> GridMeshComponent = nullptr;
 };

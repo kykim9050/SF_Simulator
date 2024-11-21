@@ -21,7 +21,7 @@ protected:
 	void BeginPlay() override;
 
 private:
-	UClientPlayMainWidget* MainWidget = nullptr;
+	TObjectPtr<UClientPlayMainWidget> MainWidget = nullptr;
 
 	/// <summary>
 	/// HUD의 블루 프린트 에디터 상에서 UUserWidget을 상속받는 클래스의 정보를 가져오는 수단

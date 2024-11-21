@@ -23,6 +23,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
+	/// <summary>
+	/// GridPlatform을 Spawn하는 함수
+	/// </summary>
 	void SpawnGridPlatform();
 
 protected:
@@ -32,8 +35,12 @@ protected:
 private:
 	// Test용 데이터 (로봇 아이디, 경로 정보 전달 용)
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test Prop", meta = (AllowPrivateAccess = "true"))
-	UTestDataComponent* TestDataComponent = nullptr;
+	TObjectPtr<UTestDataComponent> TestDataComponent = nullptr;
 
-	UPROPERTY()
-	TWeakObjectPtr<AGridPlatform> GridPlatform = nullptr;
+
+
+	/// <summary>
+	/// GridPlatform의 포인터를 소유
+	/// </summary>
+	TObjectPtr<AGridPlatform> GridPlatform = nullptr;
 };

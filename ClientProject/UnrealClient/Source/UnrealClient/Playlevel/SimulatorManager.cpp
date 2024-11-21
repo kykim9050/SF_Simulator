@@ -30,6 +30,7 @@ void ASimulatorManager::Tick(float DeltaTime)
 
 void ASimulatorManager::SpawnGridPlatform()
 {
-	GridPlatform = MakeWeakObjectPtr<AGridPlatform>(GetWorld()->SpawnActor<AGridPlatform>());
+	AGridPlatform* Platform = GetWorld()->SpawnActor<AGridPlatform>();
+	GridPlatform = Platform;
 }
 
