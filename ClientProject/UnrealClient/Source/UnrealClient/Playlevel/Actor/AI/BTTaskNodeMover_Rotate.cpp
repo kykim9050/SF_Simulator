@@ -2,6 +2,9 @@
 
 
 #include "Playlevel/Actor/AI/BTTaskNodeMover_Rotate.h"
+#include "Playlevel/Actor/Mover.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Playlevel/Base/BaseMoverAIController.h"
 
 EBTNodeResult::Type UBTTaskNodeMover_Rotate::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
@@ -17,6 +20,6 @@ void UBTTaskNodeMover_Rotate::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
 	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
 	if (nullptr != Mover)
 	{
-		//Mover->GetCharacterMovement()->MoveSmooth(FVector(10.0f, 0.0f, 0.0f), DeltaSeconds);
+		Mover->AddActorLocalRotation((DeltaSeconds * FQuat(FRotator(.0f, 1.0f, .0f))));
 	}
 }

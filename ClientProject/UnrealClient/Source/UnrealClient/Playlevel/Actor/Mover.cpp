@@ -12,6 +12,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Global/DataTable/MoverDataRow.h"
 #include "Global/GlobalFunctonLibrary.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AMover::AMover()
@@ -32,6 +33,9 @@ AMover::AMover()
 	MoverMeshComponent->SetCollisionProfileName(TEXT("NoCollision"));
 
 	GetCapsuleComponent()->SetRelativeScale3D(FVector(0.5f, 0.5f, 0.5f));
+
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 }
 
 // Called when the game starts or when spawned
@@ -79,6 +83,9 @@ void AMover::BeginPlay()
 		IDComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
 		IDComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	}
+
+	// 초당 회전 변화량으로 degree인 것으로 보임
+	GetCharacterMovement()->RotationRate.Yaw = 10.0f;
 }
 
 // Called every frame
