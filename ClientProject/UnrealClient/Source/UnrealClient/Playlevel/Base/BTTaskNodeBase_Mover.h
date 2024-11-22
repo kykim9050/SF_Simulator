@@ -14,9 +14,14 @@ class UNREALCLIENT_API UBTTaskNodeBase_Mover : public UBTTaskNode
 {
 	GENERATED_BODY()
 public:
+	UBTTaskNodeBase_Mover();
 
-protected:
+	// SelfActor
+	template<typename OwnerType>
+	OwnerType* GetSelfActor(UBehaviorTreeComponent& OwnerComp)
+	{
+		return Cast<OwnerType>(GetSelfActor(OwnerComp));
+	}
 
-private:
-	
+	AActor* GetSelfActor(UBehaviorTreeComponent& OwnerComp);	
 };

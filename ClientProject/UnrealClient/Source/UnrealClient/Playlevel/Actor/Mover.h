@@ -26,9 +26,19 @@ public:
 	// Sets default values for this pawn's properties
 	AMover();
 
-	void SetTargetPos(FVector _TargetPos)
+	FORCEINLINE FVector GetTargetPos() const
+	{
+		return TargetPos;
+	}
+
+	FORCEINLINE void SetTargetPos(FVector _TargetPos)
 	{
 		TargetPos = _TargetPos;
+	}
+
+	FORCEINLINE ABaseMoverAIController* GetAIController() const
+	{
+		return AIController;
 	}
 
 protected:
