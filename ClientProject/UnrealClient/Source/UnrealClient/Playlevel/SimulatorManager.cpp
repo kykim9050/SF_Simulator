@@ -55,7 +55,7 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _RobotID)
 		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(1.0f, 1.0f, 1.0f));
 		AMover* Obj = GetWorld()->SpawnActor<AMover>(MoverClass, TransValue);
 		// Mover에게 ID를 부여한다.
-		Obj->ID = _RobotID;
+		Obj->SetID(_RobotID);
 		Movers.Add(_RobotID) = Obj;
 	}
 }

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Global/Base/ObjectID.h"
 #include "Mover.generated.h"
 
 /*
@@ -13,7 +14,7 @@ class UStaticMeshComponent;
 class UArrowComponent;
 class ASimulatorManager;
 UCLASS()
-class UNREALCLIENT_API AMover : public APawn
+class UNREALCLIENT_API AMover : public APawn, public ObjectID
 {
 	GENERATED_BODY()
 
@@ -40,9 +41,4 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UArrowComponent> HedingComponent = nullptr;
-
-	/// <summary>
-	/// «ÿ¥Á Mover¿« ID
-	/// </summary>
-	int ID = -1;
 };
