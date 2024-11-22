@@ -24,4 +24,14 @@ public:
 	}
 
 	AActor* GetSelfActor(UBehaviorTreeComponent& OwnerComp);	
+
+	// Object
+	template<typename ObjectType>
+	ObjectType* GetValueAsObject(UBehaviorTreeComponent& OwnerComp, FName Name)
+	{
+		return Cast<ObjectType>(GetValueAsObject(OwnerComp, Name));
+	}
+
+	UObject* GetValueAsObject(UBehaviorTreeComponent& OwnerComp, FName Name);
+	void SetValueAsObject(UBehaviorTreeComponent& OwnerComp, FName Name, UObject* Value);
 };
