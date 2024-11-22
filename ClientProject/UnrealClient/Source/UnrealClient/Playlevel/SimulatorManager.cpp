@@ -76,7 +76,7 @@ void ASimulatorManager::SpawnMoverRepeatedly(float _DeltaTime)
 				GridValue = CastGameMode->GetGridUnitValue();
 			}
 		}
-		// 여기에서 값을 계산해서 위치를 지정해준다.
+		// 값을 계산해서 Mover 초기 위치를 지정해준다.
 		FVector2D InitPos = CalMoverInitPos(GridValue, NValue, MoverSpawnCount);
 
 		SpawnMover(FVector(InitPos.X, InitPos.Y, 50.0f));
