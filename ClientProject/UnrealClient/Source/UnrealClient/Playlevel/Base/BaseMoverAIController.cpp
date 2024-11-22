@@ -3,3 +3,9 @@
 
 #include "Playlevel/Base/BaseMoverAIController.h"
 
+void ABaseMoverAIController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+
+	RunBehaviorTree(BehaviorTree);
+}
