@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "Global/Base/ObjectID.h"
 #include "Mover.generated.h"
 
@@ -17,7 +17,7 @@ class ABaseMoverAIController;
 class AAIController;
 class UWidgetComponent;
 UCLASS()
-class UNREALCLIENT_API AMover : public APawn, public ObjectID
+class UNREALCLIENT_API AMover : public ACharacter, public ObjectID
 {
 	GENERATED_BODY()
 
@@ -59,13 +59,13 @@ private:
 	TObjectPtr<UStaticMeshComponent> MoverMeshComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UArrowComponent> HedingComponent = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UWidgetComponent> IDComponent = nullptr;
 
 	UPROPERTY()
 	FVector TargetPos = FVector();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UUserWidget> IDComponentWidgetClass = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AAIController> MatchingAIControllerClass = nullptr;

@@ -85,7 +85,7 @@ void ASimulatorManager::SpawnMoverRepeatedly(float _DeltaTime)
 
 		int RobotID = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].MoverID;
 		// 현재 ID는 TestData에서 가져오고 있다.
-		SpawnMover(FVector(InitPos.X, InitPos.Y, 50.0f), RobotID);
+		SpawnMover(FVector(InitPos.X, InitPos.Y, 100.0f), RobotID);
 		++MoverSpawnCount;
 
 		if (NValue <= MoverSpawnCount)

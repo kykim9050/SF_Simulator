@@ -11,6 +11,8 @@ AGridPlatform::AGridPlatform()
 	PrimaryActorTick.bCanEverTick = true;
 
 	GridMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GridMeshComponent"));
+
+	GridMeshComponent->SetCollisionProfileName(TEXT("GridPlatform"));
 }
 
 // Called when the game starts or when spawned

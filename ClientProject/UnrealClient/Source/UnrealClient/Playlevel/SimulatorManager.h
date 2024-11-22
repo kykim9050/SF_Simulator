@@ -12,7 +12,7 @@
 class UTestDataComponent;
 class AGridPlatform;
 class AMover;
-class APawn;
+class ACharacter;
 UCLASS()
 class UNREALCLIENT_API ASimulatorManager : public AActor
 {
@@ -94,7 +94,7 @@ private:
 	/// 블루프린트 상에서 생성할 Mover 객체를 지정, 클래스 정보 저장
 	/// </summary>
 	UPROPERTY(Editanywhere, Category = "Insert Parameter", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<APawn> MoverClass = nullptr;
+	TSubclassOf<ACharacter> MoverClass = nullptr;
 
 	/// <summary>
 	/// 생성될 Mover 객체들 정보 소유

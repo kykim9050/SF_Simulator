@@ -6,6 +6,8 @@
 #include "Components/ArrowComponent.h"
 #include "Playlevel/Base/BaseMoverAIController.h"
 #include "Components/WidgetComponent.h"
+#include "Playlevel/UI/IDMainWidget.h"
+#include "Components/CapsuleComponent.h"
 
 
 // Sets default values
@@ -17,8 +19,16 @@ AMover::AMover()
 	SpawnCollisionHandlingMethod = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
 	MoverMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MoverMeshComponent"));
-	HedingComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("HedingComponent"));
 	IDComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("IDComponent"));
+
+	MoverMeshComponent->SetupAttachment(GetRootComponent());
+	IDComponent->SetupAttachment(MoverMeshComponent);
+
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Mover"));
+	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
+	MoverMeshComponent->SetCollisionProfileName(TEXT("NoCollision"));
+
+	GetCapsuleComponent()->SetRelativeScale3D(FVector(0.5f, 0.5f, 0.5f));
 }
 
 // Called when the game starts or when spawned
@@ -42,6 +52,13 @@ void AMover::BeginPlay()
 		AIController->Possess(this);
 	}
 	
+	if (nullptr != IDComponentWidgetClass)
+	{
+		IDComponent->SetWidgetClass(IDComponentWidgetClass);
+		IDComponent->SetDrawSize(FVector2D(150.0f, 50.0f));
+		IDComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
+		IDComponent->SetWidgetSpace(EWidgetSpace::Screen);
+	}
 }
 
 // Called every frame
