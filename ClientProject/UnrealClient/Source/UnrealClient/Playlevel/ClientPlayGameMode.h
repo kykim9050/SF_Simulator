@@ -16,6 +16,11 @@ class UNREALCLIENT_API AClientPlayGameMode : public AGlobalGameMode
 	GENERATED_BODY()
 public:
 
+	FORCEINLINE float GetGridUnitValue() const
+	{
+		return GridUnitValue;
+	}
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -31,4 +36,9 @@ private:
 	/// </summary>
 	UPROPERTY(Editanywhere, Category = "Manager", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> MainSimulatorClass = nullptr;
+
+	/// <summary>
+	/// GridPlatform의 길이 단위 값
+	/// </summary>
+	float GridUnitValue = 100.0f;
 };

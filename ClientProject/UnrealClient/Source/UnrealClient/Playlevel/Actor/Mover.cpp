@@ -10,6 +10,7 @@ AMover::AMover()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	SpawnCollisionHandlingMethod = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
 	MoverMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MoverMeshComponent"));
 	HedingComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("HedingComponent"));
@@ -20,6 +21,7 @@ void AMover::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SetActorScale3D(FVector(.5f, .5f, .5f));
 }
 
 // Called every frame

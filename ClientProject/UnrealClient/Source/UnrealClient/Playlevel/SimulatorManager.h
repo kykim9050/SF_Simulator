@@ -26,13 +26,17 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	/// <summary>
-	/// GridPlatform을 원하는 크기에 맞게 Spawn하는 함수
+	/// GridPlatform을 Spawn하는 함수
 	/// _Pos : World에서 생성하고자 하는 위치 (중심)
-	/// _N : 서버로 부터 수신 받은 N값
 	/// </summary>
 	UFUNCTION(BlueprintCallable)
 	void SpawnGridPlatform(FVector _Pos = FVector(.0f, .0f, .0f));
 
+	/// <summary>
+	/// Mover를 Spawn하는 함수
+	/// _Pos : World에서 생성하고자 하는 위치 (중심)
+	/// </summary>
+	/// <param name="_Pos"></param>
 	UFUNCTION(BlueprintCallable)
 	void SpawnMover(FVector _Pos = FVector(.0f, .0f, .0f));
 
@@ -57,6 +61,11 @@ private:
 	/// N의 크기에 맞게 MoverSpawnTimes의 배열 요소와 크기를 조정하는 함수
 	/// </summary>
 	void InitMoverSpawnTimes(int _N);
+
+	/// <summary>
+	/// Mover의 생성 초기 위치를 지정해주는 함수
+	/// </summary>
+	FVector2D CalMoverInitPos(float _GridUintVal, int _N, int _Idx);
 
 private:
 	// Test용 데이터 (로봇 아이디, 경로 정보 전달 용)

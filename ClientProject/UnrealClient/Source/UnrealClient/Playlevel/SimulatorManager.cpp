@@ -6,6 +6,9 @@
 #include "Playlevel/Actor/GridPlatform.h"
 #include "Playlevel/Actor/Mover.h"
 
+
+#include "Playlevel/ClientPlayGameMode.h"
+
 // Sets default values
 ASimulatorManager::ASimulatorManager()
 {
@@ -61,7 +64,22 @@ void ASimulatorManager::SpawnMoverRepeatedly(float _DeltaTime)
 
 	if (SpawnMoverDeltatime >= MoverSpawnTimes[MoverSpawnCount])
 	{
-		SpawnMover(FVector(0.0f, MoverSpawnCount * 150.0f, 300.0f));
+		AGameModeBase* CurGameMode = GetWorld()->GetAuthGameMode();
+		float GridValue = 0.0f;
+
+		if (nullptr != CurGameMode)
+		{
+			AClientPlayGameMode* CastGameMode = Cast<AClientPlayGameMode>(CurGameMode);
+
+			if (nullptr != CastGameMode)
+			{
+				GridValue = CastGameMode->GetGridUnitValue();
+			}
+		}
+		// 여기에서 값을 계산해서 위치를 지정해준다.
+		FVector2D InitPos = CalMoverInitPos(GridValue, NValue, MoverSpawnCount);
+
+		SpawnMover(FVector(InitPos.X, InitPos.Y, 50.0f));
 		++MoverSpawnCount;
 
 		if (NValue <= MoverSpawnCount)
@@ -77,4 +95,11 @@ void ASimulatorManager::InitMoverSpawnTimes(int _N)
 	{
 		MoverSpawnTimes.Add(MoverSpawnTimes[i - 1] + MoverSpawnTimes[i - 2]);
 	}
+}
+
+FVector2D ASimulatorManager::CalMoverInitPos(float _GridUintVal, int _N, int _Idx)
+{
+	float Base = (-1.0f) * (_GridUintVal * static_cast<float>(_N ) / 2.0f) + (_GridUintVal / 2.0f);
+	FVector2D RetVal = FVector2D(Base, Base + _GridUintVal * _Idx);
+	return RetVal;
 }
