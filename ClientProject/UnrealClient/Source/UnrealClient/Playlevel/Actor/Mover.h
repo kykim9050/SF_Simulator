@@ -63,26 +63,53 @@ public:
 
 
 private:
+	/// <summary>
+	/// Mover의 외형 매시용 컴포넌트
+	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UStaticMeshComponent> MoverMeshComponent = nullptr;
 
+	/// <summary>
+	/// ID를 나타낼 수 있는 위젯 컴포넌트
+	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UWidgetComponent> IDComponent = nullptr;
 
 	UPROPERTY()
 	FVector TargetPos = FVector();
 
+	/// <summary>
+	/// 매칭할 ID위젯 관련 클래스 정보
+	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UUserWidget> IDComponentWidgetClass = nullptr;
 
+	/// <summary>
+	/// 매칭할 AICOntroller 클래스 정보
+	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AAIController> MatchingAIControllerClass = nullptr;
 
+	/// <summary>
+	/// Mover를 제어할 AIController 포인터
+	/// </summary>
 	UPROPERTY()
 	TObjectPtr<ABaseMoverAIController> AIController = nullptr;
 
+	/// <summary>
+	/// Mover의 모든 데이터를 저장
+	/// </summary>
 	UPROPERTY()
 	UMoverData* SettingData;
 
+	/// <summary>
+	/// 데이터 테이블 중 어떤 이름의 테이블을 선택할 것인지 식별자
+	/// </summary>
+	UPROPERTY(EditAnywhere, Category = "Setting Data Name", BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	FName StatusName;
+
+	/// <summary>
+	/// 고정 데이터 값들에 대한 포인터
+	/// </summary>
 	const FMoverDataRow* BaseData;
 };

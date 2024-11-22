@@ -11,6 +11,7 @@
 #include "Components/TextBlock.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Global/DataTable/MoverDataRow.h"
+#include "Global/GlobalFunctonLibrary.h"
 
 // Sets default values
 AMover::AMover()
@@ -38,6 +39,14 @@ void AMover::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
+	BaseData = Inst->GetMoverDataRow(StatusName);
+	if (nullptr == BaseData)
+	{
+		UE_LOG(LogType, Fatal, TEXT("if (nullptr == BaseData)"));
+		return;
+	}
+
 	SetActorScale3D(FVector(.5f, .5f, .5f));
 
 	// AI Controller ¼¼ÆÃ
@@ -58,9 +67,6 @@ void AMover::BeginPlay()
 	{
 		SettingData = NewObject<UMoverData>(this);
 		SettingData->Data = BaseData;
-
-		//SettingData->OriginPos = GetActorLocation();
-		//SettingData->OriginPos.Z = 0.0f;
 
 		ABaseMoverAIController* Con = GetController<ABaseMoverAIController>();
 		Con->GetBlackboardComponent()->SetValueAsObject(TEXT("MoverData"), SettingData);
