@@ -8,7 +8,7 @@
 #include "Components/WidgetComponent.h"
 #include "Playlevel/UI/IDMainWidget.h"
 #include "Components/CapsuleComponent.h"
-
+#include "Components/TextBlock.h"
 
 // Sets default values
 AMover::AMover()
@@ -75,3 +75,21 @@ void AMover::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void AMover::SetID(int _ID)
+{
+	ObjectID::SetID(_ID);
+
+	UUserWidget* Widget = IDComponent->GetWidget();
+	if (nullptr != Widget)
+	{
+		UIDMainWidget* IdWidget = Cast<UIDMainWidget>(Widget);
+
+		if (nullptr != IdWidget)
+		{
+			int MyID = GetID();
+			FString PrintString = FString(TEXT("M")) + FString::FromInt(MyID);
+			FText Text = FText::FromString(PrintString);
+			IdWidget->GetIDTextBlock()->SetText(Text);
+		}
+	}
+}

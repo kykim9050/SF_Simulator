@@ -17,6 +17,11 @@ class UNREALCLIENT_API UIDMainWidget : public UClientPlayBaseUserWidget
 	GENERATED_BODY()
 public:
 
+	FORCEINLINE UTextBlock* GetIDTextBlock() const
+	{
+		return ID;
+	}
+
 protected:
 
 private:

@@ -15,7 +15,7 @@ public:
 		return ID;
 	}
 
-	FORCEINLINE void SetID(int _ID)
+	virtual FORCEINLINE void SetID(int _ID)
 	{
 		ID = _ID;
 	}
