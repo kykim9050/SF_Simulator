@@ -11,10 +11,13 @@
 */
 class UStaticMeshComponent;
 class UArrowComponent;
+class ASimulatorManager;
 UCLASS()
 class UNREALCLIENT_API AMover : public APawn
 {
 	GENERATED_BODY()
+
+	friend ASimulatorManager;
 
 public:
 	// Sets default values for this pawn's properties
@@ -37,4 +40,9 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UArrowComponent> HedingComponent = nullptr;
+
+	/// <summary>
+	/// «ÿ¥Á Mover¿« ID
+	/// </summary>
+	int ID = -1;
 };

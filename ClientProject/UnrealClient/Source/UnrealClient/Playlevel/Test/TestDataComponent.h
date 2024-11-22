@@ -7,13 +7,17 @@
 #include "TestDataComponent.generated.h"
 
 /// <summary>
-/// 이동체의 Course 정보
+/// 이동체의 ID별 Course 정보
 /// </summary>
 USTRUCT(BlueprintType)
-struct FCourse
+struct FCourseInfo
 {
 	GENERATED_BODY()
 public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test")
+	int RobotID;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test")
 	TArray<FVector2D> CourseArray;
 };
@@ -31,7 +35,7 @@ public:
 	/// Value는 이동체 별 이동 경로 좌표 데이터
 	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test", meta = (AllowPrivateAccess = "true"))
-	TMap<int, FCourse> CourseInfo;
+	TArray<FCourseInfo> CourseInfo;
 };
 
 /// <summary>

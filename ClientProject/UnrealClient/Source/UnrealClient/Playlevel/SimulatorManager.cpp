@@ -48,13 +48,15 @@ void ASimulatorManager::SpawnGridPlatform(FVector _Pos)
 	}
 }
 
-void ASimulatorManager::SpawnMover(FVector _Pos)
+void ASimulatorManager::SpawnMover(FVector _Pos, int _RobotID)
 {
 	if (nullptr != MoverClass)
 	{
 		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(1.0f, 1.0f, 1.0f));
 		AMover* Obj = GetWorld()->SpawnActor<AMover>(MoverClass, TransValue);
-		Movers.Add(Obj);
+		// Mover에게 ID를 부여한다.
+		Obj->ID = _RobotID;
+		Movers.Add(_RobotID) = Obj;
 	}
 }
 
@@ -79,7 +81,9 @@ void ASimulatorManager::SpawnMoverRepeatedly(float _DeltaTime)
 		// 값을 계산해서 Mover 초기 위치를 지정해준다.
 		FVector2D InitPos = CalMoverInitPos(GridValue, NValue, MoverSpawnCount);
 
-		SpawnMover(FVector(InitPos.X, InitPos.Y, 50.0f));
+		int RobotID = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].RobotID;
+		// 현재 ID는 TestData에서 가져오고 있다.
+		SpawnMover(FVector(InitPos.X, InitPos.Y, 50.0f), RobotID);
 		++MoverSpawnCount;
 
 		if (NValue <= MoverSpawnCount)

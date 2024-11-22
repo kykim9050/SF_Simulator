@@ -32,13 +32,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnGridPlatform(FVector _Pos = FVector(.0f, .0f, .0f));
 
-	/// <summary>
-	/// Mover를 Spawn하는 함수
-	/// _Pos : World에서 생성하고자 하는 위치 (중심)
-	/// </summary>
-	/// <param name="_Pos"></param>
-	UFUNCTION(BlueprintCallable)
-	void SpawnMover(FVector _Pos = FVector(.0f, .0f, .0f));
 
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE void SetIsMoversSpawnable()
@@ -51,6 +44,13 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	/// <summary>
+	/// Mover를 Spawn하는 함수
+	/// _Pos : World에서 생성하고자 하는 위치 (중심)
+	/// </summary>
+	/// <param name="_Pos"></param>
+	void SpawnMover(FVector _Pos = FVector(.0f, .0f, .0f), int _RobotID = 0);
+
 	/// <summary>
 	/// Mover Spawn을 여러번 수행하는 함수
 	/// </summary>
@@ -66,6 +66,8 @@ private:
 	/// Mover의 생성 초기 위치를 지정해주는 함수
 	/// </summary>
 	FVector2D CalMoverInitPos(float _GridUintVal, int _N, int _Idx);
+
+	FVector SendTargetPosInfoToMover();
 
 private:
 	// Test용 데이터 (로봇 아이디, 경로 정보 전달 용)
@@ -92,8 +94,8 @@ private:
 	/// <summary>
 	/// 생성될 Mover 객체들 정보 소유
 	/// </summary>
-	TArray<TObjectPtr<AMover>> Movers = TArray<TObjectPtr<AMover>>();
-	
+	TMap<int, TObjectPtr<AMover>> Movers = TMap<int, TObjectPtr<AMover>>();
+
 	/// <summary>
 	/// 
 	/// </summary>
