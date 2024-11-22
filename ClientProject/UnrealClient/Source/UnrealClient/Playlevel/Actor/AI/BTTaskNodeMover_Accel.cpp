@@ -4,6 +4,7 @@
 #include "Playlevel/Actor/AI/BTTaskNodeMover_Accel.h"
 #include "Playlevel/Actor/Mover.h"
 #include "Playlevel/Base/BaseMoverAIController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 EBTNodeResult::Type UBTTaskNodeMover_Accel::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
@@ -15,10 +16,10 @@ EBTNodeResult::Type UBTTaskNodeMover_Accel::ExecuteTask(UBehaviorTreeComponent& 
 void UBTTaskNodeMover_Accel::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* pNodeMemory, float DeltaSeconds)
 {
 	Super::TickTask(OwnerComp, pNodeMemory, DeltaSeconds);
-
+	
 	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
 	if (nullptr != Mover)
 	{
-		Mover->GetAIController()->MoveToLocation(FVector(.0f, .0f, 50.f));
+		Mover->GetCharacterMovement()->MoveSmooth(FVector(10.0f, 0.0f, 0.0f), DeltaSeconds);
 	}
 }
