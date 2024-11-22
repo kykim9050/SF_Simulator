@@ -5,6 +5,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Playlevel/Base/BaseMoverAIController.h"
+#include "Components/WidgetComponent.h"
 
 
 // Sets default values
@@ -17,6 +18,7 @@ AMover::AMover()
 
 	MoverMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MoverMeshComponent"));
 	HedingComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("HedingComponent"));
+	IDComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("IDComponent"));
 }
 
 // Called when the game starts or when spawned

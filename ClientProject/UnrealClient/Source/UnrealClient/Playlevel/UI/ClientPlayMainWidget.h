@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "Playlevel/Base/ClientPlayBaseUserWidget.h"
 #include "ClientPlayMainWidget.generated.h"
 
 /**
@@ -12,13 +12,12 @@
 class UCanvasPanel;
 class UWidgetSwitcher;
 UCLASS()
-class UNREALCLIENT_API UClientPlayMainWidget : public UUserWidget
+class UNREALCLIENT_API UClientPlayMainWidget : public UClientPlayBaseUserWidget
 {
 	GENERATED_BODY()
 public:
 
 protected:
-	const FText GetPaletteCategory() override;
 
 private:
 	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))

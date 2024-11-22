@@ -15,6 +15,7 @@ class UArrowComponent;
 class ASimulatorManager;
 class ABaseMoverAIController;
 class AAIController;
+class UWidgetComponent;
 UCLASS()
 class UNREALCLIENT_API AMover : public APawn, public ObjectID
 {
@@ -59,6 +60,9 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UArrowComponent> HedingComponent = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UWidgetComponent> IDComponent = nullptr;
 
 	UPROPERTY()
 	FVector TargetPos = FVector();
