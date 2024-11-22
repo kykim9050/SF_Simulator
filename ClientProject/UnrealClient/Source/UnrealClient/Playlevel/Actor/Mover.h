@@ -16,6 +16,8 @@ class ASimulatorManager;
 class ABaseMoverAIController;
 class AAIController;
 class UWidgetComponent;
+class UMoverData;
+struct FMoverDataRow;
 UCLASS()
 class UNREALCLIENT_API AMover : public ACharacter, public ObjectID
 {
@@ -78,4 +80,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<ABaseMoverAIController> AIController = nullptr;
+
+	UPROPERTY()
+	UMoverData* SettingData;
+
+	const FMoverDataRow* BaseData;
 };

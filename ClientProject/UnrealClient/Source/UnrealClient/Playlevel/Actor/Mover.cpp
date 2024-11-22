@@ -9,6 +9,8 @@
 #include "Playlevel/UI/IDMainWidget.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/TextBlock.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Global/DataTable/MoverDataRow.h"
 
 // Sets default values
 AMover::AMover()
@@ -52,6 +54,18 @@ void AMover::BeginPlay()
 		AIController->Possess(this);
 	}
 	
+	// AI데이터 세팅
+	{
+		SettingData = NewObject<UMoverData>(this);
+		SettingData->Data = BaseData;
+
+		//SettingData->OriginPos = GetActorLocation();
+		//SettingData->OriginPos.Z = 0.0f;
+
+		ABaseMoverAIController* Con = GetController<ABaseMoverAIController>();
+		Con->GetBlackboardComponent()->SetValueAsObject(TEXT("MoverData"), SettingData);
+	}
+
 	if (nullptr != IDComponentWidgetClass)
 	{
 		IDComponent->SetWidgetClass(IDComponentWidgetClass);
