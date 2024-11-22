@@ -13,6 +13,8 @@
 class UStaticMeshComponent;
 class UArrowComponent;
 class ASimulatorManager;
+class ABaseMoverAIController;
+class AAIController;
 UCLASS()
 class UNREALCLIENT_API AMover : public APawn, public ObjectID
 {
@@ -48,5 +50,12 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UArrowComponent> HedingComponent = nullptr;
 
+	UPROPERTY()
 	FVector TargetPos = FVector();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AAIController> MatchingAIControllerClass = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<ABaseMoverAIController> AIController = nullptr;
 };

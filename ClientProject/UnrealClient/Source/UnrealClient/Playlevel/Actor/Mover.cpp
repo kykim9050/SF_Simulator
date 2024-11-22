@@ -4,6 +4,8 @@
 #include "Playlevel/Actor/Mover.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/ArrowComponent.h"
+#include "Playlevel/Base/BaseMoverAIController.h"
+
 
 // Sets default values
 AMover::AMover()
@@ -23,6 +25,21 @@ void AMover::BeginPlay()
 	Super::BeginPlay();
 	
 	SetActorScale3D(FVector(.5f, .5f, .5f));
+
+	// AI Controller ¼¼ÆÃ
+	if (nullptr != MatchingAIControllerClass)
+	{
+		AIController = GetWorld()->SpawnActor<ABaseMoverAIController>(MatchingAIControllerClass);
+		
+		if (nullptr == AIController)
+		{
+			UE_LOG(LogType, Fatal, TEXT("AIController Is Null"));
+			return;
+		}
+
+		AIController->Possess(this);
+	}
+	
 }
 
 // Called every frame
