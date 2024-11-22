@@ -24,6 +24,11 @@ public:
 	// Sets default values for this pawn's properties
 	AMover();
 
+	void SetTargetPos(FVector _TargetPos)
+	{
+		TargetPos = _TargetPos;
+	}
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,10 +40,13 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UStaticMeshComponent> MoverMeshComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UArrowComponent> HedingComponent = nullptr;
+
+	FVector TargetPos = FVector();
 };

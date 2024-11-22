@@ -49,7 +49,7 @@ private:
 	/// _Pos : World에서 생성하고자 하는 위치 (중심)
 	/// </summary>
 	/// <param name="_Pos"></param>
-	void SpawnMover(FVector _Pos = FVector(.0f, .0f, .0f), int _RobotID = 0);
+	void SpawnMover(FVector _Pos = FVector(.0f, .0f, .0f), int _MoverID = 0);
 
 	/// <summary>
 	/// Mover Spawn을 여러번 수행하는 함수
@@ -67,7 +67,12 @@ private:
 	/// </summary>
 	FVector2D CalMoverInitPos(float _GridUintVal, int _N, int _Idx);
 
-	FVector SendTargetPosInfoToMover();
+	/// <summary>
+	///	지정된 ID에 해당하는 Mover에게 이동할 위치를 전달하는 로직
+	/// </summary>
+	/// <param name="_MoverID"></param>
+	/// <param name="_TargetPos"></param>
+	void SendTargetPosInfoToMover(int _MoverID, FVector _TargetPos);
 
 private:
 	// Test용 데이터 (로봇 아이디, 경로 정보 전달 용)

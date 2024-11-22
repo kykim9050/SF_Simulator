@@ -48,15 +48,17 @@ void ASimulatorManager::SpawnGridPlatform(FVector _Pos)
 	}
 }
 
-void ASimulatorManager::SpawnMover(FVector _Pos, int _RobotID)
+void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 {
 	if (nullptr != MoverClass)
 	{
 		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(1.0f, 1.0f, 1.0f));
 		AMover* Obj = GetWorld()->SpawnActor<AMover>(MoverClass, TransValue);
 		// Mover에게 ID를 부여한다.
-		Obj->SetID(_RobotID);
-		Movers.Add(_RobotID) = Obj;
+		Obj->SetID(_MoverID);
+		// 초기 생성시 TargetPos를 초기화 위치와 동일 시
+		Obj->SetTargetPos(_Pos);
+		Movers.Add(_MoverID) = Obj;
 	}
 }
 
@@ -81,7 +83,7 @@ void ASimulatorManager::SpawnMoverRepeatedly(float _DeltaTime)
 		// 값을 계산해서 Mover 초기 위치를 지정해준다.
 		FVector2D InitPos = CalMoverInitPos(GridValue, NValue, MoverSpawnCount);
 
-		int RobotID = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].RobotID;
+		int RobotID = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].MoverID;
 		// 현재 ID는 TestData에서 가져오고 있다.
 		SpawnMover(FVector(InitPos.X, InitPos.Y, 50.0f), RobotID);
 		++MoverSpawnCount;
@@ -106,4 +108,15 @@ FVector2D ASimulatorManager::CalMoverInitPos(float _GridUintVal, int _N, int _Id
 	float Base = (-1.0f) * (_GridUintVal * static_cast<float>(_N ) / 2.0f) + (_GridUintVal / 2.0f);
 	FVector2D RetVal = FVector2D(Base, Base + _GridUintVal * _Idx);
 	return RetVal;
+}
+
+void ASimulatorManager::SendTargetPosInfoToMover(int _MoverID, FVector _TargetPos)
+{
+	// 이동해야 할 로직에서 꺾는 부분을 기준으로 한번에 이동할 위치를 계산
+
+	// 자료구조에 _MoverID와 매칭되는 데이터가 존재할 때만 실행
+	if (nullptr != Movers.FindChecked(_MoverID))
+	{
+		Movers.Find(_MoverID)->Get()->SetTargetPos(_TargetPos);
+	}
 }
