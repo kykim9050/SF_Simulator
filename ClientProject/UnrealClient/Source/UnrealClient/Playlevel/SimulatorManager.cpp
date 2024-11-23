@@ -27,6 +27,24 @@ void ASimulatorManager::BeginPlay()
 	InitMoverSpawnTimes(NValue);
 }
 
+void ASimulatorManager::ReleaseActor()
+{
+	auto Iter = Movers.CreateIterator();
+
+	for (; Iter; ++Iter)
+	{
+
+		if (false == Iter->Value->bIsAllowDestroy)
+		{
+			++Iter;
+			continue;
+		}
+
+		Movers.Find(Iter->Key)->Get()->Destroy();
+		Movers.Remove(Iter->Key);
+	}
+}
+
 // Called every frame
 void ASimulatorManager::Tick(float DeltaTime)
 {
@@ -36,6 +54,8 @@ void ASimulatorManager::Tick(float DeltaTime)
 	{
 		SpawnMoverRepeatedly(DeltaTime);
 	}
+
+	ReleaseActor();
 }
 
 void ASimulatorManager::SpawnGridPlatform(FVector _Pos)

@@ -62,6 +62,11 @@ public:
 		return SettingData;
 	}
 
+	void AllowDestroy()
+	{
+		bIsAllowDestroy = true;
+	}
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -124,4 +129,9 @@ private:
 	/// 고정 데이터 값들에 대한 포인터
 	/// </summary>
 	const FMoverDataRow* BaseData;
+
+	/// <summary>
+	/// 본인을 삭제해도 된다는 의미의 boo값
+	/// </summary>
+	bool bIsAllowDestroy = false;
 };

@@ -15,10 +15,31 @@ EBTNodeResult::Type UBTTaskNodeMover_Finish::ExecuteTask(UBehaviorTreeComponent&
 		return EBTNodeResult::Type::Failed;
 	}
 
+	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
+	
+	if (nullptr != Mover)
+	{
+		Mover->AllowDestroy();
+
+		FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+	}
+
 	return EBTNodeResult::Type::InProgress;
 }
 
 void UBTTaskNodeMover_Finish::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* pNodeMemory, float DeltaSeconds)
 {
 	Super::TickTask(OwnerComp, pNodeMemory, DeltaSeconds);
+
+	//DestroyTime -= DeltaSeconds;
+
+	//if (0.0f >= DestroyTime)
+	//{
+	//	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
+
+	//	if (nullptr != Mover)
+	//	{
+	//		Mover->AllowDistroy();
+	//	}
+	//}
 }

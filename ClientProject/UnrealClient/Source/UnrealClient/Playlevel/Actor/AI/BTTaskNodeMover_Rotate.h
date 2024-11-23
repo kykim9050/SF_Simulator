@@ -17,5 +17,5 @@ public:
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 	void TickTask(UBehaviorTreeComponent& OwnerComp, uint8* pNodeMemory, float DeltaSeconds) override;
 private:
-	double RotateOffsetDegree = 1.;
+	double RotateOffsetDegree = 3.;
 };

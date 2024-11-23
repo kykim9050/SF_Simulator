@@ -45,6 +45,12 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+
+	/// <summary>
+	/// 액터를 삭제하는 함수
+	/// </summary>
+	void ReleaseActor();
+
 	/// <summary>
 	/// Mover를 Spawn하는 함수
 	/// _Pos : World에서 생성하고자 하는 위치 (중심)
