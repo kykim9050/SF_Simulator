@@ -35,7 +35,7 @@ void UBTTaskNodeMover_Accel::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 
 		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 
-		if (5.f >= Inst->DistanceToDestPos2D(CurPos, DestPos))
+		if (1. >= Inst->DistanceToDestPos2D(CurPos, DestPos))
 		{
 			(MoverData->CurWaypointIdx)++;
 			ChangeState(OwnerComp, EMoverState::Idle);
@@ -46,11 +46,7 @@ void UBTTaskNodeMover_Accel::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 		Dir.Normalize();
 
 		// 속도 증가 (가속도 고려)
-		MoverData->CurVelocity += MoverData->Data->Accel * DeltaSeconds * DeltaSeconds;
-		if (MoverData->Data->MaxVelocity <= MoverData->CurVelocity)
-		{
-			MoverData->CurVelocity = MoverData->Data->MaxVelocity;
-		}
+		MoverData->CurVelocity = FMath::Min(MoverData->CurVelocity + MoverData->Data->Accel * DeltaSeconds, MoverData->Data->MaxVelocity);
 
 		// 가속도 적용한 속도
 		Mover->AddActorWorldOffset(DeltaSeconds * Dir * MoverData->CurVelocity);
