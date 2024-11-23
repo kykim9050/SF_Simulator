@@ -47,7 +47,9 @@ void UBTTaskNodeMover_Rotate::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
 		double ACosAngle = FMath::Acos(DotVal);
 		double AngleDegree = FMath::RadiansToDegrees(ACosAngle);
 
-		double rotateVal = .5;
+		// Degree를 Radian으로 변환
+		double AngleRad = FMath::DegreesToRadians(MoverData->Data->Rotate);
+		double AngleRadPick = AngleRad;
 
 		if (RotateOffsetDegree >= AngleDegree)
 		{
@@ -62,16 +64,12 @@ void UBTTaskNodeMover_Rotate::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
 			// 외적을 활용해서 회전할 방향 적용하기
 			FVector CrossVal = FVector::CrossProduct(Forward, NextDir);
 			
-			if (CrossVal.Z > 0.)
+			if (CrossVal.Z <= 0.)
 			{
-				rotateVal = 0.5;
-			}
-			else if (CrossVal.Z <= 0.)
-			{
-				rotateVal = -0.5;
+				AngleRadPick = (-1)*AngleRad;
 			}
 		}
 
-		Mover->AddActorWorldRotation(DeltaSeconds * FQuat(FRotator(.0, rotateVal, .0)));
+		Mover->AddActorWorldRotation(DeltaSeconds * FQuat(FRotator(.0, AngleRadPick, .0)));
 	}
 }
