@@ -132,7 +132,7 @@ FVector2D ASimulatorManager::CalMoverInitPos(float _GridUintVal, int _N, int _Id
 {
 	float Base = (-1.0f) * (_GridUintVal * static_cast<float>(_N ) / 2.0f) + (_GridUintVal / 2.0f);
 	FVector2D RetVal = FVector2D(Base, Base + _GridUintVal * _Idx);
-	return RetVal;
+ 	return RetVal;
 }
 
 FVector2D ASimulatorManager::ConvertToRealPos(FVector2D _Pos, float _GridUnitVal, int _N)

@@ -23,8 +23,25 @@ void UBTTaskNodeMover_Accel::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 	Super::TickTask(OwnerComp, pNodeMemory, DeltaSeconds);
 	
 	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
+
+	UMoverData* MoverData = GetValueAsObject<UMoverData>(OwnerComp, TEXT("MoverData"));
+	
 	if (nullptr != Mover)
 	{
-		Mover->GetCharacterMovement()->MoveSmooth(FVector(10.0f, 0.0f, 0.0f), DeltaSeconds);
+		FVector CurPos = Mover->GetActorLocation();
+		CurPos.Z = .0;
+		int CurIdx = MoverData->CurWaypointIdx;
+		FVector DestPos = FVector(MoverData->WayPointsInfo[CurIdx].X, MoverData->WayPointsInfo[CurIdx].Y, .0);
+
+		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
+
+		if (5.0f >= Inst->DistanceToDestPos2D(CurPos, DestPos))
+		{
+			ChangeState(OwnerComp, EMoverState::Rotate);
+			return;
+		}
+
+		//Mover->GetCharacterMovement()->MoveSmooth(FVector(10.0f, 0.0f, 0.0f), DeltaSeconds);
+		Mover->AddActorLocalOffset(DeltaSeconds * FVector(10., .0, .0));
 	}
 }

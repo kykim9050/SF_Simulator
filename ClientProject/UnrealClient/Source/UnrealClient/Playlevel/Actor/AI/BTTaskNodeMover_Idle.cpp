@@ -29,13 +29,14 @@ void UBTTaskNodeMover_Idle::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* p
 	{
 		FVector CurPos = Mover->GetActorLocation();
 		CurPos.Z = .0;
-		FVector DestPos = FVector(MoverData->WayPointsInfo[3].X, MoverData->WayPointsInfo[3].X, .0);
+		int CurIdx = MoverData->CurWaypointIdx;
+		FVector DestPos = FVector(MoverData->WayPointsInfo[CurIdx].X, MoverData->WayPointsInfo[CurIdx].Y, .0);
 	
 		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 
 		// Accel 조건
 		// 자신의 위치와 목표지점 위치의 거리 차이가 발생했을 때
-		if (50.0f <= Inst->DistanceToDestPos2D(CurPos, DestPos))
+		if (CurIdx < MoverData->WayPointsInfo.Num())
 		{
 			ChangeState(OwnerComp, EMoverState::Accel);
 			return;

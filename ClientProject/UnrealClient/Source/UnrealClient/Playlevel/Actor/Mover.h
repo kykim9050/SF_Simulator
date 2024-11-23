@@ -57,6 +57,11 @@ public:
 	/// <param name="_ID"></param>
 	void SetID(int _ID) override;
 
+	UMoverData* GetSettingData() const
+	{
+		return SettingData;
+	}
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

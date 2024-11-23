@@ -44,4 +44,6 @@ public:
 	FVector DestPos = FVector();
 
 	TArray<FVector2D> WayPointsInfo = TArray<FVector2D>();
+	
+	int CurWaypointIdx = 1;
 };
