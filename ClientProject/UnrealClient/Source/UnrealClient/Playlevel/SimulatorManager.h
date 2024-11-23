@@ -13,6 +13,7 @@ class UTestDataComponent;
 class AGridPlatform;
 class AMover;
 class ACharacter;
+class ADestSign;
 UCLASS()
 class UNREALCLIENT_API ASimulatorManager : public AActor
 {
@@ -50,6 +51,13 @@ private:
 	/// </summary>
 	/// <param name="_Pos"></param>
 	void SpawnMover(FVector _Pos = FVector(.0f, .0f, .0f), int _MoverID = 0);
+
+	/// <summary>
+	/// DestSign을 Spawn하는 함수
+	/// _Pos : World에서 생성하고자 하는 위치 (중심)
+	/// </summary>
+	/// <param name="_Pos"></param>
+	void SpawnDestSign(FVector _Pos = FVector(.0f, .0f, .0f), int _MoverID = 0);
 
 	/// <summary>
 	/// Mover Spawn을 여러번 수행하는 함수
@@ -110,7 +118,18 @@ private:
 	TMap<int, TObjectPtr<AMover>> Movers = TMap<int, TObjectPtr<AMover>>();
 
 	/// <summary>
-	/// 
+	/// 블루프린트 상에서 생성할 DestSign 객체를 지정, 클래스 정보 저장
+	/// </summary>
+	UPROPERTY(Editanywhere, Category = "Insert Parameter", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> DestSignClass = nullptr;
+
+	/// <summary>
+	/// 생성된 DestSigns 객체들 정보 소유
+	/// </summary>
+	TMap<int, TObjectPtr<ADestSign>> DestSigns = TMap<int, TObjectPtr<ADestSign>>();
+
+	/// <summary>
+	/// Mover별 Spawn 시간 보유
 	/// </summary>
 	TArray<float> MoverSpawnTimes = TArray<float>({ 0.0f, 1.0f, 2.0f });
 

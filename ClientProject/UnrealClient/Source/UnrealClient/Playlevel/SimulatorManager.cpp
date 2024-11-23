@@ -6,6 +6,7 @@
 #include "Playlevel/Actor/GridPlatform.h"
 #include "Playlevel/Actor/Mover.h"
 #include "Global/GlobalFunctonLibrary.h"
+#include "Playlevel/Actor/DestSign.h"
 
 // Sets default values
 ASimulatorManager::ASimulatorManager()
@@ -72,6 +73,19 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 
 		Obj->SetWayPoints(ConvertPathInfo);
 		Movers.Add(_MoverID) = Obj;
+	}
+}
+
+void ASimulatorManager::SpawnDestSign(FVector _Pos, int _MoverID)
+{
+	if (nullptr != DestSignClass)
+	{
+		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(1.0f, 1.0f, 1.0f));
+		ADestSign* Obj = GetWorld()->SpawnActor<ADestSign>(DestSignClass, TransValue);
+		// Mover에게 ID를 부여한다.
+		Obj->SetID(_MoverID);
+
+		DestSigns.Add(_MoverID) = Obj;
 	}
 }
 

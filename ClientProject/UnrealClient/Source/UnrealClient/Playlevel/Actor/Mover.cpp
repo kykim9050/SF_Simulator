@@ -78,6 +78,7 @@ void AMover::BeginPlay()
 		Con->GetBlackboardComponent()->SetValueAsObject(TEXT("MoverData"), SettingData);
 	}
 
+	// id 컴포넌트 세팅
 	if (nullptr != IDComponentWidgetClass)
 	{
 		IDComponent->SetWidgetClass(IDComponentWidgetClass);

@@ -20,6 +20,12 @@ public:
 	// Sets default values for this actor's properties
 	ADestSign();
 
+	/// <summary>
+	/// ID를 입력하는 동시에 자신의 컴포넌트 아이디도 초기화 한다.
+	/// </summary>
+	/// <param name="_ID"></param>
+	void SetID(int _ID) override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
