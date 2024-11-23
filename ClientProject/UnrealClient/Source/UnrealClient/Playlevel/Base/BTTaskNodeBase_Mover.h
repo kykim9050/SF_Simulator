@@ -4,6 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
+#include "Playlevel/PlaylevelEnum.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Playlevel/Actor/Mover.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Global/DataTable/MoverDataRow.h"
 #include "BTTaskNodeBase_Mover.generated.h"
 
 /**
@@ -16,7 +21,7 @@ class UNREALCLIENT_API UBTTaskNodeBase_Mover : public UBTTaskNode
 public:
 	UBTTaskNodeBase_Mover();
 
-	// SelfActor
+	// SelfActor 관련
 	template<typename OwnerType>
 	OwnerType* GetSelfActor(UBehaviorTreeComponent& OwnerComp)
 	{
@@ -25,7 +30,8 @@ public:
 
 	AActor* GetSelfActor(UBehaviorTreeComponent& OwnerComp);	
 
-	// Object
+
+	// Object 관련
 	template<typename ObjectType>
 	ObjectType* GetValueAsObject(UBehaviorTreeComponent& OwnerComp, FName Name)
 	{
@@ -33,5 +39,27 @@ public:
 	}
 
 	UObject* GetValueAsObject(UBehaviorTreeComponent& OwnerComp, FName Name);
+
 	void SetValueAsObject(UBehaviorTreeComponent& OwnerComp, FName Name, UObject* Value);
+
+
+	// State 관련
+	template<typename EnumType>
+	EnumType GetCurState(UBehaviorTreeComponent& _OwnerComp)
+	{
+		return static_cast<EnumType>(GetCurState(_OwnerComp));
+	}
+
+	uint8 GetCurState(UBehaviorTreeComponent& _OwnerComp);
+
+	template<typename EnumType>
+	void ChangeState(UBehaviorTreeComponent& _OwnerComp, EnumType _StateChange)
+	{
+		ChangeState(_OwnerComp, static_cast<uint8>(_StateChange));
+	}
+
+	void ChangeState(UBehaviorTreeComponent& _OwnerComp, uint8 _StateChange);
+
+protected:
+	float DistanceToDestPos(FVector _CurPos, FVector _DestPos);
 };

@@ -7,6 +7,14 @@ EBTNodeResult::Type UBTTaskNodeMover_Decel::ExecuteTask(UBehaviorTreeComponent& 
 {
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
+	EMoverState StateValue = GetCurState<EMoverState>(OwnerComp);
+
+	// 현재 본인의 상태와 맞지 않다면 Failed
+	if (StateValue != EMoverState::Decel)
+	{
+		return EBTNodeResult::Type::Failed;
+	}
+
 	return EBTNodeResult::Type::InProgress;
 }
 

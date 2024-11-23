@@ -2,13 +2,18 @@
 
 
 #include "Playlevel/Actor/AI/BTTaskNodeMover_Rotate.h"
-#include "Playlevel/Actor/Mover.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Playlevel/Base/BaseMoverAIController.h"
 
 EBTNodeResult::Type UBTTaskNodeMover_Rotate::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	Super::ExecuteTask(OwnerComp, NodeMemory);
+
+	EMoverState StateValue = GetCurState<EMoverState>(OwnerComp);
+
+	// 현재 본인의 상태와 맞지 않다면 Failed
+	if (StateValue != EMoverState::Rotate)
+	{
+		return EBTNodeResult::Type::Failed;
+	}
 
 	return EBTNodeResult::Type::InProgress;
 }
