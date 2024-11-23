@@ -37,26 +37,7 @@ uint8 UBTTaskNodeBase_Mover::GetCurState(UBehaviorTreeComponent& _OwnerComp)
 
 bool UBTTaskNodeBase_Mover::IsDestDirSameToCurDir(FVector _CurPos, FVector _DestPos, EMoverDir _CurDir)
 {
-	double Dx = _DestPos.Y - _CurPos.Y;
-	double Dy = _DestPos.X - _CurPos.X;
-	EMoverDir DestDir = EMoverDir::None;
-
-	if (Dx > DirOffset && abs(Dy) <= DirOffset)
-	{
-		DestDir = EMoverDir::E;
-	}
-	else if (Dx < (-1) * DirOffset && abs(Dy) <= DirOffset)
-	{
-		DestDir = EMoverDir::W;
-	}
-	else if (Dy > DirOffset && abs(Dx) <= DirOffset)
-	{
-		DestDir = EMoverDir::N;
-	}
-	else if (Dy < (-1) * DirOffset && abs(Dx) <= DirOffset)
-	{
-		DestDir = EMoverDir::S;
-	}
+	EMoverDir DestDir = CheckDir(_CurPos, _DestPos);
 
 	if (_CurDir == DestDir)
 	{
@@ -70,4 +51,31 @@ bool UBTTaskNodeBase_Mover::IsDestDirSameToCurDir(FVector _CurPos, FVector _Dest
 		}
 		return false;
 	}
+}
+
+EMoverDir UBTTaskNodeBase_Mover::CheckDir(FVector _CurPos, FVector _DestPos)
+{
+	EMoverDir Result = EMoverDir::None;
+
+	double Dx = _DestPos.Y - _CurPos.Y;
+	double Dy = _DestPos.X - _CurPos.X;
+
+	if (Dx > DirOffset && abs(Dy) <= DirOffset)
+	{
+		Result = EMoverDir::E;
+	}
+	else if (Dx < (-1) * DirOffset && abs(Dy) <= DirOffset)
+	{
+		Result = EMoverDir::W;
+	}
+	else if (Dy > DirOffset && abs(Dx) <= DirOffset)
+	{
+		Result = EMoverDir::N;
+	}
+	else if (Dy < (-1) * DirOffset && abs(Dx) <= DirOffset)
+	{
+		Result = EMoverDir::S;
+	}
+
+	return Result;
 }

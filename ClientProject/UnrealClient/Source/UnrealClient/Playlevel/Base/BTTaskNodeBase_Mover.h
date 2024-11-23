@@ -62,8 +62,17 @@ public:
 	void ChangeState(UBehaviorTreeComponent& _OwnerComp, uint8 _StateChange);
 
 protected:
-
+	/// <summary>
+	/// Mover가 현재 목표 좌표를 바라보고 있는지 혹은 다른 좌표인지 여부를 boo1 값으로 반환하는 함수
+	/// </summary>
+	/// <param name="_CurPos"></param>
+	/// <param name="_DestPos"></param>
+	/// <param name="_CurDir"></param>
+	/// <returns></returns>
 	bool IsDestDirSameToCurDir(FVector _CurPos, FVector _DestPos, EMoverDir _CurDir);
+	
+
+	EMoverDir CheckDir(FVector _CurPos, FVector _DestPos);
 
 private:
 	double DirOffset = 0.1;
