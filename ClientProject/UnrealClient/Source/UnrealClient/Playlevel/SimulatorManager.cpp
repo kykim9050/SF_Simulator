@@ -5,9 +5,7 @@
 #include "Playlevel/Test/TestDataComponent.h"
 #include "Playlevel/Actor/GridPlatform.h"
 #include "Playlevel/Actor/Mover.h"
-
-
-#include "Playlevel/ClientPlayGameMode.h"
+#include "Global/GlobalFunctonLibrary.h"
 
 // Sets default values
 ASimulatorManager::ASimulatorManager()
@@ -60,25 +58,15 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 		// 초기 생성시 목표 좌표를 전달 (Test용)
 		int Size = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray.Num();
 		
-		AGameModeBase* CurGameMode = GetWorld()->GetAuthGameMode();
-		float GridValue = 0.0f;
 
-		if (nullptr != CurGameMode)
-		{
-			AClientPlayGameMode* CastGameMode = Cast<AClientPlayGameMode>(CurGameMode);
-
-			if (nullptr != CastGameMode)
-			{
-				GridValue = CastGameMode->GetGridUnitValue();
-			}
-		}
+		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 
 		TArray<FVector2D> ConvertPathInfo = TArray<FVector2D>();
 
 		for (int i = 0; i < Size; i++)
 		{
 			FVector2D Vector = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray[i];
-			FVector2D TransVec = ConvertToRealPos(Vector, GridValue, NValue);
+			FVector2D TransVec = ConvertToRealPos(Vector, Inst->GetGridUnitValue(), NValue);
 			ConvertPathInfo.Add(TransVec);
 		}
 
@@ -93,20 +81,10 @@ void ASimulatorManager::SpawnMoverRepeatedly(float _DeltaTime)
 
 	if (SpawnMoverDeltatime >= MoverSpawnTimes[MoverSpawnCount])
 	{
-		AGameModeBase* CurGameMode = GetWorld()->GetAuthGameMode();
-		float GridValue = 0.0f;
+		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 
-		if (nullptr != CurGameMode)
-		{
-			AClientPlayGameMode* CastGameMode = Cast<AClientPlayGameMode>(CurGameMode);
-
-			if (nullptr != CastGameMode)
-			{
-				GridValue = CastGameMode->GetGridUnitValue();
-			}
-		}
 		// 값을 계산해서 Mover 초기 위치를 지정해준다.
-		FVector2D InitPos = CalMoverInitPos(GridValue, NValue, MoverSpawnCount);
+		FVector2D InitPos = CalMoverInitPos(Inst->GetGridUnitValue(), NValue, MoverSpawnCount);
 
 		int RobotID = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].MoverID;
 		// 현재 ID는 TestData에서 가져오고 있다.
@@ -128,14 +106,14 @@ void ASimulatorManager::InitMoverSpawnTimes(int _N)
 	}
 }
 
-FVector2D ASimulatorManager::CalMoverInitPos(float _GridUintVal, int _N, int _Idx)
+FVector2D ASimulatorManager::CalMoverInitPos(double _GridUintVal, int _N, int _Idx)
 {
-	float Base = (-1.0f) * (_GridUintVal * static_cast<float>(_N ) / 2.0f) + (_GridUintVal / 2.0f);
+	double Base = (-1.0f) * (_GridUintVal * static_cast<double>(_N ) / 2.0f) + (_GridUintVal / 2.0f);
 	FVector2D RetVal = FVector2D(Base, Base + _GridUintVal * _Idx);
  	return RetVal;
 }
 
-FVector2D ASimulatorManager::ConvertToRealPos(FVector2D _Pos, float _GridUnitVal, int _N)
+FVector2D ASimulatorManager::ConvertToRealPos(FVector2D _Pos, double _GridUnitVal, int _N)
 {
 	double Base = static_cast<double>(_N - 1) * (_GridUnitVal / 2.0) * (-1.0);
 	FVector2D Result = FVector2D();

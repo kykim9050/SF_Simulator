@@ -30,9 +30,20 @@ public:
 	/// <returns></returns>
 	double DistanceToDestPos2D(FVector _MyPos, FVector _OtherPos);
 
+	FORCEINLINE double GetGridUnitValue() const
+	{
+		return GridUnitValue;
+	}
+
 protected:
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	UDataTable* MoverDataTable;
+
+	/// <summary>
+	/// GridPlatform의 길이 단위 값
+	/// </summary>
+	UPROPERTY()
+	double GridUnitValue = 100.0f;
 };
