@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "Engine/DataTable.h"
+#include "Playlevel/PlaylevelEnum.h"
 #include "MoverDataRow.generated.h"
 
 
@@ -16,17 +17,20 @@ struct FMoverDataRow : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
+	/// <summary>
+	/// 언리얼의 기본 길이 단위는 cm
+	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float MaxVelocity = 1000.0f;
+	double MaxVelocity = 100.; // = 1m
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float Accel = 100.0f;
+	double Accel = 10.;	// = 0.1m
 
 	/// <summary>
 	/// DegreeValue
 	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float Rotate = 10.0f;
+	double Rotate = 10.;	// degree
 };
 
 /*

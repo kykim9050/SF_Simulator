@@ -44,6 +44,15 @@ void UBTTaskNodeMover_Accel::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 
 		FVector Dir = DestPos - CurPos;
 		Dir.Normalize();
-		Mover->AddActorWorldOffset(DeltaSeconds * Dir * 100.);
+
+		// 속도 증가 (가속도 고려)
+		MoverData->CurVelocity += MoverData->Data->Accel * DeltaSeconds * DeltaSeconds;
+		if (MoverData->Data->MaxVelocity <= MoverData->CurVelocity)
+		{
+			MoverData->CurVelocity = MoverData->Data->MaxVelocity;
+		}
+
+		// 가속도 적용한 속도
+		Mover->AddActorWorldOffset(DeltaSeconds * Dir * MoverData->CurVelocity);
 	}
 }
