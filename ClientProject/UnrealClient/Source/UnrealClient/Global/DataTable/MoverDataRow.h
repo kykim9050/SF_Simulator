@@ -42,4 +42,6 @@ public:
 	float CurVelocity = 0.0f;
 
 	FVector DestPos = FVector();
+
+	TArray<FVector2D> WayPointsInfo = TArray<FVector2D>();
 };

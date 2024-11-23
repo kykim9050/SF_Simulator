@@ -127,5 +127,11 @@ void AMover::SetID(int _ID)
 
 void AMover::SetWayPoints(const FCourseInfo& _WayPointsInfo)
 {
-	int a = 0;
+	for (size_t i = 0; i < _WayPointsInfo.CourseArray.Num(); ++i)
+	{
+		SettingData->WayPointsInfo.Add(_WayPointsInfo.CourseArray[i]);
+	}
+	
+	ABaseMoverAIController* Con = GetController<ABaseMoverAIController>();
+	Con->GetBlackboardComponent()->SetValueAsObject(TEXT("MoverData"), SettingData);
 }
