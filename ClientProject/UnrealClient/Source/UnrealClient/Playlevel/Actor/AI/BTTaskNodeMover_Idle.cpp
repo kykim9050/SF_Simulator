@@ -20,10 +20,11 @@ EBTNodeResult::Type UBTTaskNodeMover_Idle::ExecuteTask(UBehaviorTreeComponent& O
 
 void UBTTaskNodeMover_Idle::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* pNodeMemory, float DeltaSeconds)
 {
+	Super::TickTask(OwnerComp, pNodeMemory, DeltaSeconds);
+
 	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
 	
 	UMoverData* MoverData = GetValueAsObject<UMoverData>(OwnerComp, TEXT("MoverData"));
-
 
 	if (nullptr != Mover)
 	{
@@ -54,13 +55,8 @@ void UBTTaskNodeMover_Idle::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* p
 		else
 		{
 			// µµÂø
-			// µµÂø ·ÎÁ÷
+			ChangeState(OwnerComp, EMoverState::Finish);
+			return;
 		}
 	}
-
-	// Stop Á¶°Ç
-
-	// Rotate Á¶°Ç
-
-	Super::TickTask(OwnerComp, pNodeMemory, DeltaSeconds);
 }

@@ -17,6 +17,7 @@ enum class EMoverState : uint8
 	Accel UMETA(Displayname = "Acceleration"),
 	Decel UMETA(Displayname = "Deceleration"),
 	Rotate UMETA(Displayname = "Rotation"),
+	Finish UMETA(Displayname = "Mission Complete"),
 };
 
 UENUM(BlueprintType)
