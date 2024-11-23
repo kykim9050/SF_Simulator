@@ -58,7 +58,31 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 		Obj->SetID(_MoverID);
 
 		// 초기 생성시 목표 좌표를 전달 (Test용)
-		Obj->SetWayPoints(TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount]);
+		int Size = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray.Num();
+		
+		AGameModeBase* CurGameMode = GetWorld()->GetAuthGameMode();
+		float GridValue = 0.0f;
+
+		if (nullptr != CurGameMode)
+		{
+			AClientPlayGameMode* CastGameMode = Cast<AClientPlayGameMode>(CurGameMode);
+
+			if (nullptr != CastGameMode)
+			{
+				GridValue = CastGameMode->GetGridUnitValue();
+			}
+		}
+
+		TArray<FVector2D> ConvertPathInfo = TArray<FVector2D>();
+
+		for (int i = 0; i < Size; i++)
+		{
+			FVector2D Vector = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray[i];
+			FVector2D TransVec = ConvertToRealPos(Vector, GridValue, NValue);
+			ConvertPathInfo.Add(TransVec);
+		}
+
+		Obj->SetWayPoints(ConvertPathInfo);
 		Movers.Add(_MoverID) = Obj;
 	}
 }
@@ -109,6 +133,18 @@ FVector2D ASimulatorManager::CalMoverInitPos(float _GridUintVal, int _N, int _Id
 	float Base = (-1.0f) * (_GridUintVal * static_cast<float>(_N ) / 2.0f) + (_GridUintVal / 2.0f);
 	FVector2D RetVal = FVector2D(Base, Base + _GridUintVal * _Idx);
 	return RetVal;
+}
+
+FVector2D ASimulatorManager::ConvertToRealPos(FVector2D _Pos, float _GridUnitVal, int _N)
+{
+	double Base = static_cast<double>(_N - 1) * (_GridUnitVal / 2.0) * (-1.0);
+	FVector2D Result = FVector2D();
+
+	// unreal 기준 좌표계 반영 필요
+	Result.Y = Base + _Pos.Y * _GridUnitVal;
+	Result.X = Base + ((_N - 1 - _Pos.X) * _GridUnitVal);
+
+	return Result;
 }
 
 void ASimulatorManager::SendTargetPosInfoToMover(int _MoverID, FVector _TargetPos)

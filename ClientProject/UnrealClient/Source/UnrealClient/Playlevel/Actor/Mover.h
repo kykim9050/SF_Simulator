@@ -44,7 +44,7 @@ public:
 	/// WayPoint의 정보를 Mover에 입력한다.
 	/// </summary>
 	/// <param name="_WayPointsInfo"></param>
-	void SetWayPoints(const FCourseInfo& _WayPointsInfo);
+	void SetWayPoints(const TArray<FVector2D>& _WayPointsInfo);
 
 	FORCEINLINE ABaseMoverAIController* GetAIController() const
 	{

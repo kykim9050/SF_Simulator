@@ -68,6 +68,14 @@ private:
 	FVector2D CalMoverInitPos(float _GridUintVal, int _N, int _Idx);
 
 	/// <summary>
+	/// 일반 서버에서 받은 좌표를 실제 Unreal의 좌표로 바꾸어주는 함수
+	/// </summary>
+	/// <param name="_Pos"></param>
+	/// <param name="_GridUnitVal"></param>
+	/// <param name="_N"></param>
+	FVector2D ConvertToRealPos(FVector2D _Pos, float _GridUnitVal, int _N);
+
+	/// <summary>
 	///	지정된 ID에 해당하는 Mover에게 이동할 위치를 전달하는 로직
 	/// </summary>
 	/// <param name="_MoverID"></param>

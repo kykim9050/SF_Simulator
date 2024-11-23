@@ -125,11 +125,11 @@ void AMover::SetID(int _ID)
 	}
 }
 
-void AMover::SetWayPoints(const FCourseInfo& _WayPointsInfo)
+void AMover::SetWayPoints(const TArray<FVector2D>& _WayPointsInfo)
 {
-	for (size_t i = 0; i < _WayPointsInfo.CourseArray.Num(); ++i)
+	for (size_t i = 0; i < _WayPointsInfo.Num(); ++i)
 	{
-		SettingData->WayPointsInfo.Add(_WayPointsInfo.CourseArray[i]);
+		SettingData->WayPointsInfo.Add(_WayPointsInfo[i]);
 	}
 	
 	ABaseMoverAIController* Con = GetController<ABaseMoverAIController>();
