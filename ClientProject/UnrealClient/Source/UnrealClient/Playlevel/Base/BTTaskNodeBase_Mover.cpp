@@ -35,8 +35,3 @@ uint8 UBTTaskNodeBase_Mover::GetCurState(UBehaviorTreeComponent& _OwnerComp)
 {
 	return _OwnerComp.GetBlackboardComponent()->GetValueAsEnum(TEXT("StateValue"));
 }
-
-float UBTTaskNodeBase_Mover::DistanceToDestPos(FVector _CurPos, FVector _DestPos)
-{
-	return 0.0f;
-}

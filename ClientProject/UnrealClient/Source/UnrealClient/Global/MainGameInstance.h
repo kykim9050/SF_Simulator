@@ -22,6 +22,14 @@ public:
 	/// <returns></returns>
 	const struct FMoverDataRow* GetMoverDataRow(FName _Name);
 
+	/// <summary>
+	/// 두 위치 사이의 거리를 계산하는 함수 (X, Y만 해당)
+	/// </summary>
+	/// <param name="_MyPos"></param>
+	/// <param name="_OtherPos"></param>
+	/// <returns></returns>
+	double DistanceToDestPos2D(FVector _MyPos, FVector _OtherPos);
+
 protected:
 
 private:

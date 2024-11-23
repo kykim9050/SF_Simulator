@@ -9,6 +9,7 @@
 #include "Playlevel/Actor/Mover.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Global/DataTable/MoverDataRow.h"
+#include "Global/GlobalFunctonLibrary.h"
 #include "BTTaskNodeBase_Mover.generated.h"
 
 /**
@@ -59,7 +60,4 @@ public:
 	}
 
 	void ChangeState(UBehaviorTreeComponent& _OwnerComp, uint8 _StateChange);
-
-protected:
-	float DistanceToDestPos(FVector _CurPos, FVector _DestPos);
 };

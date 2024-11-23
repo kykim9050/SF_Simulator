@@ -21,3 +21,9 @@ const FMoverDataRow* UMainGameInstance::GetMoverDataRow(FName _Name)
 
 	return MoverData;
 }
+
+double UMainGameInstance::DistanceToDestPos2D(FVector _MyPos, FVector _OtherPos)
+{
+	double Dist = sqrt((_MyPos.X - _OtherPos.X) * (_MyPos.X - _OtherPos.X) + (_MyPos.Y - _OtherPos.Y) * (_MyPos.Y - _OtherPos.Y));
+	return Dist;
+}
