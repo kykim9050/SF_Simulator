@@ -18,6 +18,7 @@ class AAIController;
 class UWidgetComponent;
 class UMoverData;
 struct FMoverDataRow;
+struct FCourseInfo;
 UCLASS()
 class UNREALCLIENT_API AMover : public ACharacter, public ObjectID
 {
@@ -38,6 +39,12 @@ public:
 	{
 		TargetPos = _TargetPos;
 	}
+
+	/// <summary>
+	/// WayPoint의 정보를 Mover에 입력한다.
+	/// </summary>
+	/// <param name="_WayPointsInfo"></param>
+	void SetWayPoints(const FCourseInfo& _WayPointsInfo);
 
 	FORCEINLINE ABaseMoverAIController* GetAIController() const
 	{

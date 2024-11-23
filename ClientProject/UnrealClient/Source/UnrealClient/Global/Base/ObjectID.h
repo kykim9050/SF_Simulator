@@ -21,7 +21,7 @@ public:
 	}
 
 	ObjectID();
-	~ObjectID();
+	virtual ~ObjectID();
 
 protected:
 

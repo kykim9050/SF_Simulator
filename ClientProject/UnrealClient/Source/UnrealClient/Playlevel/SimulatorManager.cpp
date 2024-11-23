@@ -23,7 +23,7 @@ void ASimulatorManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// TestCode NValue Get
+	// 테스트 코드 NValue Get
 	NValue = TestDataComponent->GetTestData().CourseInfo.Num();
 	InitMoverSpawnTimes(NValue);
 }
@@ -56,8 +56,9 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 		AMover* Obj = GetWorld()->SpawnActor<AMover>(MoverClass, TransValue);
 		// Mover에게 ID를 부여한다.
 		Obj->SetID(_MoverID);
-		// 초기 생성시 TargetPos를 초기화 위치와 동일 시
-		Obj->SetTargetPos(_Pos);
+
+		// 초기 생성시 목표 좌표를 전달 (Test용)
+		Obj->SetWayPoints(TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount]);
 		Movers.Add(_MoverID) = Obj;
 	}
 }

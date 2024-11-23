@@ -13,6 +13,8 @@
 #include "Global/DataTable/MoverDataRow.h"
 #include "Global/GlobalFunctonLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Playlevel/Test/TestDataComponent.h"
+
 
 // Sets default values
 AMover::AMover()
@@ -102,6 +104,8 @@ void AMover::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+
+
 void AMover::SetID(int _ID)
 {
 	ObjectID::SetID(_ID);
@@ -119,4 +123,9 @@ void AMover::SetID(int _ID)
 			IdWidget->GetIDTextBlock()->SetText(Text);
 		}
 	}
+}
+
+void AMover::SetWayPoints(const FCourseInfo& _WayPointsInfo)
+{
+	int a = 0;
 }
