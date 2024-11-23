@@ -35,13 +35,16 @@ void UBTTaskNodeMover_Accel::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 
 		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 
-		if (5.0f >= Inst->DistanceToDestPos2D(CurPos, DestPos))
+		if (5.f >= Inst->DistanceToDestPos2D(CurPos, DestPos))
 		{
-			ChangeState(OwnerComp, EMoverState::Rotate);
+			(MoverData->CurWaypointIdx)++;
+			ChangeState(OwnerComp, EMoverState::Idle);
 			return;
 		}
 
 		//Mover->GetCharacterMovement()->MoveSmooth(FVector(10.0f, 0.0f, 0.0f), DeltaSeconds);
-		Mover->AddActorLocalOffset(DeltaSeconds * FVector(10., .0, .0));
+		//Mover->AddActorLocalOffset(DeltaSeconds * FVector(10., .0, .0));
+		FVector Dir = DestPos - CurPos;
+		Mover->AddActorLocalOffset(DeltaSeconds * Dir);
 	}
 }

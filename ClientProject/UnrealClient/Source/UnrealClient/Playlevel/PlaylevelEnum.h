@@ -18,3 +18,13 @@ enum class EMoverState : uint8
 	Decel UMETA(Displayname = "Deceleration"),
 	Rotate UMETA(Displayname = "Rotation"),
 };
+
+UENUM(BlueprintType)
+enum class EMoverDir : uint8
+{
+	None,
+	E UMETA(Displayname = "East"),
+	W UMETA(Displayname = "West"),
+	S UMETA(Displayname = "South"),
+	N UMETA(Displayname = "North"),
+};

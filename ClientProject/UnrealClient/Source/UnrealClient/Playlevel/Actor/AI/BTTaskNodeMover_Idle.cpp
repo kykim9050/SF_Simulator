@@ -34,15 +34,27 @@ void UBTTaskNodeMover_Idle::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* p
 	
 		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 
-		// Accel 조건
-		// 자신의 위치와 목표지점 위치의 거리 차이가 발생했을 때
+		// 이동해야할 목표 Idx가 아직 존재할 때
 		if (CurIdx < MoverData->WayPointsInfo.Num())
 		{
-			ChangeState(OwnerComp, EMoverState::Accel);
-			return;
+			if (true == IsDestDirSameToCurDir(CurPos, DestPos, MoverData->Dir))
+			{
+				// Accel 조건
+				ChangeState(OwnerComp, EMoverState::Accel);
+				return;
+			}
+			else
+			{
+				// 회전 조건
+				ChangeState(OwnerComp, EMoverState::Rotate);
+				return;
+			}
 		}
-		// Idx를 1 추가하고
-		// Accel로 상태를 바꾼다
+		else
+		{
+			// 도착
+			// 도착 로직
+		}
 	}
 
 	// Stop 조건

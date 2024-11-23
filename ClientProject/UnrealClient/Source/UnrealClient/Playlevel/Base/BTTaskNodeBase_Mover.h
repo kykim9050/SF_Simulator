@@ -60,4 +60,12 @@ public:
 	}
 
 	void ChangeState(UBehaviorTreeComponent& _OwnerComp, uint8 _StateChange);
+
+protected:
+
+	bool IsDestDirSameToCurDir(FVector _CurPos, FVector _DestPos, EMoverDir _CurDir);
+
+private:
+	double DirOffset = 0.1;
+
 };

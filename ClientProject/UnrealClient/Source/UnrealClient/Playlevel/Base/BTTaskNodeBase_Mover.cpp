@@ -30,8 +30,44 @@ void UBTTaskNodeBase_Mover::ChangeState(UBehaviorTreeComponent& _OwnerComp, uint
 	FinishLatentTask(_OwnerComp, EBTNodeResult::Failed);
 }
 
-
 uint8 UBTTaskNodeBase_Mover::GetCurState(UBehaviorTreeComponent& _OwnerComp)
 {
 	return _OwnerComp.GetBlackboardComponent()->GetValueAsEnum(TEXT("StateValue"));
+}
+
+bool UBTTaskNodeBase_Mover::IsDestDirSameToCurDir(FVector _CurPos, FVector _DestPos, EMoverDir _CurDir)
+{
+	double Dx = _DestPos.Y - _CurPos.Y;
+	double Dy = _DestPos.X - _CurPos.X;
+	EMoverDir DestDir = EMoverDir::None;
+
+	if (Dx > DirOffset && abs(Dy) <= DirOffset)
+	{
+		DestDir = EMoverDir::E;
+	}
+	else if (Dx < (-1) * DirOffset && abs(Dy) <= DirOffset)
+	{
+		DestDir = EMoverDir::W;
+	}
+	else if (Dy > DirOffset && abs(Dx) <= DirOffset)
+	{
+		DestDir = EMoverDir::N;
+	}
+	else if (Dy < (-1) * DirOffset && abs(Dx) <= DirOffset)
+	{
+		DestDir = EMoverDir::S;
+	}
+
+	if (_CurDir == DestDir)
+	{
+		return true;
+	}
+	else
+	{
+		if (DestDir == EMoverDir::None)
+		{
+			UE_LOG(LogType, Error, TEXT("if (DestDir == EMoverDir::None). Please Check Dir Value"));
+		}
+		return false;
+	}
 }

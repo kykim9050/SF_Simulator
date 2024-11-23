@@ -39,11 +39,11 @@ class UMoverData : public UObject
 public:
 	const FMoverDataRow* Data;
 
-	float CurVelocity = 0.0f;
-
 	FVector DestPos = FVector();
 
 	TArray<FVector2D> WayPointsInfo = TArray<FVector2D>();
 	
+	float CurVelocity = 0.0f;
 	int CurWaypointIdx = 1;
+	EMoverDir Dir = EMoverDir::N;
 };
