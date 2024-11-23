@@ -5,6 +5,7 @@
 #include "Components/WidgetComponent.h"
 #include "Playlevel/UI/IDMainWidget.h"
 #include "Components/TextBlock.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 ADestSign::ADestSign()
@@ -12,8 +13,10 @@ ADestSign::ADestSign()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	DestSignMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DestSignMeshComponent"));
 	IDComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("IDComponent"));
-	IDComponent->SetupAttachment(RootComponent);
+	DestSignMeshComponent->SetupAttachment(RootComponent);
+	IDComponent->SetupAttachment(DestSignMeshComponent);
 }
 
 // Called when the game starts or when spawned
@@ -30,7 +33,7 @@ void ADestSign::BeginPlay()
 
 		IDComponent->SetWidgetClass(IDComponentWidgetClass);
 		IDComponent->SetDrawSize(FVector2D(150.0f, 50.0f));
-		IDComponent->SetRelativeLocation(FVector(0.0, 0.0, 200.0));
+		IDComponent->SetRelativeLocation(FVector(0.0, 0.0, 180.0));
 		IDComponent->SetRelativeRotation(FRotator(RotateVal, .0, .0));
 		IDComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	}

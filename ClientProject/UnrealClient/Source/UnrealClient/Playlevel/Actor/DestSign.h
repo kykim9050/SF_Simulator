@@ -10,6 +10,7 @@
 /*
 * 도착지 정보를 보여줄 액터
 */
+class UStaticMeshComponent;
 class UWidgetComponent;
 UCLASS()
 class UNREALCLIENT_API ADestSign : public AActor, public ObjectID
@@ -46,4 +47,10 @@ private:
 	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Property", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UUserWidget> IDComponentWidgetClass = nullptr;
+
+	/// <summary>
+	/// 위치 지정용 기본 컴포넌트
+	/// </summary>
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UStaticMeshComponent> DestSignMeshComponent = nullptr;
 };
