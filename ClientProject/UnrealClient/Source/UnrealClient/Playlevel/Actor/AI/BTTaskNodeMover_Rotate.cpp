@@ -59,6 +59,6 @@ void UBTTaskNodeMover_Rotate::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
 			// 회전할 방향을 정하는 로직 필요
 		}
 
-		Mover->AddActorLocalRotation((DeltaSeconds * FQuat(FRotator(.0f, .5f, .0f))));
+		Mover->AddActorWorldRotation(DeltaSeconds * FQuat(FRotator(.0f, .5f, .0f)));
 	}
 }

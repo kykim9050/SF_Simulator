@@ -30,13 +30,14 @@ void UBTTaskNodeMover_Idle::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* p
 		FVector CurPos = Mover->GetActorLocation();
 		CurPos.Z = .0;
 		int CurIdx = MoverData->CurWaypointIdx;
-		FVector DestPos = FVector(MoverData->WayPointsInfo[CurIdx].X, MoverData->WayPointsInfo[CurIdx].Y, .0);
-	
-		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 
 		// 이동해야할 목표 Idx가 아직 존재할 때
 		if (CurIdx < MoverData->WayPointsInfo.Num())
 		{
+			FVector DestPos = FVector(MoverData->WayPointsInfo[CurIdx].X, MoverData->WayPointsInfo[CurIdx].Y, .0);
+
+			UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
+			
 			if (true == IsDestDirSameToCurDir(CurPos, DestPos, MoverData->Dir))
 			{
 				// Accel 조건

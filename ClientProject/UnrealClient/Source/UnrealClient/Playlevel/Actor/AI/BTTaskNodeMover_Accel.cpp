@@ -42,10 +42,8 @@ void UBTTaskNodeMover_Accel::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 			return;
 		}
 
-		//Mover->GetCharacterMovement()->MoveSmooth(FVector(10.0f, 0.0f, 0.0f), DeltaSeconds);
-		//Mover->AddActorLocalOffset(DeltaSeconds * FVector(10., .0, .0));
 		FVector Dir = DestPos - CurPos;
 		Dir.Normalize();
-		Mover->AddActorLocalOffset(DeltaSeconds * Dir * 10.);
+		Mover->AddActorWorldOffset(DeltaSeconds * Dir * 100.);
 	}
 }
