@@ -31,17 +31,28 @@ void ASimulatorManager::ReleaseActor()
 {
 	auto Iter = Movers.CreateIterator();
 
+	// Mover & DestSign 삭제 로직
 	for (; Iter; ++Iter)
 	{
-
 		if (false == Iter->Value->bIsAllowDestroy)
 		{
 			++Iter;
 			continue;
 		}
+		
+		// 삭제하고자 하는 Mover에서 실제 Key(=first)값을 추출
+		// DestSigns 에도 똑같은 Key 값에 할당 되어 있기 때문에 DestroyKey로 삭제 가능
+		TObjectPtr<AMover> DestroyMover = Movers.Find(Iter->Key)->Get();
+		int DestroyKey = *Movers.FindKey(DestroyMover);
 
+		// bIsAllowDestroy 변수가 true이면 삭제해도 된다는 의미
+		// Mover 삭제
 		Movers.Find(Iter->Key)->Get()->Destroy();
 		Movers.Remove(Iter->Key);
+		
+		// DestSign 삭제
+		DestSigns.Find(DestroyKey)->Get()->Destroy();
+		DestSigns.Remove(DestroyKey);
 	}
 }
 
@@ -55,6 +66,7 @@ void ASimulatorManager::Tick(float DeltaTime)
 		SpawnMoverRepeatedly(DeltaTime);
 	}
 
+	// 안전한 삭제를 위해 함수 안에서 별도로 구현
 	ReleaseActor();
 }
 

@@ -48,6 +48,7 @@ private:
 
 	/// <summary>
 	/// 액터를 삭제하는 함수
+	/// 안전하게 본인이 가지고 있는 액터를 반환하기 위해서 Tick에서 지속적으로 확인한다.
 	/// </summary>
 	void ReleaseActor();
 
