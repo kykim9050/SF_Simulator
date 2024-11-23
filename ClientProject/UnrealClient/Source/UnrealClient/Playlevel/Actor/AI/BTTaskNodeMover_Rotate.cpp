@@ -46,6 +46,9 @@ void UBTTaskNodeMover_Rotate::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
 		double DotVal = FVector::DotProduct(Forward, NextDir);
 		double ACosAngle = FMath::Acos(DotVal);
 		double AngleDegree = FMath::RadiansToDegrees(ACosAngle);
+
+		double rotateVal = .5;
+
 		if (RotateOffsetDegree >= AngleDegree)
 		{
 			// 방향이 같아졌을 때
@@ -56,9 +59,19 @@ void UBTTaskNodeMover_Rotate::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
 		}
 		// 같지 않다면 방향이 다른 것
 		{
-			// 회전할 방향을 정하는 로직 필요
+			// 외적을 활용해서 회전할 방향 적용하기
+			FVector CrossVal = FVector::CrossProduct(Forward, NextDir);
+			
+			if (CrossVal.Z > 0.)
+			{
+				rotateVal = 0.5;
+			}
+			else if (CrossVal.Z <= 0.)
+			{
+				rotateVal = -0.5;
+			}
 		}
 
-		Mover->AddActorWorldRotation(DeltaSeconds * FQuat(FRotator(.0f, .5f, .0f)));
+		Mover->AddActorWorldRotation(DeltaSeconds * FQuat(FRotator(.0, rotateVal, .0)));
 	}
 }
