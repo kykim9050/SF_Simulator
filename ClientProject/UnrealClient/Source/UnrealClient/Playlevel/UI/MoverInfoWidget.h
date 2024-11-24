@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Playlevel/Base/ClientPlayBaseUserWidget.h"
 #include "Playlevel/UI/IDMainWidget.h"
+
 #include "MoverInfoWidget.generated.h"
 
 /**

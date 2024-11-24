@@ -29,3 +29,13 @@ enum class EMoverDir : uint8
 	S UMETA(Displayname = "South"),
 	N UMETA(Displayname = "North"),
 };
+
+UENUM(BlueprintType)
+enum class EMoverInfoIdx : uint8
+{
+	CurPos UMETA(Displayname = "Current Pos Value"),
+	DestPos UMETA(Displayname = "Next Destination Pos"),
+	StartTime UMETA(Displayname = "Moving Start Time"),
+	EndTime UMETA(Displayname = "Moving End Time"),
+	End,
+};

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Playlevel/PlaylevelEnum.h"
 #include "ClientPlayBaseUserWidget.generated.h"
 
 /**

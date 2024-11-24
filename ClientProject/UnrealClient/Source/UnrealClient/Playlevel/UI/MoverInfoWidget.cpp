@@ -7,7 +7,7 @@
 
 void UMoverInfoWidget::CurPosUpdate(const FString& _NewPos)
 {
-	UWidget* Widget = InfoList->GetChildAt(0);
+	UWidget* Widget = InfoList->GetChildAt(static_cast<int32>(EMoverInfoIdx::CurPos));
 
 	if (nullptr != Widget)
 	{
