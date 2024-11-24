@@ -2,4 +2,4 @@
 
 
 #include "Playlevel/UI/MoverInfoWidget.h"
-
+#include "Components/VerticalBox.h"

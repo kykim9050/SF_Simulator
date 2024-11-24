@@ -6,7 +6,6 @@
 #include "Components/ArrowComponent.h"
 #include "Playlevel/Base/BaseMoverAIController.h"
 #include "Components/WidgetComponent.h"
-#include "Playlevel/UI/IDMainWidget.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/TextBlock.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -14,6 +13,7 @@
 #include "Global/GlobalFunctonLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Playlevel/Test/TestDataComponent.h"
+#include "Playlevel/UI/MoverInfoWidget.h"
 
 
 // Sets default values
@@ -106,7 +106,6 @@ void AMover::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 
-
 void AMover::SetID(int _ID)
 {
 	ObjectID::SetID(_ID);
@@ -114,14 +113,14 @@ void AMover::SetID(int _ID)
 	UUserWidget* Widget = IDComponent->GetWidget();
 	if (nullptr != Widget)
 	{
-		UIDMainWidget* IdWidget = Cast<UIDMainWidget>(Widget);
+		UMoverInfoWidget* IdWidget = Cast<UMoverInfoWidget>(Widget);
 
 		if (nullptr != IdWidget)
 		{
 			int MyID = GetID();
 			FString PrintString = FString(TEXT("M")) + FString::FromInt(MyID);
 			FText Text = FText::FromString(PrintString);
-			IdWidget->GetIDTextBlock()->SetText(Text);
+			IdWidget->GetIDWidget()->GetIDTextBlock()->SetText(Text);
 		}
 	}
 }
