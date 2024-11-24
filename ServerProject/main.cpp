@@ -1,9 +1,14 @@
+#pragma comment(lib, "ws2_32.lib")
+
+#include <WS2tcpip.h>
+#include <WinSock2.h>
+#include <assert.h>
 #include <iostream>
 #include "WayPointAlgo.h"
 #include "Point.h"
 #include <vector>
 #include "Server.h"
-#include <assert.h>
+#include <thread>
 
 // For Test Include
 #include "Display.h"
@@ -38,13 +43,24 @@ int main(void)
 	std::vector<std::vector<int>> GridMap = std::vector<std::vector<int>>(N, std::vector<int>(N));
 	
 	// 서버 열기
-	Server MainServer = Server();
-	MainServer.ServerOpen();
+	std::shared_ptr<Server> MainServer = std::make_shared<Server>();
+	MainServer->ServerOpen();
 
-	//while (true)
-	//{
+	SOCKET ServerSocket = MainServer->GetSocket();
 
-	//}
+	// 수신 받을 클라이언트의 주소 길이사이즈
+	int AddressLen = sizeof(SOCKADDR_IN);
+
+	while (true)
+	{
+		// Client 접속시 클라이언트의 소켓 정보를 받아오기 위함
+		SOCKADDR_IN ClientAddress = SOCKADDR_IN();
+		memset(&ClientAddress, 0, sizeof(SOCKADDR_IN));
+		// 접속자가 있다면 작동 (클라 접속 존재시)
+		SOCKET ClientSocket = accept(ServerSocket, (sockaddr*)&ClientAddress, &AddressLen);
+	
+		std::cout << "Client Accept!!" << std::endl;
+	}
 
 
 	// 임시 랜덤 생성기 (랜덤 시드를 메모리 주소로 활용)
