@@ -15,6 +15,19 @@ EBTNodeResult::Type UBTTaskNodeMover_Idle::ExecuteTask(UBehaviorTreeComponent& O
 		return EBTNodeResult::Type::Failed;
 	}
 
+
+	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
+	UMoverData* MoverData = GetValueAsObject<UMoverData>(OwnerComp, TEXT("MoverData"));
+
+	if (nullptr != Mover)
+	{
+		if (MoverData->CurWaypointIdx < MoverData->WayPointsInfo.Num())
+		{
+			FVector2D NextPos = MoverData->WayPointsInfo[MoverData->CurWaypointIdx];
+			Mover->UpdateWidgetPosInfo(FVector(NextPos.X, NextPos.Y, .0), EMoverInfoIdx::DestPos);
+		}
+	}
+
 	return EBTNodeResult::Type::InProgress;
 }
 

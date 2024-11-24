@@ -23,8 +23,20 @@ public:
 	{
 		return IDWidget;
 	}
-	
-	void CurPosUpdate(const FString& _NewPos);
+
+	/// <summary>
+	/// Pos 데이터(현재 Pos, ,목적지 Pos) 업데이트 함수
+	/// </summary>
+	/// <typeparam name="EnumType"></typeparam>
+	/// <param name="_NewPos"></param>
+	/// <param name="_Type"></param>
+	template<typename EnumType>
+	void PosUpdate(const FString& _NewPos, EnumType _Type)
+	{
+		PosUpdate(_NewPos, static_cast<int32>(_Type));
+	}
+
+	void PosUpdate(const FString& _NewPos, int32 _Type);
 
 protected:
 

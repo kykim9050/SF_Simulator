@@ -62,10 +62,19 @@ public:
 		return SettingData;
 	}
 
+	/// <summary>
+	/// SimulatorManager에게 자신의 Destroy를 허용한다는 시그널을 보내는 역할
+	/// </summary>
 	void AllowDestroy()
 	{
 		bIsAllowDestroy = true;
 	}
+
+	/// <summary>
+	/// 위젯 컴포넌트에 표시할 좌표데이터 최신화 함수
+	/// </summary>
+	/// <param name="_InfoIdx"></param>
+	void UpdateWidgetPosInfo(FVector _Pos, EMoverInfoIdx _InfoIdx);
 
 protected:
 	// Called when the game starts or when spawned
@@ -78,10 +87,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 private:
-	/// <summary>
-	/// 위젯 컴포넌트의 위젯에 현재 위치 값을 업데이트 하는 함수
-	/// </summary>
-	void UpdatePosInfo();
 
 private:
 	/// <summary>

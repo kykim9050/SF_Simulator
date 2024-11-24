@@ -5,9 +5,9 @@
 #include "Components/VerticalBox.h"
 #include "Components/TextBlock.h"
 
-void UMoverInfoWidget::CurPosUpdate(const FString& _NewPos)
+void UMoverInfoWidget::PosUpdate(const FString& _NewPos, int32 _Type)
 {
-	UWidget* Widget = InfoList->GetChildAt(static_cast<int32>(EMoverInfoIdx::CurPos));
+	UWidget* Widget = InfoList->GetChildAt(_Type);
 
 	if (nullptr != Widget)
 	{
@@ -19,3 +19,4 @@ void UMoverInfoWidget::CurPosUpdate(const FString& _NewPos)
 		}
 	}
 }
+

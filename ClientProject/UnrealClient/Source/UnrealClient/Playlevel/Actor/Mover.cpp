@@ -96,20 +96,7 @@ void AMover::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UpdatePosInfo();
-}
-
-void AMover::UpdatePosInfo()
-{
-	if (nullptr != IDComponent)
-	{
-		UMoverInfoWidget* InfoWidget = Cast<UMoverInfoWidget>(IDComponent->GetWidget());
-
-		if (nullptr != InfoWidget)
-		{
-			InfoWidget->CurPosUpdate(FString::Printf(TEXT("X: %.2f, Y: %.2f"), GetActorLocation().X, GetActorLocation().Y));
-		}
-	}
+	UpdateWidgetPosInfo(GetActorLocation(), EMoverInfoIdx::CurPos);
 }
 
 // Called to bind functionality to input
@@ -117,6 +104,29 @@ void AMover::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AMover::UpdateWidgetPosInfo(FVector _Pos, EMoverInfoIdx _InfoIdx)
+{
+	if (nullptr != IDComponent)
+	{
+		UMoverInfoWidget* InfoWidget = Cast<UMoverInfoWidget>(IDComponent->GetWidget());
+
+		if (nullptr != InfoWidget)
+		{
+			switch (_InfoIdx)
+			{
+			case EMoverInfoIdx::CurPos:
+				InfoWidget->PosUpdate(FString::Printf(TEXT("Cur Pos : {%.2f, %.2f}"), _Pos.X, _Pos.Y), _InfoIdx);
+				break;
+			case EMoverInfoIdx::DestPos:
+				InfoWidget->PosUpdate(FString::Printf(TEXT("Next Pos : {%.2f, %.2f}"), _Pos.X, _Pos.Y), _InfoIdx);
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }
 
 
