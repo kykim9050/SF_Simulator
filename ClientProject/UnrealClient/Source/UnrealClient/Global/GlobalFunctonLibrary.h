@@ -17,7 +17,7 @@ class UNREALCLIENT_API UGlobalFunctonLibrary : public UBlueprintFunctionLibrary
 public:
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject"))
 	static UMainGameInstance* GetMainGameInstance(const UWorld* WorldContextObject);
-
+	
 protected:
 
 private:

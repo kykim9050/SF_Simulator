@@ -76,6 +76,12 @@ public:
 	/// <param name="_InfoIdx"></param>
 	void UpdateWidgetPosInfo(FVector _Pos, EMoverInfoIdx _InfoIdx);
 
+	/// <summary>
+	/// 위젯 컴포넌트에 표시할 시간 기록 함수
+	/// </summary>
+	/// <param name="_InfoIdx"></param>
+	void UpdateWidgetTimeInfo(EMoverInfoIdx _InfoIdx);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

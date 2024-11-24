@@ -106,30 +106,6 @@ void AMover::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AMover::UpdateWidgetPosInfo(FVector _Pos, EMoverInfoIdx _InfoIdx)
-{
-	if (nullptr != IDComponent)
-	{
-		UMoverInfoWidget* InfoWidget = Cast<UMoverInfoWidget>(IDComponent->GetWidget());
-
-		if (nullptr != InfoWidget)
-		{
-			switch (_InfoIdx)
-			{
-			case EMoverInfoIdx::CurPos:
-				InfoWidget->InfoUpdate(FString::Printf(TEXT("Cur Pos : {%.2f, %.2f}"), _Pos.X, _Pos.Y), _InfoIdx);
-				break;
-			case EMoverInfoIdx::DestPos:
-				InfoWidget->InfoUpdate(FString::Printf(TEXT("Next Pos : {%.2f, %.2f}"), _Pos.X, _Pos.Y), _InfoIdx);
-				break;
-			default:
-				break;
-			}
-		}
-	}
-}
-
-
 void AMover::SetID(int _ID)
 {
 	ObjectID::SetID(_ID);
@@ -158,4 +134,51 @@ void AMover::SetWayPoints(const TArray<FVector2D>& _WayPointsInfo)
 	
 	ABaseMoverAIController* Con = GetController<ABaseMoverAIController>();
 	Con->GetBlackboardComponent()->SetValueAsObject(TEXT("MoverData"), SettingData);
+}
+
+void AMover::UpdateWidgetTimeInfo(EMoverInfoIdx _InfoIdx)
+{
+	if (nullptr != IDComponent)
+	{
+		UMoverInfoWidget* InfoWidget = Cast<UMoverInfoWidget>(IDComponent->GetWidget());
+
+		if (nullptr != InfoWidget)
+		{
+			switch (_InfoIdx)
+			{
+			case EMoverInfoIdx::StartTime:
+			case EMoverInfoIdx::EndTime:
+			{
+				FString TimeValue = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld())->GetTime();
+				InfoWidget->InfoUpdate(TimeValue, _InfoIdx);
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void AMover::UpdateWidgetPosInfo(FVector _Pos, EMoverInfoIdx _InfoIdx)
+{
+	if (nullptr != IDComponent)
+	{
+		UMoverInfoWidget* InfoWidget = Cast<UMoverInfoWidget>(IDComponent->GetWidget());
+
+		if (nullptr != InfoWidget)
+		{
+			switch (_InfoIdx)
+			{
+			case EMoverInfoIdx::CurPos:
+				InfoWidget->InfoUpdate(FString::Printf(TEXT("Cur Pos : {%.2f, %.2f}"), _Pos.X, _Pos.Y), _InfoIdx);
+				break;
+			case EMoverInfoIdx::DestPos:
+				InfoWidget->InfoUpdate(FString::Printf(TEXT("Next Pos : {%.2f, %.2f}"), _Pos.X, _Pos.Y), _InfoIdx);
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }

@@ -27,3 +27,9 @@ double UMainGameInstance::DistanceToDestPos2D(FVector _MyPos, FVector _OtherPos)
 	double Dist = sqrt((_MyPos.X - _OtherPos.X) * (_MyPos.X - _OtherPos.X) + (_MyPos.Y - _OtherPos.Y) * (_MyPos.Y - _OtherPos.Y));
 	return Dist;
 }
+
+FString UMainGameInstance::GetTime() const
+{
+	FDateTime CurrentTime = FDateTime::Now();
+	return CurrentTime.ToString(TEXT("%H:%M:%S"));
+}
