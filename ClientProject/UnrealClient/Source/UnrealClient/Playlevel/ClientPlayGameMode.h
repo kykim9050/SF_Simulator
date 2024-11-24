@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Global/Base/GlobalGameMode.h"
+#include "Global/Net/TCPClient.h"
 #include "ClientPlayGameMode.generated.h"
 
 /**
@@ -31,4 +32,9 @@ private:
 	/// </summary>
 	UPROPERTY(Editanywhere, Category = "Manager", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> MainSimulatorClass = nullptr;
+
+	/// <summary>
+	/// 통신을 담당
+	/// </summary>
+	TUniquePtr<UTCPClient> TCPClient = nullptr;
 };

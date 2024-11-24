@@ -10,7 +10,7 @@ public class UnrealClient : ModuleRules
 
         PublicIncludePaths.Add(System.IO.Path.Combine(ModuleDirectory, ""));
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" , "UMG"});
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" , "UMG", "Sockets", "Networking"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
