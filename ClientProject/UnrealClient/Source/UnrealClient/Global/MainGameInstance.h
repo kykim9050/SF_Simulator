@@ -39,8 +39,13 @@ public:
 	/// 현재 시간을 FString으로 반환하는 함수
 	/// </summary>
 	/// <returns></returns>
-	FString GetTime() const;
+	FString GetTimeToString() const;
 
+	/// <summary>
+	/// 현재 시간을 FDataTime형태로 반환하는 함수
+	/// </summary>
+	/// <returns></returns>
+	FDateTime GetTimeValue() const;
 
 protected:
 

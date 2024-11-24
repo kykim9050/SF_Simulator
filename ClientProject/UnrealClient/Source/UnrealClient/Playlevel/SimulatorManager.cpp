@@ -109,10 +109,15 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 		Obj->SetWayPoints(ConvertPathInfo);
 		Movers.Add(_MoverID) = Obj;
 
-		// Mover 积己 矫 悼矫 积己
+		// Mover 积己 矫 DestSign 悼矫 积己
 		FVector2D DestPos2D = Obj->GetSettingData()->WayPointsInfo[Obj->GetSettingData()->WayPointsInfo.Num() - 1];
 		FVector DestPos = FVector(DestPos2D.X, DestPos2D.Y, .0);
 		SpawnDestSign(DestPos, _MoverID);
+
+		// Mover 积己 矫 积己 矫埃 扁废
+		FDateTime CurTime = Inst->GetTimeValue();
+		Obj->UpdateWidgetTimeInfo(CurTime, EMoverInfoIdx::StartTime);
+		Obj->SettingData->StartTime = CurTime.ToString(TEXT("%H:%M:%S"));
 	}
 
 }

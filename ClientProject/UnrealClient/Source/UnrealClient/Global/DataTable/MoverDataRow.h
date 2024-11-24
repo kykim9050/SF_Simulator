@@ -41,13 +41,35 @@ class UMoverData : public UObject
 {
 	GENERATED_BODY()
 public:
+	/// <summary>
+	/// 고정값 데이터
+	/// </summary>
 	const FMoverDataRow* Data;
 
-	FVector DestPos = FVector();
+	/// <summary>
+	/// 현재 속력
+	/// </summary>
+	float CurVelocity = 0.0f;
+	
+	/// <summary>
+	/// 이동해야할 다음 좌표의 인덱스 정보 (WayPointsInfodml 인덱스 정보)
+	/// </summary>
+	int CurWaypointIdx = 1;
 
+	/// <summary>
+	/// 생성 및 임무 종료 시간
+	/// </summary>
+	FString StartTime = FString(TEXT(""));
+	FString FinishTime = FString(TEXT(""));
+	
+	/// <summary>
+	/// Mover의 현재 방향
+	/// </summary>
+	EMoverDir Dir = EMoverDir::N;
+
+	/// <summary>
+	/// 이동해야할 Path (2차원 좌표 배열)
+	/// </summary>
 	TArray<FVector2D> WayPointsInfo = TArray<FVector2D>();
 	
-	float CurVelocity = 0.0f;
-	int CurWaypointIdx = 1;
-	EMoverDir Dir = EMoverDir::N;
 };

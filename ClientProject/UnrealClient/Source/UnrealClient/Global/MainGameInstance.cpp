@@ -28,8 +28,14 @@ double UMainGameInstance::DistanceToDestPos2D(FVector _MyPos, FVector _OtherPos)
 	return Dist;
 }
 
-FString UMainGameInstance::GetTime() const
+FString UMainGameInstance::GetTimeToString() const
 {
 	FDateTime CurrentTime = FDateTime::Now();
 	return CurrentTime.ToString(TEXT("%H:%M:%S"));
+}
+
+FDateTime UMainGameInstance::GetTimeValue() const
+{
+	FDateTime CurrentTime = FDateTime::Now();
+	return CurrentTime;
 }

@@ -136,7 +136,7 @@ void AMover::SetWayPoints(const TArray<FVector2D>& _WayPointsInfo)
 	Con->GetBlackboardComponent()->SetValueAsObject(TEXT("MoverData"), SettingData);
 }
 
-void AMover::UpdateWidgetTimeInfo(EMoverInfoIdx _InfoIdx)
+void AMover::UpdateWidgetTimeInfo(FDateTime _CurTime, EMoverInfoIdx _InfoIdx)
 {
 	if (nullptr != IDComponent)
 	{
@@ -149,8 +149,7 @@ void AMover::UpdateWidgetTimeInfo(EMoverInfoIdx _InfoIdx)
 			case EMoverInfoIdx::StartTime:
 			case EMoverInfoIdx::EndTime:
 			{
-				FString TimeValue = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld())->GetTime();
-				InfoWidget->InfoUpdate(TimeValue, _InfoIdx);
+				InfoWidget->InfoUpdate(_CurTime.ToString(TEXT("%H:%M:%S")), _InfoIdx);
 				break;
 			}
 			default:
