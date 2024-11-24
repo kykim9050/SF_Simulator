@@ -10,6 +10,9 @@
     <Filter Include="Base">
       <UniqueIdentifier>{7df3406a-494b-4774-96d5-5d29adb0743e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{ab41c2e5-44a4-42b9-969b-9a194532f0b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,6 +27,9 @@
     <ClCompile Include="Display.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WayPointAlgo.h">
@@ -34,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="Display.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>Net</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
