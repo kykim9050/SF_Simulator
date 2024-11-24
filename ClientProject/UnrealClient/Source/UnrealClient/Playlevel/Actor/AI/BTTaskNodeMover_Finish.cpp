@@ -15,13 +15,25 @@ EBTNodeResult::Type UBTTaskNodeMover_Finish::ExecuteTask(UBehaviorTreeComponent&
 		return EBTNodeResult::Type::Failed;
 	}
 
+
 	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
-	
+
 	if (nullptr != Mover)
 	{
 		Mover->AllowDestroy();
 
 		FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+	}
+
+	UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
+
+	UMoverData* MoverData = GetValueAsObject<UMoverData>(OwnerComp, TEXT("MoverData"));
+	
+	if (nullptr != MoverData)
+	{
+		FDateTime CurTime = Inst->GetTimeValue();
+		Mover->UpdateWidgetTimeInfo(CurTime, EMoverInfoIdx::EndTime);
+		MoverData->FinishTime = CurTime.ToString(TEXT("%H:%M:%S"));
 	}
 
 	return EBTNodeResult::Type::InProgress;
