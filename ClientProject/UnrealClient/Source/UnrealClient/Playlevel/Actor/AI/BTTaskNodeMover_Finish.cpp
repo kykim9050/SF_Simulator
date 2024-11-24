@@ -15,21 +15,11 @@ EBTNodeResult::Type UBTTaskNodeMover_Finish::ExecuteTask(UBehaviorTreeComponent&
 		return EBTNodeResult::Type::Failed;
 	}
 
-
 	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
-
-	if (nullptr != Mover)
-	{
-		Mover->AllowDestroy();
-
-		FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
-	}
-
 	UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
-
 	UMoverData* MoverData = GetValueAsObject<UMoverData>(OwnerComp, TEXT("MoverData"));
 	
-	if (nullptr != MoverData)
+	if (nullptr != MoverData && nullptr != Mover)
 	{
 		FDateTime CurTime = Inst->GetTimeValue();
 		Mover->UpdateWidgetTimeInfo(CurTime, EMoverInfoIdx::EndTime);
@@ -43,15 +33,21 @@ void UBTTaskNodeMover_Finish::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
 {
 	Super::TickTask(OwnerComp, pNodeMemory, DeltaSeconds);
 
-	//DestroyTime -= DeltaSeconds;
+	UMoverData* MoverData = GetValueAsObject<UMoverData>(OwnerComp, TEXT("MoverData"));
+	
+	if(nullptr != MoverData)
+	{
+		MoverData->DestroyDelayTime -= DeltaSeconds;
 
-	//if (0.0f >= DestroyTime)
-	//{
-	//	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
+		if (0.0f >= MoverData->DestroyDelayTime)
+		{
+			AMover* Mover = GetSelfActor<AMover>(OwnerComp);
 
-	//	if (nullptr != Mover)
-	//	{
-	//		Mover->AllowDistroy();
-	//	}
-	//}
+			if (nullptr != Mover)
+			{
+				Mover->AllowDestroy();
+				FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+			}
+		}
+	}
 }

@@ -57,6 +57,11 @@ public:
 	int CurWaypointIdx = 1;
 
 	/// <summary>
+	/// Mover 소멸 딜레이 시간 (2초뒤 소멸)
+	/// </summary>
+	float DestroyDelayTime = 2.0f;
+
+	/// <summary>
 	/// 생성 및 임무 종료 시간
 	/// </summary>
 	FString StartTime = FString(TEXT(""));

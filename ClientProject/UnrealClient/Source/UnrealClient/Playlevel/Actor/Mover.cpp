@@ -170,10 +170,10 @@ void AMover::UpdateWidgetPosInfo(FVector _Pos, EMoverInfoIdx _InfoIdx)
 			switch (_InfoIdx)
 			{
 			case EMoverInfoIdx::CurPos:
-				InfoWidget->InfoUpdate(FString::Printf(TEXT("Cur Pos : {%.2f, %.2f}"), _Pos.X, _Pos.Y), _InfoIdx);
+				InfoWidget->InfoUpdate(FString::Printf(TEXT("Cur[%.2f, %.2f]"), _Pos.X, _Pos.Y), _InfoIdx);
 				break;
 			case EMoverInfoIdx::DestPos:
-				InfoWidget->InfoUpdate(FString::Printf(TEXT("Next Pos : {%.2f, %.2f}"), _Pos.X, _Pos.Y), _InfoIdx);
+				InfoWidget->InfoUpdate(FString::Printf(TEXT("Next[%.2f, %.2f]"), _Pos.X, _Pos.Y), _InfoIdx);
 				break;
 			default:
 				break;
