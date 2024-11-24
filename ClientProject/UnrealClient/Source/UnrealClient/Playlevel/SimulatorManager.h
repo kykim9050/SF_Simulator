@@ -40,6 +40,16 @@ public:
 		bIsMoversSpawnable = true;
 	}
 
+	/// <summary>
+	/// 본인이 소유한 모든 액터들을 반환했는지에 대한 유무를 반환
+	/// </summary>
+	/// <returns></returns>
+	UFUNCTION(BlueprintCallable)
+	bool IsDestroyAllActor()
+	{
+		return NValue == DestroyCount;
+	}
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -159,4 +169,9 @@ private:
 	/// Mover를 연속으로 몇 개 카운트 했는지 연산을 적용할 변수
 	/// </summary>
 	int MoverSpawnCount = 0;
+
+	/// <summary>
+	/// 릴리즈한 Mover & DestSign 세트 수
+	/// </summary>
+	int DestroyCount = 0;
 };

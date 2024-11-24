@@ -53,6 +53,9 @@ void ASimulatorManager::ReleaseActor()
 		// DestSign 삭제
 		DestSigns.Find(DestroyKey)->Get()->Destroy();
 		DestSigns.Remove(DestroyKey);
+
+		// Destroy Count에 추가
+		++DestroyCount;
 	}
 }
 
