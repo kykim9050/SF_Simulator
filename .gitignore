@@ -479,4 +479,4 @@ ClientProject/UnrealClient/Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 ClientProject/UnrealClient/DerivedDataCache/*
-/Windows
+ClientProject/UnrealClient/Windows/*

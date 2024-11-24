@@ -16,7 +16,7 @@ struct FCourseInfo
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test")
-	int MoverID;
+	int MoverID = -1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test")
 	TArray<FVector2D> CourseArray;

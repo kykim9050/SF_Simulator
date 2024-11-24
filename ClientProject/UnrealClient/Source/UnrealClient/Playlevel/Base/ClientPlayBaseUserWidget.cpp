@@ -2,8 +2,3 @@
 
 
 #include "Playlevel/Base/ClientPlayBaseUserWidget.h"
-
-const FText UClientPlayBaseUserWidget::GetPaletteCategory()
-{
-	return FText::FromString(FString("ClientPlay Widget"));
-}

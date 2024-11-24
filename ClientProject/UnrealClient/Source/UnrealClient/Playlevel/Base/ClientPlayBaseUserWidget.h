@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
 #include "Playlevel/PlaylevelEnum.h"
+#include "Blueprint/UserWidget.h"
 #include "ClientPlayBaseUserWidget.generated.h"
 
 /**
@@ -17,7 +17,6 @@ class UNREALCLIENT_API UClientPlayBaseUserWidget : public UUserWidget
 public:
 
 protected:
-	const FText GetPaletteCategory() override;
 
 private:
 	
