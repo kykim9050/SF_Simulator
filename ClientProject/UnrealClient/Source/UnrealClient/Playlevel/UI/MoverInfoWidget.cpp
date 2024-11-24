@@ -4,21 +4,6 @@
 #include "Playlevel/UI/MoverInfoWidget.h"
 #include "Components/TextBlock.h"
 
-void UMoverInfoWidget::PosUpdate(const FString& _NewPos, int32 _Type)
-{
-	UWidget* Widget = InfoList->GetChildAt(_Type);
-
-	if (nullptr != Widget)
-	{
-		UTextBlock* TextBlock = Cast<UTextBlock>(Widget);
-
-		if (nullptr != TextBlock)
-		{
-			TextBlock->SetText(FText::FromString(_NewPos));
-		}
-	}
-}
-
 void UMoverInfoWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -28,9 +13,25 @@ void UMoverInfoWidget::NativeConstruct()
 
 void UMoverInfoWidget::WidgetInitSetting()
 {
-	UTextBlock* TextBlock = GetInfoListChildAt<UTextBlock>(EMoverInfoIdx::DestPos);
+	UTextBlock* DestPosText = GetInfoListChildAt<UTextBlock>(EMoverInfoIdx::DestPos);
+	if (nullptr != DestPosText)
+	{
+		DestPosText->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
+	}
+
+	UTextBlock* EndTimeTextBlock = GetInfoListChildAt<UTextBlock>(EMoverInfoIdx::EndTime);
+	if (nullptr != EndTimeTextBlock)
+	{
+		EndTimeTextBlock->SetText(FText::FromString(TEXT("")));
+	}
+}
+
+void UMoverInfoWidget::InfoUpdate(const FString& _NewPos, int32 _Type)
+{
+	UTextBlock* TextBlock = GetInfoListChildAt<UTextBlock>(_Type);
+
 	if (nullptr != TextBlock)
 	{
-		TextBlock->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
+		TextBlock->SetText(FText::FromString(_NewPos));
 	}
 }

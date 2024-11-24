@@ -31,12 +31,12 @@ public:
 	/// <param name="_NewPos"></param>
 	/// <param name="_Type"></param>
 	template<typename EnumType>
-	void PosUpdate(const FString& _NewPos, EnumType _Type)
+	void InfoUpdate(const FString& _NewPos, EnumType _Type)
 	{
-		PosUpdate(_NewPos, static_cast<int32>(_Type));
+		InfoUpdate(_NewPos, static_cast<int32>(_Type));
 	}
 
-	void PosUpdate(const FString& _NewPos, int32 _Type);
+	void InfoUpdate(const FString& _NewPos, int32 _Type);
 
 protected:
 	virtual void NativeConstruct() override;
