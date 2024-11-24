@@ -13,5 +13,14 @@ void AClientPlayGameMode::BeginPlay()
 		MainSimulator = GetWorld()->SpawnActor<ASimulatorManager>(MainSimulatorClass);
 	}
 
-	bool Res = TCPClient.Get()->ConnectToServer(FString(TEXT("127.0.0.1")), 30000);
+	if (nullptr != TCPClientClass)
+	{
+		TCPClient = GetWorld()->SpawnActor<ATCPClient>(TCPClientClass);
+		
+		if (true == TCPClient->ConnectToServer(FString(TEXT("127.0.0.1")), 30000))
+		{
+			int a = 0;
+		}
+	}
+
 }

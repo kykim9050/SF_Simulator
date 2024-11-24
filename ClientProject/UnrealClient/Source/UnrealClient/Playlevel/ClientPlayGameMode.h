@@ -34,7 +34,14 @@ private:
 	TSubclassOf<AActor> MainSimulatorClass = nullptr;
 
 	/// <summary>
+	/// 생성할 TCPClient 블루프린트 객체를 지정
+	/// </summary>
+	UPROPERTY(Editanywhere, Category = "Networking", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> TCPClientClass = nullptr;
+	
+	/// <summary>
 	/// 통신을 담당
 	/// </summary>
-	TUniquePtr<UTCPClient> TCPClient = nullptr;
+	UPROPERTY()
+	TObjectPtr<ATCPClient> TCPClient = nullptr;
 };
