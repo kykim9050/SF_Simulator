@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Playlevel/Base/ClientPlayBaseUserWidget.h"
 #include "Playlevel/UI/IDMainWidget.h"
-
+#include "Components/VerticalBox.h"
 #include "MoverInfoWidget.generated.h"
 
 /**
@@ -39,6 +39,48 @@ public:
 	void PosUpdate(const FString& _NewPos, int32 _Type);
 
 protected:
+	virtual void NativeConstruct() override;
+
+	/// <summary>
+	/// Widget의 초기 세팅
+	/// </summary>
+	void WidgetInitSetting();
+private:
+
+	/// <summary>
+	/// InfoList에서 Child중에 원하는 EnumType에서 원하는 형태의 위젯으로 가져오는 함수
+	/// </summary>
+	/// <typeparam name="WidgetType"></typeparam>
+	/// <typeparam name="EnumType"></typeparam>
+	/// <param name="_Type"></param>
+	/// <returns></returns>
+	template<typename WidgetType, typename EnumType>
+	WidgetType* GetInfoListChildAt(EnumType _Type)
+	{
+		return GetInfoListChildAt<WidgetType>(static_cast<int32>(_Type));
+	}
+
+	/// <summary>
+	/// InfoList에서 Child중에 원하는 인덱스에서 원하는 형태의 위젯으로 가져오는 템플릿 함수
+	/// </summary>
+	/// <typeparam name="WidgetType"></typeparam>
+	/// <param name="_Idx"></param>
+	/// <returns></returns>
+	template<typename WidgetType>
+	WidgetType* GetInfoListChildAt(int32 _Type)
+	{
+		UWidget* Widget = InfoList->GetChildAt(_Type);
+
+		WidgetType* CastWidget = Cast<WidgetType>(Widget);
+
+		if (nullptr != CastWidget)
+		{
+			return CastWidget;
+		}
+
+		return nullptr;
+	}
+
 
 private:
 	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
