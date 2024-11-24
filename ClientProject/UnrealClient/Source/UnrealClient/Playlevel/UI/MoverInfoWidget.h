@@ -17,21 +17,23 @@ class UNREALCLIENT_API UMoverInfoWidget : public UClientPlayBaseUserWidget
 {
 	GENERATED_BODY()
 public:
-	
+
 	UIDMainWidget* GetIDWidget()
 	{
 		return IDWidget;
 	}
+	
+	void CurPosUpdate(const FString& _NewPos);
 
 protected:
 
 private:
 	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	UCanvasPanel* RootWidget = nullptr;
+	TObjectPtr<UCanvasPanel> RootWidget = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	UIDMainWidget* IDWidget = nullptr;
+	TObjectPtr<UIDMainWidget> IDWidget = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	UVerticalBox* InfoList = nullptr;
+	TObjectPtr<UVerticalBox> InfoList = nullptr;
 };

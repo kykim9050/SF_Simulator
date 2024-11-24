@@ -96,6 +96,20 @@ void AMover::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	UpdatePosInfo();
+}
+
+void AMover::UpdatePosInfo()
+{
+	if (nullptr != IDComponent)
+	{
+		UMoverInfoWidget* InfoWidget = Cast<UMoverInfoWidget>(IDComponent->GetWidget());
+
+		if (nullptr != InfoWidget)
+		{
+			InfoWidget->CurPosUpdate(FString::Printf(TEXT("X: %.2f, Y: %.2f"), GetActorLocation().X, GetActorLocation().Y));
+		}
+	}
 }
 
 // Called to bind functionality to input

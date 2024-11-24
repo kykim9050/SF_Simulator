@@ -77,7 +77,11 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+private:
+	/// <summary>
+	/// 위젯 컴포넌트의 위젯에 현재 위치 값을 업데이트 하는 함수
+	/// </summary>
+	void UpdatePosInfo();
 
 private:
 	/// <summary>
