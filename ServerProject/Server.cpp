@@ -77,20 +77,21 @@ void Server::ServerRecvThread(SOCKET _Socket)
 
 	int RecvSize = recv(_Socket, &RecvArr[0], static_cast<int>(RecvArr.size()), 0);
 	std::string RecvString = RecvArr;
-
 	RecvArr.clear();
 	RecvArr.resize(100);
-
+	std::cout << RecvString << std::endl;
+	
 	std::string SendPacket;
 	SendPacket.clear();
-
 	SendPacket = std::string("Server Response!!");
 
 	while (true)
 	{
-		std::cout << RecvString << std::endl;
-
+		// 테스트 Send 
 		send(_Socket, &SendPacket[0], static_cast<int>(SendPacket.size()), 0);
+		
+		// 수신한 패킷에 따라서 패킷을 해석하는 기능
+		// 필요 시 Send를 해야할 수 있음
 	}
 }
 

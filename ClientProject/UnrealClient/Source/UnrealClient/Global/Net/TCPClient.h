@@ -36,6 +36,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SendData(const FString& _Data);
 
+	/// <summary>
+	/// 데이터 수신을 위한 함수
+	/// </summary>
+	/// <param name="_Data"></param>
+	void RecvData();
+
 protected:
 
 private:
