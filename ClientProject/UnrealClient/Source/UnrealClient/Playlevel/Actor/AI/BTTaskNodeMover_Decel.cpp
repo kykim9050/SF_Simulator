@@ -21,4 +21,33 @@ EBTNodeResult::Type UBTTaskNodeMover_Decel::ExecuteTask(UBehaviorTreeComponent& 
 void UBTTaskNodeMover_Decel::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* pNodeMemory, float DeltaSeconds)
 {
 	Super::TickTask(OwnerComp, pNodeMemory, DeltaSeconds);
+
+	AMover* Mover = GetSelfActor<AMover>(OwnerComp);
+
+	UMoverData* MoverData = GetValueAsObject<UMoverData>(OwnerComp, TEXT("MoverData"));
+
+	if (nullptr != Mover)
+	{
+		FVector CurPos = Mover->GetActorLocation();
+		CurPos.Z = .0;
+		int CurIdx = MoverData->CurWaypointIdx;
+		FVector DestPos = FVector(MoverData->WayPointsInfo[CurIdx].X, MoverData->WayPointsInfo[CurIdx].Y, .0);
+
+		FVector Dir = DestPos - CurPos;
+		Dir.Normalize();
+
+		// 속도 감속 (감속도 고려)
+		MoverData->CurVelocity = FMath::Max(MoverData->CurVelocity - MoverData->Data->Accel * DeltaSeconds, .0);
+
+		if (.0 >= MoverData->CurVelocity)
+		{
+			++MoverData->CurWaypointIdx;
+			MoverData->CurVelocity = .0;
+			ChangeState(OwnerComp, EMoverState::Idle);
+			return;
+		}
+
+		// 감속도 적용한 속도
+		Mover->AddActorWorldOffset(DeltaSeconds * Dir * MoverData->CurVelocity);
+	}
 }

@@ -35,10 +35,9 @@ void UBTTaskNodeMover_Accel::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 
 		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 
-		if (1. >= Inst->DistanceToDestPos2D(CurPos, DestPos))
+		if ((MoverData->DistanceToDestValue / 2.0) >= Inst->DistanceToDestPos2D(CurPos, DestPos))
 		{
-			(MoverData->CurWaypointIdx)++;
-			ChangeState(OwnerComp, EMoverState::Idle);
+			ChangeState(OwnerComp, EMoverState::Decel);
 			return;
 		}
 
