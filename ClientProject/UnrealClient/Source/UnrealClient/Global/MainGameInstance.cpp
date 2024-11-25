@@ -28,6 +28,33 @@ double UMainGameInstance::DistanceToDestPos2D(FVector _MyPos, FVector _OtherPos)
 	return Dist;
 }
 
+EMoverDir UMainGameInstance::CheckDir2D(FVector2D _CurPos, FVector2D _DestPos)
+{
+	EMoverDir Result = EMoverDir::None;
+
+	double Dx = _DestPos.Y - _CurPos.Y;
+	double Dy = _DestPos.X - _CurPos.X;
+
+	if (Dx > DirOffset && abs(Dy) <= DirOffset)
+	{
+		Result = EMoverDir::E;
+	}
+	else if (Dx < (-1) * DirOffset && abs(Dy) <= DirOffset)
+	{
+		Result = EMoverDir::W;
+	}
+	else if (Dy > DirOffset && abs(Dx) <= DirOffset)
+	{
+		Result = EMoverDir::N;
+	}
+	else if (Dy < (-1) * DirOffset && abs(Dx) <= DirOffset)
+	{
+		Result = EMoverDir::S;
+	}
+
+	return Result;
+}
+
 FString UMainGameInstance::GetTimeToString() const
 {
 	FDateTime CurrentTime = FDateTime::Now();

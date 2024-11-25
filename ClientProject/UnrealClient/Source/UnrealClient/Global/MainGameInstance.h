@@ -30,6 +30,14 @@ public:
 	/// <returns></returns>
 	double DistanceToDestPos2D(FVector _MyPos, FVector _OtherPos);
 
+	/// <summary>
+	/// 현재 좌표를 기준으로 위치 상태가 어떤지 출력하는 함수
+	/// </summary>
+	/// <param name="_CurPos"></param>
+	/// <param name="_DestPos"></param>
+	/// <returns></returns>
+	EMoverDir CheckDir2D(FVector2D _CurPos, FVector2D _DestPos);
+
 	FORCEINLINE double GetGridUnitValue() const
 	{
 		return GridUnitValue;
@@ -64,4 +72,10 @@ private:
 	/// </summary>
 	UPROPERTY()
 	double GridUnitValue = 100.0f;
+	
+	/// <summary>
+	/// 방향 확인시 적용되는 오프셋 값
+	/// </summary>
+	UPROPERTY()
+	double DirOffset = 0.1;
 };

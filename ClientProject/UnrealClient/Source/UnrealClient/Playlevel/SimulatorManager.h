@@ -55,7 +55,12 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-
+	/// <summary>
+	/// 경로를 꺾이는 기점으로 구분해서 경로 데이터를 압축하는 함수
+	/// 실제 좌표로의 변환도 함께 이루어진다.
+	/// </summary>
+	TArray<FVector2D> PathModify(TArray<FVector2D>& _Course);
+	
 	/// <summary>
 	/// 액터를 삭제하는 함수
 	/// 안전하게 본인이 가지고 있는 액터를 반환하기 위해서 Tick에서 지속적으로 확인한다.

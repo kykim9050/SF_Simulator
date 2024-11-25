@@ -102,16 +102,17 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 			return;
 		}
 
+		// Mover에게 이동할 경로를 제공한다.
 		TArray<FVector2D> ConvertPathInfo = TArray<FVector2D>();
-
 		for (int i = 0; i < Size; i++)
 		{
 			FVector2D Vector = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray[i];
-			FVector2D TransVec = ConvertToRealPos(Vector, Inst->GetGridUnitValue(), NValue);
-			ConvertPathInfo.Add(TransVec);
+			ConvertPathInfo.Add(Vector);
 		}
+		// 경로를 Mover에 보내기전에 경로를 요약한다. (꺾이는 부분이 어딘지를 기준으로, 실제 좌표로)
+		TArray<FVector2D> ModyfiedPathInfo = PathModify(ConvertPathInfo);
 
-		Obj->SetWayPoints(ConvertPathInfo);
+		Obj->SetWayPoints(ModyfiedPathInfo);
 		Movers.Add(_MoverID) = Obj;
 
 		// Mover 생성 시 DestSign 동시 생성
@@ -200,4 +201,29 @@ void ASimulatorManager::SendTargetPosInfoToMover(int _MoverID, FVector _TargetPo
 	{
 		Movers.Find(_MoverID)->Get()->SetTargetPos(_TargetPos);
 	}
+}
+
+TArray<FVector2D> ASimulatorManager::PathModify(TArray<FVector2D>& _Course)
+{
+	TArray<FVector2D> ResCourse = TArray<FVector2D>();
+
+	UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
+
+	if (nullptr != Inst)
+	{
+		for (size_t i = 0; i < _Course.Num() - 2; i++)
+		{
+			if (Inst->CheckDir2D(_Course[i], _Course[i + 1]) != Inst->CheckDir2D(_Course[i + 1], _Course[i + 2]))
+			{
+				// 압축된 경로에서 실제 좌표로 변환
+				FVector2D TransVec = ConvertToRealPos(_Course[i + 1], Inst->GetGridUnitValue(), NValue);
+				// 변환된 결과를 대입
+				ResCourse.Add(TransVec);
+			}
+		}
+	}
+	// 마지막 좌표를 대입 (실좌표로 변환해서)
+	ResCourse.Add(ConvertToRealPos(_Course[_Course.Num() - 1], Inst->GetGridUnitValue(), NValue));
+
+	return ResCourse;
 }
