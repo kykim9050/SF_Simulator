@@ -149,7 +149,12 @@ void AMover::UpdateWidgetTimeInfo(FDateTime _CurTime, EMoverInfoIdx _InfoIdx)
 			case EMoverInfoIdx::StartTime:
 			case EMoverInfoIdx::EndTime:
 			{
-				InfoWidget->InfoUpdate(_CurTime.ToString(TEXT("%H:%M:%S")), _InfoIdx);
+				UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
+				if (nullptr != Inst)
+				{
+					FString DateTime = Inst->ConvertToGlobalStandardTime(_CurTime);
+					InfoWidget->InfoUpdate(DateTime, _InfoIdx);
+				}
 				break;
 			}
 			default:

@@ -47,6 +47,12 @@ public:
 	/// <returns></returns>
 	FDateTime GetTimeValue() const;
 
+	/// <summary>
+	/// 국제 표준 시간 정보를 입력받아서 Fstring으로 반환하는 것
+	/// </summary>
+	/// <returns></returns>
+	FString ConvertToGlobalStandardTime(const FDateTime& _DateTime) const;
+
 protected:
 
 private:

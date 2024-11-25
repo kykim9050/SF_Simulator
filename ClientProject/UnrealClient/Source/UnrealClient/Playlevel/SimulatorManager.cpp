@@ -96,6 +96,11 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 		
 
 		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
+		if (nullptr == Inst)
+		{
+			UE_LOG(LogType, Fatal, TEXT("if (nullptr != Inst)"));
+			return;
+		}
 
 		TArray<FVector2D> ConvertPathInfo = TArray<FVector2D>();
 
@@ -117,7 +122,8 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 		// Mover 생성 시 생성 시간 기록
 		FDateTime CurTime = Inst->GetTimeValue();
 		Obj->UpdateWidgetTimeInfo(CurTime, EMoverInfoIdx::StartTime);
-		Obj->SettingData->StartTime = CurTime.ToString(TEXT("%H:%M:%S"));
+		FString DateTime = Inst->ConvertToGlobalStandardTime(CurTime);
+		Obj->SettingData->StartTime = DateTime;
 	}
 
 }

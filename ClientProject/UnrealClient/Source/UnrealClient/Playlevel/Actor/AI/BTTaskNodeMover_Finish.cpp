@@ -19,11 +19,12 @@ EBTNodeResult::Type UBTTaskNodeMover_Finish::ExecuteTask(UBehaviorTreeComponent&
 	UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 	UMoverData* MoverData = GetValueAsObject<UMoverData>(OwnerComp, TEXT("MoverData"));
 	
-	if (nullptr != MoverData && nullptr != Mover)
+	if (nullptr != MoverData && nullptr != Mover && nullptr != Inst)
 	{
 		FDateTime CurTime = Inst->GetTimeValue();
 		Mover->UpdateWidgetTimeInfo(CurTime, EMoverInfoIdx::EndTime);
-		MoverData->FinishTime = CurTime.ToString(TEXT("%H:%M:%S"));
+		FString DateTime = Inst->ConvertToGlobalStandardTime(CurTime);
+		MoverData->FinishTime = DateTime;
 	}
 
 	return EBTNodeResult::Type::InProgress;

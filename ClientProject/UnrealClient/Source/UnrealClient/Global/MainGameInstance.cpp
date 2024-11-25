@@ -39,3 +39,9 @@ FDateTime UMainGameInstance::GetTimeValue() const
 	FDateTime CurrentTime = FDateTime::Now();
 	return CurrentTime;
 }
+
+FString UMainGameInstance::ConvertToGlobalStandardTime(const FDateTime& _DateTime) const
+{
+	FString DateStr = FString(_DateTime.ToString(TEXT("%Y-%m-%d"))) + FString("T") + FString(_DateTime.ToString(TEXT("%H:%M:%S")));
+	return DateStr;
+}
