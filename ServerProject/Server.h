@@ -5,6 +5,9 @@
 #include <WinSock2.h>
 #include <assert.h>
 #include <iostream>
+#include <vector>
+#include <thread>
+#include <functional>
 
 // 설명 :
 class Server
@@ -24,6 +27,28 @@ public:
 		return AcceptSocket;
 	}
 
+	/// <summary>
+	/// 수신용
+	/// </summary>
+	/// <param name="_Socket"></param>
+	void AddSocket(const SOCKET& _Socket)
+	{
+		ClientSockets.push_back(_Socket);
+	}
+
+	void AddRecvThread(const SOCKET& _Socket)
+	{
+		RecvThreads.push_back(std::thread(std::bind(&Server::ServerRecvThread, this, _Socket)));
+	}
+
+	/// <summary>
+	/// Client가 보내는 데이터를 처리하는 Recv함수 (스레드를 활용하여 메인 스레드와 병행해 실행)
+	/// </summary>
+	/// <param name="_Socket"></param>
+	void ServerRecvThread(SOCKET _Socket);
+
+
+
 protected:
 
 private:
@@ -33,5 +58,11 @@ private:
 	int Port = 30000;
 	// 통신에 활용할 소켓
 	SOCKET AcceptSocket = SOCKET();
+
+	// 연결된 소켓들을 보관
+	std::vector<SOCKET> ClientSockets = std::vector<SOCKET>();
+	// 특정 소켓별로 Thread를 할당하여 보관
+	std::vector<std::thread> RecvThreads = std::vector<std::thread>();
+
 };
 

@@ -59,6 +59,10 @@ int main(void)
 		// 접속자가 있다면 작동 (클라 접속 존재시)
 		SOCKET ClientSocket = accept(ServerSocket, (sockaddr*)&ClientAddress, &AddressLen);
 	
+		// accept 수행 이후 반환받은 ClientSocket으로 별도의 스레드를 생성해 통신하기 위한 사전 작업
+		MainServer->AddSocket(ClientSocket);
+		MainServer->AddRecvThread(ClientSocket);
+
 		std::cout << "Client Accept!!" << std::endl;
 	}
 

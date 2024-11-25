@@ -8,6 +8,17 @@ Server::Server()
 
 Server::~Server()
 {
+	// 스레드 반환
+	while (0 != RecvThreads.size())
+	{
+		for (size_t i = 0; i < RecvThreads.size(); i++)
+		{
+			if (true == RecvThreads[i].joinable())
+			{
+				RecvThreads[i].join();
+			}
+		}
+	}
 }
 
 void Server::ServerOpen()
@@ -60,5 +71,13 @@ void Server::ServerOpen()
 	}
 
 	std::cout << "Listen....." << std::endl;
+}
+
+void Server::ServerRecvThread(SOCKET _Socket)
+{
+	while (true)
+	{
+		int a = 0;
+	}
 }
 
