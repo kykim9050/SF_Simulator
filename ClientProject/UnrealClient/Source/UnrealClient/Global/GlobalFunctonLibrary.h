@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Global/MainGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 #include "GlobalFunctonLibrary.generated.h"
 
 /**
@@ -18,6 +19,31 @@ public:
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject"))
 	static UMainGameInstance* GetMainGameInstance(const UWorld* WorldContextObject);
 	
+	// 원하는 HUD 클래스 포인터형 가져오기
+	template<typename Type>
+	static Type* GetCurHUD(const UWorld* WorldContextObject)
+	{
+		APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0);
+		Type* RetHUD = nullptr;
+
+		if (nullptr != PC)
+		{
+			AHUD* CurHUD = PC->GetHUD();
+
+			if (nullptr != CurHUD)
+			{
+				RetHUD = Cast<Type>(CurHUD);
+
+				if (nullptr != RetHUD)
+				{
+					return RetHUD;
+				}
+			}
+		}
+
+		return nullptr;
+	}
+
 protected:
 
 private:
