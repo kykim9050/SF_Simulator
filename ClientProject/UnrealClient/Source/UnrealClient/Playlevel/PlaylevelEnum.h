@@ -11,6 +11,16 @@
  */
 
 UENUM(BlueprintType)
+enum class ECurPlayState : uint8
+{
+	Connect UMETA(Displayname = "Connect To Server"),
+	CreateGrid UMETA(Displayname = "Get N to Server and Create Grid"),
+	SimulationStart UMETA(Displayname = "Get Start Simulation"),
+	Quit UMETA(Displayname = "Quit"),
+	Max,
+};
+
+UENUM(BlueprintType)
 enum class EMoverState : uint8
 {
 	Idle UMETA(Displayname = "Idle"),

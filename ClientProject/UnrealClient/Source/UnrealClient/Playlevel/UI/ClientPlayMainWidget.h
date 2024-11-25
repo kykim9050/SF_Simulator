@@ -36,4 +36,6 @@ private:
 	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
 	UScrollBox* LoggingBox = nullptr;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "WidgetSwitcher State", meta = (AllowPrivateAccess = "true"))
+	ECurPlayState CurStateVal = ECurPlayState::Connect;
 };
