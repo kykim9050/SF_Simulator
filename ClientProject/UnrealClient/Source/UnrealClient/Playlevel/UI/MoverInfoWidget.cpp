@@ -3,6 +3,7 @@
 
 #include "Playlevel/UI/MoverInfoWidget.h"
 #include "Components/TextBlock.h"
+#include "Components/Border.h"
 
 void UMoverInfoWidget::NativeConstruct()
 {
@@ -13,17 +14,31 @@ void UMoverInfoWidget::NativeConstruct()
 
 void UMoverInfoWidget::WidgetInitSetting()
 {
+	if (nullptr != BackGroundBorder)
+	{
+		BackGroundBorder->SetBrushColor(FLinearColor(FVector4f(0.f, 0.f, 0.f, 0.35f)));
+	}
+
 	UTextBlock* DestPosText = GetInfoListChildAt<UTextBlock>(EMoverInfoIdx::DestPos);
 	if (nullptr != DestPosText)
 	{
 		DestPosText->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
 	}
 
-	UTextBlock* EndTimeTextBlock = GetInfoListChildAt<UTextBlock>(EMoverInfoIdx::EndTime);
-	if (nullptr != EndTimeTextBlock)
+	UTextBlock* StartTimeText = GetInfoListChildAt<UTextBlock>(EMoverInfoIdx::StartTime);
+	if (nullptr != StartTimeText)
 	{
-		EndTimeTextBlock->SetText(FText::FromString(TEXT("")));
+		StartTimeText->SetColorAndOpacity(FSlateColor(FLinearColor::Green));
 	}
+
+	UTextBlock* EndTimeText = GetInfoListChildAt<UTextBlock>(EMoverInfoIdx::EndTime);
+	if (nullptr != EndTimeText)
+	{
+		EndTimeText->SetText(FText::FromString(TEXT("")));
+		EndTimeText->SetColorAndOpacity(FSlateColor(FLinearColor::Green));
+	}
+
+
 }
 
 void UMoverInfoWidget::InfoUpdate(const FString& _NewPos, int32 _Type)

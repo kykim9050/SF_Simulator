@@ -13,6 +13,8 @@
  */
 class UCanvasPanel;
 class UVerticalBox;
+class UBorder;
+class UScrollBox;
 UCLASS()
 class UNREALCLIENT_API UMoverInfoWidget : public UClientPlayBaseUserWidget
 {
@@ -87,8 +89,15 @@ private:
 	TObjectPtr<UCanvasPanel> RootWidget = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UScrollBox> ScrollBox = nullptr;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UBorder> BackGroundBorder = nullptr;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UIDMainWidget> IDWidget = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UVerticalBox> InfoList = nullptr;
+
 };
