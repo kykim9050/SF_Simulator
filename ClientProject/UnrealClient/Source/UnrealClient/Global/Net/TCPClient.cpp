@@ -51,10 +51,12 @@ bool ATCPClient::ConnectToServer(const FString& _IPAddress, int32 _Port)
 	{
 		// 연결 실패
 		UE_LOG(LogType, Error, TEXT("Failed connect to Server"));
+		UGlobalFunctonLibrary::LoggingInWidget(TEXT("Failed connect to Server"), GetWorld());
 		return false;
 	}
 
 	// 연결 성공
 	UE_LOG(LogType, Log, TEXT("Connected to server at %s:%d"), *_IPAddress, _Port);
+	UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("Connected to server at %s:%d"), *_IPAddress, _Port), GetWorld());
 	return true;
 }

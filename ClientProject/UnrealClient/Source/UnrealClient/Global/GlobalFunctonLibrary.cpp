@@ -16,3 +16,18 @@ UMainGameInstance* UGlobalFunctonLibrary::GetMainGameInstance(const UWorld* Worl
 
 	return Inst;
 }
+
+void UGlobalFunctonLibrary::LoggingInWidget(const FString& _Log, const UWorld* WorldContextObject)
+{
+	AClientPlayHUD* CurHUD = GetCurHUD<AClientPlayHUD>(WorldContextObject);
+
+	if (nullptr != CurHUD)
+	{
+		UClientPlayMainWidget* MainWidget = CurHUD->GetMainWidget();
+
+		if (nullptr != MainWidget)
+		{
+			MainWidget->AddLogText(_Log);
+		}
+	}
+}

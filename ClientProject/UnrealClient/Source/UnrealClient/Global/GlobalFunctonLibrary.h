@@ -6,6 +6,8 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Global/MainGameInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "Playlevel/UI/ClientPlayHUD.h"
+#include "Playlevel/UI/ClientPlayMainWidget.h"
 #include "GlobalFunctonLibrary.generated.h"
 
 /**
@@ -19,6 +21,13 @@ public:
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject"))
 	static UMainGameInstance* GetMainGameInstance(const UWorld* WorldContextObject);
 	
+	/// <summary>
+	/// 로그 위젯에 로그 출력 함수
+	/// </summary>
+	/// <param name="_Log"></param>
+	/// <param name="WorldContextObject"></param>
+	static void LoggingInWidget(const FString& _Log, const UWorld* WorldContextObject);
+
 	// 원하는 HUD 클래스 포인터형 가져오기
 	template<typename Type>
 	static Type* GetCurHUD(const UWorld* WorldContextObject)
