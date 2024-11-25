@@ -42,6 +42,6 @@ private:
 	/// <summary>
 	/// 통신을 담당
 	/// </summary>
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<ATCPClient> TCPClient = nullptr;
 };

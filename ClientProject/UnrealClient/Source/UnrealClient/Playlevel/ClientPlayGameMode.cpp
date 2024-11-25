@@ -16,11 +16,5 @@ void AClientPlayGameMode::BeginPlay()
 	if (nullptr != TCPClientClass)
 	{
 		TCPClient = GetWorld()->SpawnActor<ATCPClient>(TCPClientClass);
-		
-		if (true == TCPClient->ConnectToServer(FString(TEXT("127.0.0.1")), 30000))
-		{
-			int a = 0;
-		}
 	}
-
 }
