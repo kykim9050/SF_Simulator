@@ -9,14 +9,11 @@ Server::Server()
 Server::~Server()
 {
 	// 스레드 반환
-	while (0 != RecvThreads.size())
+	for (size_t i = 0; i < RecvThreads.size(); i++)
 	{
-		for (size_t i = 0; i < RecvThreads.size(); i++)
+		if (true == RecvThreads[i].joinable())
 		{
-			if (true == RecvThreads[i].joinable())
-			{
-				RecvThreads[i].join();
-			}
+			RecvThreads[i].join();
 		}
 	}
 }
@@ -75,9 +72,25 @@ void Server::ServerOpen()
 
 void Server::ServerRecvThread(SOCKET _Socket)
 {
+	std::string RecvArr;
+	RecvArr.resize(100);
+
+	int RecvSize = recv(_Socket, &RecvArr[0], static_cast<int>(RecvArr.size()), 0);
+	std::string RecvString = RecvArr;
+
+	RecvArr.clear();
+	RecvArr.resize(100);
+
+	std::string SendPacket;
+	SendPacket.clear();
+
+	SendPacket = std::string("Server Response!!");
+
 	while (true)
 	{
-		int a = 0;
+		std::cout << RecvString << std::endl;
+
+		send(_Socket, &SendPacket[0], static_cast<int>(SendPacket.size()), 0);
 	}
 }
 
