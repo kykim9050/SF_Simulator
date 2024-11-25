@@ -11,11 +11,18 @@
  */
 class UCanvasPanel;
 class UWidgetSwitcher;
+class UScrollBox;
 UCLASS()
 class UNREALCLIENT_API UClientPlayMainWidget : public UClientPlayBaseUserWidget
 {
 	GENERATED_BODY()
 public:
+
+	/// <summary>
+	/// 서버로부터 로그 텍스트를 출력하기 위한 함수
+	/// </summary>
+	/// <param name="_Log"></param>
+	void AddLogText(const FString& _Log);
 
 protected:
 
@@ -25,4 +32,8 @@ private:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
 	UWidgetSwitcher* WidgetSwitcher = nullptr;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Widget", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
+	UScrollBox* LoggingBox = nullptr;
+	
 };

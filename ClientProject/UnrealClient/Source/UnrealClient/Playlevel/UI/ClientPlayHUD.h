@@ -16,6 +16,15 @@ class UNREALCLIENT_API AClientPlayHUD : public AGlobalHUD
 	GENERATED_BODY()
 	
 public:
+	
+	/// <summary>
+	/// MainWidget의 정보를 가져오는 기능
+	/// </summary>
+	/// <returns></returns>
+	UClientPlayMainWidget* GetMainWidget() const
+	{
+		return MainWidget;
+	}
 
 protected:
 	void BeginPlay() override;
