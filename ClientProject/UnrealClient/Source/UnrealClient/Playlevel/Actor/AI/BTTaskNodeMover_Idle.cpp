@@ -21,10 +21,17 @@ EBTNodeResult::Type UBTTaskNodeMover_Idle::ExecuteTask(UBehaviorTreeComponent& O
 
 	if (nullptr != Mover)
 	{
+		// 아직까지 가야할 경로가 남아있다면
 		if (MoverData->CurWaypointIdx < MoverData->WayPointsInfo.Num())
 		{
-			FVector2D NextPos = MoverData->WayPointsInfo[MoverData->CurWaypointIdx];
-			Mover->UpdateWidgetPosInfo(FVector(NextPos.X, NextPos.Y, .0), EMoverInfoIdx::DestPos);
+			// 다음 목적지 좌표를 위젯 컴포넌트에 출력
+			FVector NextPos = FVector(MoverData->WayPointsInfo[MoverData->CurWaypointIdx].X, MoverData->WayPointsInfo[MoverData->CurWaypointIdx].Y, .0);
+			Mover->UpdateWidgetPosInfo(NextPos, EMoverInfoIdx::DestPos);
+		
+			// 다음 목적지까지의 거리를 계산
+			FVector CurPos = Mover->GetActorLocation();
+			MoverData->DistanceToDestValue = FVector::Dist2D(CurPos, NextPos);
+			SetValueAsObject(OwnerComp, TEXT("MoverData"), MoverData);
 		}
 	}
 
@@ -52,20 +59,21 @@ void UBTTaskNodeMover_Idle::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* p
 
 			UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 			
+			// 지금 바라보는 방향과 목적지 방향이 같다면 전진
 			if (true == IsDestDirSameToCurDir(CurPos, DestPos, MoverData->Dir))
 			{
 				// Accel 조건
 				ChangeState(OwnerComp, EMoverState::Accel);
 				return;
-			}
-			else
+			} 
+			else // 바라보는 방향이 다르다면 회전
 			{
 				// 회전 조건
 				ChangeState(OwnerComp, EMoverState::Rotate);
 				return;
 			}
 		}
-		else
+		else // WayPoint 데이터의 Idx 초과 (더이상 이동할 곳이 없다 = 최종목적지)
 		{
 			// 도착
 			ChangeState(OwnerComp, EMoverState::Finish);

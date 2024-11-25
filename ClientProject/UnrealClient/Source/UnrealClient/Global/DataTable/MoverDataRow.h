@@ -47,6 +47,11 @@ public:
 	const FMoverDataRow* Data;
 
 	/// <summary>
+	/// 다음 목적지까지 이동해야하는 거리
+	/// </summary>
+	double DistanceToDestValue = .0;
+
+	/// <summary>
 	/// 현재 속력
 	/// </summary>
 	float CurVelocity = 0.0f;
@@ -54,7 +59,7 @@ public:
 	/// <summary>
 	/// 이동해야할 다음 좌표의 인덱스 정보 (WayPointsInfodml 인덱스 정보)
 	/// </summary>
-	int CurWaypointIdx = 1;
+	int CurWaypointIdx = 0;
 
 	/// <summary>
 	/// Mover 소멸 딜레이 시간 (2초뒤 소멸)
