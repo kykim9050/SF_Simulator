@@ -29,6 +29,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool ConnectToServer(const FString& _IPAddress, int32 _Port);
 
+	/// <summary>
+	/// 데이터 전송을 위한 함수
+	/// </summary>
+	/// <param name="_Data"></param>
+	UFUNCTION(BlueprintCallable)
+	void SendData(const FString& _Data);
+
 protected:
 
 private:

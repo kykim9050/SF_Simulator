@@ -60,3 +60,58 @@ bool ATCPClient::ConnectToServer(const FString& _IPAddress, int32 _Port)
 	UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("Connected to server at %s:%d"), *_IPAddress, _Port), GetWorld());
 	return true;
 }
+
+void ATCPClient::SendData(const FString& _Data)
+{
+	if (nullptr == TCPClientSocket)
+	{
+		UE_LOG(LogType, Error, TEXT("No valid socket"));
+		UGlobalFunctonLibrary::LoggingInWidget(TEXT("No valid socket, Cant Send Data"), GetWorld());
+		return;
+	}
+
+	UE_LOG(LogType, Log, TEXT("BeginSend"));
+
+
+	// 시리얼라이즈 (데이터 직렬화)
+	FTCHARToUTF8 Convert(*_Data);
+	FArrayWriter WriterArray;
+	WriterArray.Serialize((UTF8CHAR*)Convert.Get(), Convert.Length());
+	
+	// 패킷에 시리얼라이즈된 정보를 대입
+	TSharedPtr<FBufferArchive> Packet = MakeShareable(new FBufferArchive());
+	(*Packet) << WriterArray;
+
+	// Blocking 현상 해결을 위한 AsyncTask 사용
+	AsyncTask(ENamedThreads::AnyThread, [this, Packet]()
+		{
+			if (nullptr == TCPClientSocket || nullptr == this)
+			{
+				return;
+			}
+
+			// 패킷에 담은 정보 Send
+			int32 NumSend;
+			bool bSuccess = TCPClientSocket->Send(Packet->GetData(), Packet->Num(), NumSend);
+
+			AsyncTask(ENamedThreads::GameThread, [this, bSuccess]
+				{
+					if (nullptr == TCPClientSocket || nullptr == this)
+					{
+						return;
+					}
+
+					if (true == bSuccess)
+					{
+						// 성공 시 Recv 상태로 돌아가기. 대신 대기는 BackGround에서
+						int a = 0;
+					}
+					else
+					{
+						// Send 실패시 Action
+						int a = 0;
+					}
+				});
+
+		});
+}
