@@ -74,12 +74,6 @@ void Server::ServerRecvThread(SOCKET _Socket)
 {
 	std::string RecvArr;
 	RecvArr.resize(100);
-
-	int RecvSize = recv(_Socket, &RecvArr[0], static_cast<int>(RecvArr.size()), 0);
-	std::string RecvString = RecvArr;
-	RecvArr.clear();
-	RecvArr.resize(100);
-	std::cout << RecvString << std::endl;
 	
 	std::string SendPacket;
 	SendPacket.clear();
@@ -87,9 +81,25 @@ void Server::ServerRecvThread(SOCKET _Socket)
 
 	while (true)
 	{
+		int RecvSize = recv(_Socket, &RecvArr[0], static_cast<int>(RecvArr.size()), 0);
+		
+		if (SOCKET_ERROR == RecvSize)
+		{
+			return;
+		}
+
+		if (-1 == RecvSize)
+		{
+			return;
+		}
+		
+		std::string RecvString = RecvArr;
+		RecvArr.clear();
+		RecvArr.resize(100);
+		std::cout << RecvString << std::endl;
+		
 		// 테스트 Send 
 		send(_Socket, &SendPacket[0], static_cast<int>(SendPacket.size()), 0);
-		
 		// 수신한 패킷에 따라서 패킷을 해석하는 기능
 		// 필요 시 Send를 해야할 수 있음
 	}
