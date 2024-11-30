@@ -63,13 +63,6 @@ bool ATCPClient::ConnectToServer(const FString& _IPAddress, int32 _Port)
 
 void ATCPClient::SendData(const FString& _Data)
 {
-	if (nullptr == TCPClientSocket)
-	{
-		UE_LOG(LogType, Error, TEXT("No valid socket"));
-		UGlobalFunctonLibrary::LoggingInWidget(TEXT("No valid socket, Cant Send Data"), GetWorld());
-		return;
-	}
-
 	UE_LOG(LogType, Log, TEXT("BeginSend"));
 
 
@@ -87,6 +80,7 @@ void ATCPClient::SendData(const FString& _Data)
 		{
 			if (nullptr == TCPClientSocket || nullptr == this)
 			{
+				UGlobalFunctonLibrary::LoggingInWidget(TEXT("No valid socket, Cant Send Data"), GetWorld());
 				return;
 			}
 
@@ -127,36 +121,42 @@ void ATCPClient::RecvData()
 				return;
 			}
 
-			// 읽어올 버퍼
-			TArray<uint8> Buffer;
-			int32 NumRead = 0;
-			bool bSuccessRecv = false;
+			uint32 PendingDataSize = 0;
+			if (TCPClientSocket->HasPendingData(PendingDataSize))
+			{
+				// 읽어올 버퍼
+				TArray<uint8> Buffer;
+				Buffer.SetNumUninitialized(PendingDataSize);
+				int32 NumRead = 0;
+				bool bSuccessRecv = false;
 
-			// Recv로 서버에서 데이터 받기
-			bSuccessRecv = TCPClientSocket->Recv(Buffer.GetData(), Buffer.Num(), NumRead, ESocketReceiveFlags::Type::WaitAll);
+				// Recv로 서버에서 데이터 받기
+				bSuccessRecv = TCPClientSocket->Recv(Buffer.GetData(), Buffer.Num(), NumRead, ESocketReceiveFlags::Type::WaitAll);
 
-			AsyncTask(ENamedThreads::GameThread, [this, Buffer, bSuccessRecv]()
-				{
-					if (TCPClientSocket == nullptr || this == nullptr)
+				AsyncTask(ENamedThreads::GameThread, [this, Buffer, bSuccessRecv]()
 					{
-						return;
-					}
+						if (TCPClientSocket == nullptr || this == nullptr)
+						{
+							return;
+						}
 
-					// 성공적으로 수신했다면
-					if (bSuccessRecv)
-					{
-						TArray<uint8> Payload;
-						Payload.Append(Buffer);
-						FString Data(Payload.Num(), (char*)Payload.GetData());
-						UE_LOG(LogTemp, Log, TEXT("OnRecvCompleted  recv data success.  data : %s  Payload : %d  size : %d"), *Data, Payload.Num(), Data.Len());
-						UGlobalFunctonLibrary::LoggingInWidget(Data, GetWorld());
-						UE_LOG(LogTemp, Log, TEXT("End Recv Phase"));
-					}
-					else // 성공적으로 수신 못했다면
-					{
-						UE_LOG(LogTemp, Error, TEXT("Recv Payload Failed."));
-						UE_LOG(LogTemp, Log, TEXT("End Recv Phase"));
-					}
-				});
+						// 성공적으로 수신했다면
+						if (bSuccessRecv)
+						{
+							TArray<uint8> Payload;
+							Payload.Append(Buffer);
+							FString Data(Payload.Num(), (char*)Payload.GetData());
+							UE_LOG(LogTemp, Log, TEXT("OnRecvCompleted  recv data success.  data : %s  Payload : %d  size : %d"), *Data, Payload.Num(), Data.Len());
+							UGlobalFunctonLibrary::LoggingInWidget(Data, GetWorld());
+							UE_LOG(LogTemp, Log, TEXT("End Recv Phase"));
+						}
+						else // 성공적으로 수신 못했다면
+						{
+							UE_LOG(LogTemp, Error, TEXT("Recv Payload Failed."));
+							UE_LOG(LogTemp, Log, TEXT("End Recv Phase"));
+						}
+					});
+			}
 		});
+
 }
