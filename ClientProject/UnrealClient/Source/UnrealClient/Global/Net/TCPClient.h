@@ -9,6 +9,7 @@
 #include "SocketSubsystem.h"
 #include "Networking.h"
 #include "Global/GlobalFunctonLibrary.h"
+#include "Global/Net/ClientProtocol.h"
 #include "TCPClient.generated.h"
 
 /**
