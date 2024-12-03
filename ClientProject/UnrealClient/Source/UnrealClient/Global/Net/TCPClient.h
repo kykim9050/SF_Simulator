@@ -43,15 +43,6 @@ public:
 	/// <param name="_Data"></param>
 	void RecvData();
 
-	/// <summary>
-	/// 입력 타입에 맞춰 패킷을 생성하는 함수
-	/// </summary>
-	/// <param name="_InType"></param>
-	/// <param name="_Data"></param>
-	/// <returns></returns>
-	TSharedPtr<FBufferArchive> CreatePacket(uint32 _InType, const FString& _Data);
-	TSharedPtr<FBufferArchive> CreatePacket(uint32 _InType, const uint8* _InPayload, int32 _InPayloadSize);
-
 protected:
 
 private:

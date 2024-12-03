@@ -30,4 +30,10 @@ public:
 	{
 		SetType(EPacketType::GetNValuePacket);
 	}
+
+	FGetNValuePacket(uint32 _Size)
+		:FClientProtocol(static_cast<uint32>(EPacketType::GetNValuePacket), _Size)
+	{
+
+	}
 };

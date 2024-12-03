@@ -2,6 +2,7 @@
 
 
 #include "Global/Net/TCPClient.h"
+#include "Global/Net/ClientPacketManager.h"
 
 ATCPClient::ATCPClient()
 	:TCPClientSocket(nullptr)
@@ -66,7 +67,7 @@ void ATCPClient::SendData(const FString& _Data)
 	UE_LOG(LogType, Log, TEXT("BeginSend"));
 	
 	// 패킷 생성
-	TSharedPtr<FBufferArchive> Packet = CreatePacket(0, TEXT("Start Packet"));
+	TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreatePacket<FGetNValuePacket>(TEXT("Start Packet"));
 
 	// Blocking 현상 해결을 위한 AsyncTask 사용
 	AsyncTask(ENamedThreads::AnyThread, [this, Packet]()
@@ -152,29 +153,4 @@ void ATCPClient::RecvData()
 			}
 		});
 
-}
-
-TSharedPtr<FBufferArchive> ATCPClient::CreatePacket(uint32 _InType, const uint8* _InPayload, int32 _InPayloadSize)
-{
-	FClientProtocol Header(_InType, _InPayloadSize);
-	constexpr static int32 HeaderSize = sizeof(FClientProtocol);
-
-	TSharedPtr<FBufferArchive> Packet = MakeShareable(new FBufferArchive());
-
-	(*Packet) << Header;
-
-	Packet->Append(_InPayload, _InPayloadSize);
-
-	return Packet;
-}
-
-TSharedPtr<FBufferArchive> ATCPClient::CreatePacket(uint32 _InType, const FString& _Data)
-{
-	FTCHARToUTF8 Convert(*_Data);
-	FArrayWriter WriteArray = FArrayWriter();
-
-	WriteArray.Serialize((UTF8CHAR*)Convert.Get(), Convert.Length());
-	TSharedPtr<FBufferArchive> Packet = CreatePacket(_InType, WriteArray.GetData(), WriteArray.Num());
-	
-	return Packet;
 }
