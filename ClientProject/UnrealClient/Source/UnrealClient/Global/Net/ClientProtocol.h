@@ -40,4 +40,9 @@ public:
 		return Ar;
 	}
 
+	template<typename PacketType>
+	void SetType(PacketType _Type)
+	{
+		Type = static_cast<uint32>(_Type);
+	}
 };
