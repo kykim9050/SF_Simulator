@@ -64,16 +64,9 @@ bool ATCPClient::ConnectToServer(const FString& _IPAddress, int32 _Port)
 void ATCPClient::SendData(const FString& _Data)
 {
 	UE_LOG(LogType, Log, TEXT("BeginSend"));
-
-
-	// 시리얼라이즈 (데이터 직렬화)
-	FTCHARToUTF8 Convert(*_Data);
-	FArrayWriter WriterArray;
-	WriterArray.Serialize((UTF8CHAR*)Convert.Get(), Convert.Length());
 	
-	// 패킷에 시리얼라이즈된 정보를 대입
-	TSharedPtr<FBufferArchive> Packet = MakeShareable(new FBufferArchive());
-	(*Packet) << WriterArray;
+	// 패킷 생성
+	TSharedPtr<FBufferArchive> Packet = CreatePacket(0, TEXT("Start Packet"));
 
 	// Blocking 현상 해결을 위한 AsyncTask 사용
 	AsyncTask(ENamedThreads::AnyThread, [this, Packet]()
@@ -159,4 +152,29 @@ void ATCPClient::RecvData()
 			}
 		});
 
+}
+
+TSharedPtr<FBufferArchive> ATCPClient::CreatePacket(uint32 _InType, const uint8* _InPayload, int32 _InPayloadSize)
+{
+	FClientProtocol Header(_InType, _InPayloadSize);
+	constexpr static int32 HeaderSize = sizeof(FClientProtocol);
+
+	TSharedPtr<FBufferArchive> Packet = MakeShareable(new FBufferArchive());
+
+	(*Packet) << Header;
+
+	Packet->Append(_InPayload, _InPayloadSize);
+
+	return Packet;
+}
+
+TSharedPtr<FBufferArchive> ATCPClient::CreatePacket(uint32 _InType, const FString& _Data)
+{
+	FTCHARToUTF8 Convert(*_Data);
+	FArrayWriter WriteArray = FArrayWriter();
+
+	WriteArray.Serialize((UTF8CHAR*)Convert.Get(), Convert.Length());
+	TSharedPtr<FBufferArchive> Packet = CreatePacket(_InType, WriteArray.GetData(), WriteArray.Num());
+	
+	return Packet;
 }
