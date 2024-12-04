@@ -1,9 +1,10 @@
 #pragma once
 #include <memory>
+#include "ServerSerializer.h"
 
 
 // 설명 : Server 측 프로토콜 클래스
-class ServerProtocol : public std::enable_shared_from_this<ServerProtocol>
+class ServerProtocol : public std::enable_shared_from_this<ServerProtocol>, public SerializeObject
 {
 public:
 
