@@ -31,6 +31,12 @@ protected:
 	unsigned int Type = 0;
 	unsigned int Size = 0;
 
+	template<typename PType>
+	void SetType(PType _Type)
+	{
+		Type = static_cast<unsigned int>(_Type);
+	}
+
 private:
 
 };
