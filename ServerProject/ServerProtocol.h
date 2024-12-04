@@ -34,10 +34,15 @@ public:
 		_Ser << Size;
 	}
 
-	void DeSerialize(ServerSerializer& _Ser)
+	void DeSerialize(ServerSerializer& _Ser) override
 	{
 		_Ser >> Type;
 		_Ser >> Size;
+	}
+
+	unsigned int GetPacketType() const
+	{
+		return Type;
 	}
 
 protected:

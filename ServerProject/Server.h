@@ -8,6 +8,8 @@
 #include <vector>
 #include <thread>
 #include <functional>
+#include "Interpreter.h"
+#include "ServerPacket.h"
 
 // 설명 :
 class Server
@@ -47,7 +49,11 @@ public:
 	/// <param name="_Socket"></param>
 	void ServerRecvThread(SOCKET _Socket);
 
-
+	/// <summary>
+	/// 서버측 특정 패킷 관련 액션에 대한 초기화 함수
+	/// </summary>
+	/// <param name="_Interpret"></param>
+	void ServerPacketInit(Interpreter& _Interpret);
 
 protected:
 
@@ -66,5 +72,8 @@ private:
 
 	// 헤더의 사이즈
 	int HeaderSize = 8;
+
+	// 서버 전용 해석자
+	Interpreter Interpret = Interpreter();
 };
 

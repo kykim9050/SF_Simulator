@@ -17,6 +17,16 @@ public:
 		SetType(EPacketType::RecvPacket);
 	}
 
+	void Serialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::Serialize(_Ser);
+	}
+
+	void DeSerialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::DeSerialize(_Ser);
+	}
+
 protected:
 
 private:

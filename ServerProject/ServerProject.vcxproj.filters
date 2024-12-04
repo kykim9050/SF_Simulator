@@ -39,6 +39,9 @@
     <ClCompile Include="ServerSerializer.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="Interpreter.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WayPointAlgo.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="ServerSerializer.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpreter.h">
+      <Filter>Net</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

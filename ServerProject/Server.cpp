@@ -70,6 +70,9 @@ void Server::ServerOpen()
 	}
 
 	std::cout << "Listen....." << std::endl;
+
+	// 패킷 별 실행 코드 초기화
+	ServerPacketInit(Interpret);
 }
 
 void Server::ServerRecvThread(SOCKET _Socket)
@@ -102,13 +105,33 @@ void Server::ServerRecvThread(SOCKET _Socket)
 			continue;
 		}
 
+		// 역직렬화
 		ServerProtocol Protocol = ServerProtocol();
+		// 패킷의 헤더 정보 가져오기 (뒤에 읽을 데이터의 수와 종류를 파악하기 위함)
 		Protocol.DeSerialize(Ser);
+
+		// 헤더 정보를 읽었으니 다시 앞으로 이동
+		Ser.AddReadOffset(-8);
 
 		if (Ser.GetReadOffset() > 1024)
 		{
 			return;
 		}
+
+		// 프로토콜을 해석
+		std::shared_ptr<ServerProtocol> NewProtocol = Interpret.ConvertProtocol(Protocol.GetPacketType(), Ser);
+		// 해당 프로토콜에 맞는 액션 실행
+		Interpret.ProcessPacket(NewProtocol);
+
+		// 남은 패킷 정보 읽기
 	}
+}
+
+void Server::ServerPacketInit(Interpreter& _Interpret)
+{
+	_Interpret.AddHandler<RecvPacket>([=](std::shared_ptr<RecvPacket> _Packet)
+		{
+			std::cout << "RecvPacket Recv~" << std::endl;
+		});
 }
 

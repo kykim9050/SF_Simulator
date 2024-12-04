@@ -155,6 +155,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Interpreter.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Point.cpp">
       <SubType>
@@ -183,6 +187,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Display.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Interpreter.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -40,6 +40,11 @@ public:
 		return WriteOffset;
 	}
 
+	inline void AddReadOffset(int _Offset)
+	{
+		ReadOffset += _Offset;
+	}
+
 	inline int GetReadOffset() const
 	{
 		return ReadOffset;
