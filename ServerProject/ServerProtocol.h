@@ -28,6 +28,18 @@ public:
 	ServerProtocol& operator=(const ServerProtocol& _Other) = delete;
 	ServerProtocol& operator=(ServerProtocol&& _Other) noexcept = delete;
 
+	void Serialize(ServerSerializer& _Ser) override
+	{
+		_Ser << Type;
+		_Ser << Size;
+	}
+
+	void DeSerialize(ServerSerializer& _Ser)
+	{
+		_Ser >> Type;
+		_Ser >> Size;
+	}
+
 protected:
 	unsigned int Type = 0;
 	unsigned int Size = 0;

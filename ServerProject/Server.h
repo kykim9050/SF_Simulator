@@ -64,5 +64,7 @@ private:
 	// 특정 소켓별로 Thread를 할당하여 보관
 	std::vector<std::thread> RecvThreads = std::vector<std::thread>();
 
+	// 헤더의 사이즈
+	int HeaderSize = 8;
 };
 
