@@ -131,7 +131,21 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 {
 	_Interpret.AddHandler<RecvPacket>([=](std::shared_ptr<RecvPacket> _Packet)
 		{
-			std::cout << "RecvPacket Recv~" << std::endl;
+			int Type = _Packet.get()->RequestType;
+
+			switch (Type)
+			{
+			case static_cast<int>(ERequestType::GetNValue):
+			{
+				std::cout << "Give N Value" << std::endl;
+				break;
+			}
+			default:
+			{
+				std::cout << "Invalid Request Type!" << std::endl;
+				break;
+			}
+			}
 		});
 }
 

@@ -9,6 +9,12 @@ enum class EPacketType
 	SendPacket,
 };
 
+enum class ERequestType
+{
+	GetNValue,
+	
+};
+
 class RecvPacket : public ServerProtocol
 {
 public:
@@ -20,17 +26,18 @@ public:
 	void Serialize(ServerSerializer& _Ser) override
 	{
 		ServerProtocol::Serialize(_Ser);
+		_Ser << RequestType;
 	}
 
 	void DeSerialize(ServerSerializer& _Ser) override
 	{
 		ServerProtocol::DeSerialize(_Ser);
+		_Ser >> RequestType;
 	}
 
-protected:
-
-private:
-
+public:
+	// 요청 받은 타입
+	int RequestType = -1;
 };
 
 class SendPacket : public ServerProtocol
