@@ -11,6 +11,7 @@ enum class EPacketType
 
 enum class ERequestType
 {
+	None,
 	GetNValue,
 	
 };

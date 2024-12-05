@@ -67,7 +67,8 @@ void ATCPClient::SendData(const FString& _Data)
 	UE_LOG(LogType, Log, TEXT("BeginSend"));
 	
 	// 패킷 생성
-	TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreatePacket<FGetNValuePacket>(TEXT("Start Packet"));
+	//TSharedPtr<FBufferArchive> Packet = UClientP	acketManager::CreatePacket<FClientRequestPacket>(TEXT("Start Packet"));
+	TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(ERequestType::GetNValue);
 
 	// Blocking 현상 해결을 위한 AsyncTask 사용
 	AsyncTask(ENamedThreads::AnyThread, [this, Packet]()

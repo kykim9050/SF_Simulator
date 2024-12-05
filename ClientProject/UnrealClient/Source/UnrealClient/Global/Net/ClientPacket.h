@@ -15,25 +15,35 @@
 UENUM()
 enum class EPacketType : uint8
 {
-	GetNValuePacket,
+	ClientRequestPacket,
+};
+
+UENUM()
+enum class ERequestType : uint8
+{
+	None,
+	GetNValue,	// N값 요청
 };
 
 USTRUCT()
-struct UNREALCLIENT_API FGetNValuePacket : public FClientProtocol
+struct UNREALCLIENT_API FClientRequestPacket : public FClientProtocol
 {
 	GENERATED_BODY()
 public:
+	FClientRequestPacket()
+	{
+		SetType(EPacketType::ClientRequestPacket);
+	}
 
+	FClientRequestPacket(uint32 _Size)
+		:FClientProtocol(static_cast<uint32>(EPacketType::ClientRequestPacket), _Size)
+	{
+
+	}
 
 public:
-	FGetNValuePacket()
-	{
-		SetType(EPacketType::GetNValuePacket);
-	}
-
-	FGetNValuePacket(uint32 _Size)
-		:FClientProtocol(static_cast<uint32>(EPacketType::GetNValuePacket), _Size)
-	{
-
-	}
+	/// <summary>
+	/// 요청 타입
+	/// </summary>
+	int RequestType = -1;
 };

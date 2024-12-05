@@ -131,11 +131,14 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 {
 	_Interpret.AddHandler<RecvPacket>([=](std::shared_ptr<RecvPacket> _Packet)
 		{
-			int Type = _Packet.get()->RequestType;
+			// Client 측에서 String으로 추가해서 보내기 때문에 char형태로 받는 것
+			// 추후에 int 형으로 데이터를 밀어넣을 수 있도록 client 패킷 구성해야 함
+			char Type = _Packet.get()->RequestType;
+			char EnumTypeTest = static_cast<char>(static_cast<int>(ERequestType::GetNValue));
 
 			switch (Type)
 			{
-			case static_cast<int>(ERequestType::GetNValue):
+			case '1':
 			{
 				std::cout << "Give N Value" << std::endl;
 				break;

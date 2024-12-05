@@ -28,6 +28,15 @@ public:
 		return Packet;
 	}
 
+	template<typename EnumType>
+	static TSharedPtr<FBufferArchive> CreateRequestPacket(EnumType _RequestType)
+	{
+		int32 EnumValue = static_cast<int32>(_RequestType);
+		FString EnumValueStr = FString::FromInt(EnumValue);
+
+		return CreatePacket<FClientRequestPacket>(EnumValueStr);
+	}
+
 protected:
 
 private:
