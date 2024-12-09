@@ -44,6 +44,17 @@ public:
 	/// <param name="_PacketData"></param>
 	void SendData(const FBufferArchive& _PacketData);
 
+	/// <summary>
+	/// 요청 패킷 생성 함수
+	/// </summary>
+	/// <param name="_RequestType"></param>
+	UFUNCTION(BlueprintCallable)
+	void SendRequestData(ERequestType _RequestType)
+	{
+		TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(_RequestType);
+
+		SendData(*Packet.Get());
+	}
 
 	/// <summary>
 	/// 데이터 수신을 위한 함수

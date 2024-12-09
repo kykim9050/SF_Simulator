@@ -65,8 +65,7 @@ bool ATCPClient::ConnectToServer(const FString& _IPAddress, int32 _Port)
 void ATCPClient::SendData(const FString& _Data)
 {
 	// 패킷 생성
-	//TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreatePacket<FClientRequestPacket>(TEXT("Start Packet"));
-	TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(ERequestType::GetNValue);
+	TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreatePacket<FClientRequestPacket>(_Data);
 
 	SendData(*Packet.Get());
 }

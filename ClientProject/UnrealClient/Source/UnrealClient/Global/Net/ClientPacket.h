@@ -18,7 +18,10 @@ enum class EPacketType : uint8
 	ClientRequestPacket,
 };
 
-UENUM()
+/// <summary>
+/// Request 패킷 관련 Enum
+/// </summary>
+UENUM(BlueprintType)
 enum class ERequestType : uint8
 {
 	None,
@@ -39,6 +42,12 @@ public:
 		:FClientProtocol(static_cast<uint32>(EPacketType::ClientRequestPacket), _Size)
 	{
 
+	}
+
+	FArchive& operator<<(FArchive& Ar)
+	{
+		Ar << RequestType;
+		return Ar;
 	}
 
 public:

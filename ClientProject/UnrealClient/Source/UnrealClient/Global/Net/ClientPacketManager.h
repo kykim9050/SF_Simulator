@@ -16,6 +16,22 @@ class UNREALCLIENT_API UClientPacketManager : public UObject
 {
 	GENERATED_BODY()
 public:
+	
+	template<typename EnumType>
+	static TSharedPtr<FBufferArchive> CreateRequestPacket(EnumType _RequestType)
+	{
+		return CreatePacket<FClientRequestPacket>(static_cast<int32>(_RequestType));
+	}
+
+	template<typename PacketType>
+	static TSharedPtr<FBufferArchive> CreatePacket(const int32 _Value)
+	{
+		FString IntStr = FString::FromInt(_Value);
+
+		return CreatePacket<PacketType>(IntStr);
+	}
+
+
 	template<typename PacketType>
 	static TSharedPtr<FBufferArchive> CreatePacket(const FString& _Data = FString(""))
 	{
@@ -28,14 +44,6 @@ public:
 		return Packet;
 	}
 
-	template<typename EnumType>
-	static TSharedPtr<FBufferArchive> CreateRequestPacket(EnumType _RequestType)
-	{
-		int32 EnumValue = static_cast<int32>(_RequestType);
-		FString EnumValueStr = FString::FromInt(EnumValue);
-
-		return CreatePacket<FClientRequestPacket>(EnumValueStr);
-	}
 
 protected:
 
