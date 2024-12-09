@@ -17,10 +17,17 @@ class UNREALCLIENT_API UClientPacketManager : public UObject
 	GENERATED_BODY()
 public:
 	
-	template<typename EnumType>
+	template<typename PacketType, typename EnumType>
 	static TSharedPtr<FBufferArchive> CreateRequestPacket(EnumType _RequestType)
 	{
-		return CreatePacket<FClientRequestPacket>(static_cast<int32>(_RequestType));
+		int32 Type = static_cast<int32>(_RequestType);
+
+		FArrayWriter WriteArray = FArrayWriter();
+		WriteArray << Type;
+
+		TSharedPtr<FBufferArchive> Packet = CreatePacket<PacketType>(WriteArray.GetData(), WriteArray.Num());
+
+		return Packet;
 	}
 
 	template<typename PacketType>
