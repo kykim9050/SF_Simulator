@@ -137,6 +137,16 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			{
 			case static_cast<int>(ERequestType::GetNValue):
 			{
+				// 추후 데이터를 특정 Mover에게 전달하기 위해서는 ID 정보도 함께 입력 필요 (클라이언트에서는 해당 ID에 해당하는 Mover에게 데이터를 전달할 수 있도록 구현)
+				// Test 버퍼 데이터
+				std::string Testbuf = "Im N Value";
+
+				// BroadCast
+				for (auto ClientSocket : ClientSockets)
+				{
+					send(ClientSocket, Testbuf.c_str(), static_cast<int>(Testbuf.size()), 0);
+				}
+
 				std::cout << "Give N Value" << std::endl;
 				break;
 			}
