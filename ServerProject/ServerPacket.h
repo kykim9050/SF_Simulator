@@ -49,8 +49,59 @@ public:
 		SetType(EPacketType::SendPacket);
 	}
 
-protected:
+	SendPacket(int _ResType, int _PacketSize)
+		: ServerProtocol(_PacketSize)
+		, ResponseType(_ResType)
+	{
+		SetType(EPacketType::SendPacket);
+	}
+
+	void Serialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::Serialize(_Ser);
+		_Ser << ResponseType;
+	}
+
+	void DeSerialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::DeSerialize(_Ser);
+		_Ser >> ResponseType;
+	}
+
+public:
+	// 어떤 패킷인지에 대한 종류관련 변수
+	int ResponseType = -1;
+
+};
+
+class SendNValuePacket : public SendPacket
+{
+public:
+	SendNValuePacket()
+	{
+
+	}
+
+	SendNValuePacket(int PacketSize, int _NValue)
+		:SendPacket(static_cast<int>(ERequestType::GetNValue),PacketSize)
+		,NValue(_NValue)
+	{
+
+	}
+
+	void Serialize(ServerSerializer& _Ser) override
+	{
+		SendPacket::Serialize(_Ser);
+		_Ser << NValue;
+	}
+
+	void DeSerialize(ServerSerializer& _Ser) override
+	{
+		SendPacket::DeSerialize(_Ser);
+		_Ser >> NValue;
+	}
 
 private:
-
+	// NValue 값
+	int NValue = -1;
 };

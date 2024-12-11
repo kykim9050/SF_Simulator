@@ -15,7 +15,14 @@ public:
 
 	}
 
-	ServerProtocol(unsigned int _Type, unsigned int _Size)
+	ServerProtocol(int _Size)
+		:Type(0)
+		, Size(_Size)
+	{
+
+	}
+
+	ServerProtocol(int _Type, int _Size)
 		:Type(_Type)
 		, Size(_Size)
 	{
@@ -40,19 +47,19 @@ public:
 		_Ser >> Size;
 	}
 
-	unsigned int GetPacketType() const
+	int GetPacketType() const
 	{
 		return Type;
 	}
 
 protected:
-	unsigned int Type = 0;
-	unsigned int Size = 0;
+	int Type = 0;
+	int Size = 0;
 
 	template<typename PType>
 	void SetType(PType _Type)
 	{
-		Type = static_cast<unsigned int>(_Type);
+		Type = static_cast<int>(_Type);
 	}
 
 private:

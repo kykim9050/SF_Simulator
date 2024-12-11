@@ -4,11 +4,13 @@
 #include <WinSock2.h>
 #include <assert.h>
 #include <iostream>
+#include <vector>
+#include <thread>
+
 #include "WayPointAlgo.h"
 #include "Point.h"
-#include <vector>
 #include "Server.h"
-#include <thread>
+#include "GlobalValue.h"
 
 // For Test Include
 #include "Display.h"
@@ -17,15 +19,15 @@
 #include <map>
 
 
-
 int main(void)
 {
-	int N = -1;;
+	int N = -1;
 
 	while (true)
 	{
 		std::cout << "Input N (5 <= N <= 10) : ";
-		std::cin >> N;
+		std::cin >> Global::NValue;
+		N = Global::NValue;
 
 		if (5 <= N && 10 >= N)
 		{

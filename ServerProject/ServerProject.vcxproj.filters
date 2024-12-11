@@ -13,6 +13,9 @@
     <Filter Include="Net">
       <UniqueIdentifier>{ab41c2e5-44a4-42b9-969b-9a194532f0b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{453591e0-b2fa-4637-9616-3e3456b8407b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="Interpreter.h">
       <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
