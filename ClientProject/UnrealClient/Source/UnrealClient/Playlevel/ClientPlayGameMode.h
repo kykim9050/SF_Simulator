@@ -17,6 +17,12 @@ class UNREALCLIENT_API AClientPlayGameMode : public AGlobalGameMode
 	GENERATED_BODY()
 public:
 
+	TObjectPtr<ATCPClient> GetTCPClient() const
+	{
+		return TCPClient;
+	}
+	
+
 protected:
 	virtual void BeginPlay() override;
 
