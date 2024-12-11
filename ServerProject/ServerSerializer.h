@@ -25,6 +25,11 @@ public:
 		return &Data[WriteOffset];
 	}
 
+	inline char* DataCharPtrToReadOffset()
+	{
+		return &Data[ReadOffset];
+	}
+
 	inline int RemainSize()
 	{
 		return static_cast<int>(Data.size()) - WriteOffset;

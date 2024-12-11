@@ -45,6 +45,9 @@
     <ClCompile Include="Interpreter.cpp">
       <Filter>Net</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalValue.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WayPointAlgo.h">

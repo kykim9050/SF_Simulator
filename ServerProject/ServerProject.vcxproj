@@ -155,6 +155,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="Interpreter.cpp">
       <SubType>
       </SubType>

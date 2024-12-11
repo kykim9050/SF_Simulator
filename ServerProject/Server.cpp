@@ -130,7 +130,7 @@ void Server::ServerRecvThread(SOCKET _Socket)
 
 void Server::ServerPacketInit(Interpreter& _Interpret)
 {
-	int N = Global::NValue;
+	int N = GlobalValue::GetInst().GetNValue();
 
 	_Interpret.AddHandler<RecvPacket>([this, N](std::shared_ptr<RecvPacket> _Packet)
 		{
@@ -140,14 +140,23 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			{
 			case static_cast<int>(ERequestType::GetNValue):
 			{
+				// 패킷 구성 및 전달 방법
+				// 1. 패킷의 Payload 만 데이터를 구성한다 (Const Char*형식으로)
+				// 2. 헤더를 만들어서 size에 Payload의 사이즈를 전달한다.
+				// 3. 헤더를 만든 후에 size까지 갱신이되면 이후로 Payload데이터를 그대로 붙인다. (패킷완성)
+
+				// Test 패킷 (어떻게든 패킷을 구성하면 클라에서 받는지에 대한 테스트))
 				// 전달할 패킷을 구성 (N값이 포함된)
 				SendNValuePacket SendPacket = SendNValuePacket(1, N);
-				// string형태로 만들어서 보내야할 것 같은데 우째 바꾸지? 확인해보자
+				ServerSerializer Ser = ServerSerializer();
+				SendPacket.Serialize(Ser);
 
 				// BroadCast
 				for (auto ClientSocket : ClientSockets)
 				{
-					//send(ClientSocket, Testbuf.c_str(), static_cast<int>(Testbuf.size()), 0);
+					// 패킷을 만들었기 때문에 읽기 오프셋은 초기 0
+					// 쓴 오프셋 크기만큼 전달
+					send(ClientSocket, Ser.DataCharPtrToReadOffset(), Ser.GetWriteOffset(), 0);
 				}
 
 				std::cout << "Give N Value" << std::endl;

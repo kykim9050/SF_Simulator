@@ -26,8 +26,8 @@ int main(void)
 	while (true)
 	{
 		std::cout << "Input N (5 <= N <= 10) : ";
-		std::cin >> Global::NValue;
-		N = Global::NValue;
+		std::cin >> N;
+		GlobalValue::GetInst().SetNValue(N);
 
 		if (5 <= N && 10 >= N)
 		{
