@@ -142,14 +142,22 @@ void ATCPClient::RecvData()
 							FClientProtocol RecvData;
 							Reader << RecvData;
 
+							// 해당부분을 별도의 함수 포인터형으로 만들어서 호출되게 만들기
 							// 받은 패킷이 어떤 타입인지 확인
 							switch (RecvData.Type)
 							{
 							case static_cast<int>(EPacketType::NValuePacket):
 							{
-								FString Data(Buffer.Num(), (char*)Buffer.GetData());
-								UE_LOG(LogType, Log, TEXT("NValue recv data success.  N : %d"), Buffer.Num());
-								UGlobalFunctonLibrary::LoggingInWidget(FString(TEXT("NValue recv data success.  N : %d"), Buffer.Num()), GetWorld());
+								// 실제 N 값을 받아오는 패킷
+								FRecvNPacket Payload;
+								Reader << Payload;
+
+								// N값을 Client의 변수 보관소에 저장하기
+
+
+
+								UE_LOG(LogType, Log, TEXT("NValue recv data success.  N : %d"), Payload.N);
+								UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("NValue recv data success.  N : %d"), Payload.N), GetWorld());
 								break;
 							}
 							default:

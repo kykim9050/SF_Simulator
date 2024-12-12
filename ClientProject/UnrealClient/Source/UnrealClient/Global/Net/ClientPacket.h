@@ -36,3 +36,25 @@ public:
 
 	}
 };
+
+USTRUCT()
+struct UNREALCLIENT_API FRecvNPacket
+{
+	GENERATED_BODY()
+public:
+	FRecvNPacket()
+		: N(-1)
+	{
+
+	}
+
+	friend FArchive& operator<<(FArchive& Ar, FRecvNPacket& Packet)
+	{
+		Ar << Packet.N;
+
+		return Ar;
+	}
+
+public:
+	int32 N = -1;
+};
