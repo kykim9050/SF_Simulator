@@ -5,106 +5,47 @@
 
 enum class EPacketType
 {
-	RecvPacket,
-	SendPacket,
-};
-
-enum class ERequestType
-{
 	None,
-	GetNValue,
-	
+	NValuePacket = 100,		// N값 관련 패킷
+	MoverCoursePacket,	// 이동체 경로관련 패킷
 };
 
-class RecvPacket : public ServerProtocol
+class RecvNValuePacket : public ServerProtocol
 {
 public:
-	RecvPacket()
+	RecvNValuePacket()
 	{
-		SetType(EPacketType::RecvPacket);
+		SetType(EPacketType::NValuePacket);
 	}
 
 	void Serialize(ServerSerializer& _Ser) override
 	{
 		ServerProtocol::Serialize(_Ser);
-		_Ser << RequestType;
 	}
 
 	void DeSerialize(ServerSerializer& _Ser) override
 	{
 		ServerProtocol::DeSerialize(_Ser);
-		_Ser >> RequestType;
 	}
-
-public:
-	// 요청 받은 타입
-	int RequestType = -1;
 };
 
-class SendPacket : public ServerProtocol
-{
-public:
-	SendPacket()
-	{
-		SetType(EPacketType::SendPacket);
-	}
-
-	SendPacket(int _ResType)
-		:ResponseType(_ResType)
-	{
-		SetType(EPacketType::SendPacket);
-	}
-
-	SendPacket(int _ResType, int _PacketSize)
-		: ServerProtocol(_PacketSize)
-		, ResponseType(_ResType)
-	{
-		SetType(EPacketType::SendPacket);
-	}
-
-	void Serialize(ServerSerializer& _Ser) override
-	{
-		ServerProtocol::Serialize(_Ser);
-		_Ser << ResponseType;
-	}
-
-	void DeSerialize(ServerSerializer& _Ser) override
-	{
-		ServerProtocol::DeSerialize(_Ser);
-		_Ser >> ResponseType;
-	}
-
-public:
-	// 어떤 패킷인지에 대한 종류관련 변수
-	int ResponseType = -1;
-
-};
-
-class SendNValuePacket : public SendPacket
+class SendNValuePacket : public ServerProtocol
 {
 public:
 	SendNValuePacket()
-		:SendPacket(static_cast<int>(ERequestType::GetNValue))
 	{
-
-	}
-
-	SendNValuePacket(int PacketSize, int _NValue)
-		:SendPacket(static_cast<int>(ERequestType::GetNValue),PacketSize)
-		,NValue(_NValue)
-	{
-
+		SetType(EPacketType::NValuePacket);
 	}
 
 	void Serialize(ServerSerializer& _Ser) override
 	{
-		SendPacket::Serialize(_Ser);
+		ServerProtocol::Serialize(_Ser);
 		_Ser << NValue;
 	}
 
 	void DeSerialize(ServerSerializer& _Ser) override
 	{
-		SendPacket::DeSerialize(_Ser);
+		ServerProtocol::DeSerialize(_Ser);
 		_Ser >> NValue;
 	}
 

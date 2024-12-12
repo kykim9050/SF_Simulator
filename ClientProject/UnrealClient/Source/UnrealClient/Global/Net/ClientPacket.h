@@ -12,41 +12,27 @@
 /// <summary>
 /// 패킷 타입 관련 Enum
 /// </summary>
-UENUM()
+UENUM(BlueprintType)
 enum class EPacketType : uint8
 {
-	ClientRequestPacket,
-};
-
-/// <summary>
-/// Request 패킷 관련 Enum
-/// </summary>
-UENUM(BlueprintType)
-enum class ERequestType : uint8
-{
 	None,
-	GetNValue,	// N값 요청
+	NValuePacket = 100,		// N값 관련 패킷
+	MoverCoursePacket,	// 이동체 경로관련 패킷
 };
 
 USTRUCT()
-struct UNREALCLIENT_API FClientRequestPacket : public FClientProtocol
+struct UNREALCLIENT_API FRequestNPacket : public FClientProtocol
 {
 	GENERATED_BODY()
 public:
-	FClientRequestPacket()
+	FRequestNPacket()
 	{
-		SetType(EPacketType::ClientRequestPacket);
+		SetType(EPacketType::NValuePacket);
 	}
 
-	FClientRequestPacket(uint32 _Size)
-		:FClientProtocol(static_cast<uint32>(EPacketType::ClientRequestPacket), _Size)
+	FRequestNPacket(uint32 _Size)
+		:FClientProtocol(static_cast<uint32>(EPacketType::NValuePacket), _Size)
 	{
 
 	}
-
-public:
-	/// <summary>
-	/// 요청 타입
-	/// </summary>
-	int RequestType = -1;
 };

@@ -65,7 +65,7 @@ bool ATCPClient::ConnectToServer(const FString& _IPAddress, int32 _Port)
 void ATCPClient::SendData(const FString& _Data)
 {
 	// 패킷 생성
-	TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreatePacket<FClientRequestPacket>(_Data);
+	TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreatePacket<FRequestNPacket>(_Data);
 
 	SendData(*Packet.Get());
 }
@@ -152,7 +152,7 @@ void ATCPClient::RecvData()
 							// 받은 패킷이 어떤 타입인지 확인
 							switch (RecvData.Type)
 							{
-							case static_cast<int>(ERequestType::GetNValue):
+							case static_cast<int>(EPacketType::NValuePacket):
 							{
 								FString Data(Buffer.Num(), (char*)Buffer.GetData());
 								UE_LOG(LogType, Log, TEXT("OnRecvCompleted  recv data success.  data : %s  Payload : %d  size : %d"), *Data, Buffer.Num(), Data.Len());

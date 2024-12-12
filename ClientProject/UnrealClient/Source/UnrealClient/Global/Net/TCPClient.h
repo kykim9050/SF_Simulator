@@ -49,9 +49,9 @@ public:
 	/// </summary>
 	/// <param name="_RequestType"></param>
 	UFUNCTION(BlueprintCallable)
-	void SendRequestData(ERequestType _RequestType)
+	void SendRequestData(EPacketType _RequestType)
 	{
-		TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket<FClientRequestPacket>(_RequestType);
+		TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(_RequestType);
 
 		SendData(*Packet.Get());
 	}

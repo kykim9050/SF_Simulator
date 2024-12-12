@@ -132,13 +132,13 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 {
 	int N = GlobalValue::GetInst().GetNValue();
 
-	_Interpret.AddHandler<RecvPacket>([this, N](std::shared_ptr<RecvPacket> _Packet)
+	_Interpret.AddHandler<RecvNValuePacket>([this, N](std::shared_ptr<RecvNValuePacket> _Packet)
 		{
-			int Type = _Packet.get()->RequestType;
+			int Type = _Packet.get()->GetPacketType();
 
 			switch (Type)
 			{
-			case static_cast<int>(ERequestType::GetNValue):
+			case static_cast<int>(EPacketType::NValuePacket):
 			{
 				// SendNValuePacket 객체 생성 (N 데이터를 집어넣음)
 				std::shared_ptr<SendNValuePacket> SendPacket = std::make_shared<SendNValuePacket>();
