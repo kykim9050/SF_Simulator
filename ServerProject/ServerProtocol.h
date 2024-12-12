@@ -56,7 +56,7 @@ public:
 	{
 		ServerSerializer Ser;
 		Serialize(Ser);
-		Size = Ser.GetWriteOffset();
+		Size = Ser.GetWriteOffset() - GetHeaderSize();
 		Ser.Paste(sizeof(int), &Size, sizeof(Size));
 
 		return Ser;
@@ -73,6 +73,9 @@ protected:
 	}
 
 private:
-
+	int GetHeaderSize() const
+	{
+		return sizeof(Type) + sizeof(Size);
+	}
 };
 
