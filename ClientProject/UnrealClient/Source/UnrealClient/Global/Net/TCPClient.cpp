@@ -130,7 +130,7 @@ void ATCPClient::RecvData()
 				int32 NumRead = 0;
 				bool bSuccessRecv = false;
 
-				// Recv로 서버에서 데이터 받기
+				// Recv로 서버에서 데이터 받기 (실제 데이터가 Buffer에 받아와진다)
 				bSuccessRecv = TCPClientSocket->Recv(Buffer.GetData(), Buffer.Num(), NumRead, ESocketReceiveFlags::Type::WaitAll);
 
 				AsyncTask(ENamedThreads::GameThread, [this, Buffer, bSuccessRecv]()
@@ -143,12 +143,29 @@ void ATCPClient::RecvData()
 						// 성공적으로 수신했다면
 						if (bSuccessRecv)
 						{
-							// 패킷 받아서 해석하는 클래스 추가 (미리 해석 방법을 알고 있도록 구현)
-							TArray<uint8> Payload;
-							Payload.Append(Buffer);
-							FString Data(Payload.Num(), (char*)Payload.GetData());
-							UE_LOG(LogType, Log, TEXT("OnRecvCompleted  recv data success.  data : %s  Payload : %d  size : %d"), *Data, Payload.Num(), Data.Len());
-							UGlobalFunctonLibrary::LoggingInWidget(Data, GetWorld());
+							// 수신받은 Buffer 데이터를 FMemoryReader 클래스로 받아서 해석
+							// 언리얼에서 Serialize의 Read, Write는 모두 << 연산자로 취급
+							FMemoryReader Reader(Buffer);
+							FClientProtocol RecvData;
+							Reader << RecvData;
+
+							// 받은 패킷이 어떤 타입인지 확인
+							switch (RecvData.Type)
+							{
+							case static_cast<int>(ERequestType::GetNValue):
+							{
+								FString Data(Buffer.Num(), (char*)Buffer.GetData());
+								UE_LOG(LogType, Log, TEXT("OnRecvCompleted  recv data success.  data : %s  Payload : %d  size : %d"), *Data, Buffer.Num(), Data.Len());
+								UGlobalFunctonLibrary::LoggingInWidget(Data, GetWorld());
+								break;
+							}
+							default:
+							{
+								UE_LOG(LogType, Fatal, TEXT("Not Exist PacketType"));
+								break;
+							}
+							}
+
 							UE_LOG(LogType, Log, TEXT("End Recv Phase"));
 						}
 						else // 성공적으로 수신 못했다면
