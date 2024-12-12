@@ -49,6 +49,12 @@ public:
 		SetType(EPacketType::SendPacket);
 	}
 
+	SendPacket(int _ResType)
+		:ResponseType(_ResType)
+	{
+		SetType(EPacketType::SendPacket);
+	}
+
 	SendPacket(int _ResType, int _PacketSize)
 		: ServerProtocol(_PacketSize)
 		, ResponseType(_ResType)
@@ -78,6 +84,7 @@ class SendNValuePacket : public SendPacket
 {
 public:
 	SendNValuePacket()
+		:SendPacket(static_cast<int>(ERequestType::GetNValue))
 	{
 
 	}
@@ -101,7 +108,7 @@ public:
 		_Ser >> NValue;
 	}
 
-private:
+public:
 	// NValue °ª
 	int NValue = -1;
 };

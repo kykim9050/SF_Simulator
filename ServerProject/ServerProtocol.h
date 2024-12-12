@@ -52,6 +52,16 @@ public:
 		return Type;
 	}
 
+	ServerSerializer GetSerialize()
+	{
+		ServerSerializer Ser;
+		Serialize(Ser);
+		Size = Ser.GetWriteOffset();
+		Ser.Paste(sizeof(int), &Size, sizeof(Size));
+
+		return Ser;
+	}
+
 protected:
 	int Type = 0;
 	int Size = 0;

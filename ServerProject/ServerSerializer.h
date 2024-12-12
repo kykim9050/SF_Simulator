@@ -9,11 +9,12 @@ public:
 	ServerSerializer();
 	~ServerSerializer();
 
-	// delete Function
-	ServerSerializer(const ServerSerializer& _Other) = delete;
-	ServerSerializer(ServerSerializer&& _Other) noexcept = delete;
-	ServerSerializer& operator=(const ServerSerializer& _Other) = delete;
-	ServerSerializer& operator=(ServerSerializer&& _Other) noexcept = delete;
+	void Paste(int _Offset, const void* _Data, size_t _Size);
+
+	inline char* DataPtr()
+	{
+		return &Data[0];
+	}
 
 	inline void BufferResize(unsigned int _Size)
 	{
@@ -43,6 +44,11 @@ public:
 	inline int GetWriteOffset() const
 	{
 		return WriteOffset;
+	}
+
+	inline int WriteSize() const
+	{
+		return GetWriteOffset();
 	}
 
 	inline void AddReadOffset(int _Offset)

@@ -140,23 +140,14 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			{
 			case static_cast<int>(ERequestType::GetNValue):
 			{
-				// 패킷 구성 및 전달 방법
-				// 1. 패킷의 Payload 만 데이터를 구성한다 (Const Char*형식으로)
-				// 2. 헤더를 만들어서 size에 Payload의 사이즈를 전달한다.
-				// 3. 헤더를 만든 후에 size까지 갱신이되면 이후로 Payload데이터를 그대로 붙인다. (패킷완성)
-
-				// Test 패킷 (어떻게든 패킷을 구성하면 클라에서 받는지에 대한 테스트))
-				// 전달할 패킷을 구성 (N값이 포함된)
-				SendNValuePacket SendPacket = SendNValuePacket(1, N);
-				ServerSerializer Ser = ServerSerializer();
-				SendPacket.Serialize(Ser);
+				// SendNValuePacket 객체 생성 (N 데이터를 집어넣음)
+				std::shared_ptr<SendNValuePacket> SendPacket = std::make_shared<SendNValuePacket>();
+				SendPacket->NValue = N;
 
 				// BroadCast
 				for (auto ClientSocket : ClientSockets)
 				{
-					// 패킷을 만들었기 때문에 읽기 오프셋은 초기 0
-					// 쓴 오프셋 크기만큼 전달
-					send(ClientSocket, Ser.DataCharPtrToReadOffset(), Ser.GetWriteOffset(), 0);
+					Server::Send(ClientSocket, SendPacket);
 				}
 
 				std::cout << "Give N Value" << std::endl;
@@ -170,4 +161,22 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			}
 		});
 }
+
+int Server::Send(SOCKET _ClientSocket, std::shared_ptr<ServerProtocol> _Protocol)
+{
+	// ServerProtocol의 GetSerialize함수 호출로 사이즈 지정
+	ServerSerializer Ser = _Protocol->GetSerialize();
+
+	// 시리얼라이즈를 Send(Serlialize) 에 전달
+	return Send(_ClientSocket, Ser);
+}
+
+int Server::Send(SOCKET _ClientSocket, ServerSerializer& _Ser)
+{
+	const char* buf = _Ser.DataPtr();
+	int len = _Ser.WriteSize();
+	return send(_ClientSocket, buf, len, 0);
+}
+
+
 

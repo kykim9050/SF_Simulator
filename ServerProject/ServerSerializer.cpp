@@ -1,4 +1,7 @@
 #include "ServerSerializer.h"
+#include <assert.h>
+#include <string>
+#include <Windows.h>
 
 ServerSerializer::ServerSerializer()
 {
@@ -6,6 +9,19 @@ ServerSerializer::ServerSerializer()
 
 ServerSerializer::~ServerSerializer()
 {
+}
+
+void ServerSerializer::Paste(int _Offset, const void* _Data, size_t _Size)
+{
+	if (_Offset + _Size > Data.size())
+	{
+		std::string ErrorText = std::string("버퍼 범위를 넘어갔습니다.");
+		MessageBoxA(nullptr, ErrorText.c_str(), "치명적 에러", MB_OK);
+		assert(false);
+		return;
+	}
+
+	memcpy_s(&Data[_Offset], _Size, _Data, _Size);
 }
 
 void ServerSerializer::Write(const void* _Data, size_t _Size)

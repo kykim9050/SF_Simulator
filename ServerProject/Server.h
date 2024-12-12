@@ -75,5 +75,10 @@ private:
 
 	// 서버 전용 해석자
 	Interpreter Interpret = Interpreter();
+
+private:
+	int Send(SOCKET _ClientSocket, std::shared_ptr<ServerProtocol> _Protocol);
+
+	int Send(SOCKET _ClientSocket, ServerSerializer& _Ser);
 };
 
