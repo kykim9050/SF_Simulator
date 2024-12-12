@@ -44,12 +44,6 @@ public:
 
 	}
 
-	FArchive& operator<<(FArchive& Ar)
-	{
-		Ar << RequestType;
-		return Ar;
-	}
-
 public:
 	/// <summary>
 	/// 요청 타입

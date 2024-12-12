@@ -121,6 +121,7 @@ void ATCPClient::RecvData()
 			}
 
 			uint32 PendingDataSize = 0;
+			// Queue에 보류중인 데이터가 있는지 먼저 확인
 			if (TCPClientSocket->HasPendingData(PendingDataSize))
 			{
 				// 읽어올 버퍼
@@ -142,17 +143,18 @@ void ATCPClient::RecvData()
 						// 성공적으로 수신했다면
 						if (bSuccessRecv)
 						{
+							// 패킷 받아서 해석하는 클래스 추가 (미리 해석 방법을 알고 있도록 구현)
 							TArray<uint8> Payload;
 							Payload.Append(Buffer);
 							FString Data(Payload.Num(), (char*)Payload.GetData());
-							UE_LOG(LogTemp, Log, TEXT("OnRecvCompleted  recv data success.  data : %s  Payload : %d  size : %d"), *Data, Payload.Num(), Data.Len());
+							UE_LOG(LogType, Log, TEXT("OnRecvCompleted  recv data success.  data : %s  Payload : %d  size : %d"), *Data, Payload.Num(), Data.Len());
 							UGlobalFunctonLibrary::LoggingInWidget(Data, GetWorld());
-							UE_LOG(LogTemp, Log, TEXT("End Recv Phase"));
+							UE_LOG(LogType, Log, TEXT("End Recv Phase"));
 						}
 						else // 성공적으로 수신 못했다면
 						{
-							UE_LOG(LogTemp, Error, TEXT("Recv Payload Failed."));
-							UE_LOG(LogTemp, Log, TEXT("End Recv Phase"));
+							UE_LOG(LogType, Error, TEXT("Recv Payload Failed."));
+							UE_LOG(LogType, Log, TEXT("End Recv Phase"));
 						}
 					});
 			}
