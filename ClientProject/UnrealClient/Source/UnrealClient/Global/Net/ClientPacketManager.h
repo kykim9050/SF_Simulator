@@ -42,15 +42,6 @@ public:
 	}
 
 	template<typename PacketType>
-	static TSharedPtr<FBufferArchive> CreatePacket(const int32 _Value)
-	{
-		FString IntStr = FString::FromInt(_Value);
-
-		return CreatePacket<PacketType>(IntStr);
-	}
-
-
-	template<typename PacketType>
 	static TSharedPtr<FBufferArchive> CreatePacket(const FString& _Data = FString(""))
 	{
 		FTCHARToUTF8 Convert(*_Data);

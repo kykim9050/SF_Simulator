@@ -62,13 +62,6 @@ bool ATCPClient::ConnectToServer(const FString& _IPAddress, int32 _Port)
 	return true;
 }
 
-void ATCPClient::SendData(const FString& _Data)
-{
-	// 패킷 생성
-	TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreatePacket<FRequestNPacket>(_Data);
-
-	SendData(*Packet.Get());
-}
 
 void ATCPClient::SendData(const FBufferArchive& _PacketData)
 {
@@ -155,8 +148,8 @@ void ATCPClient::RecvData()
 							case static_cast<int>(EPacketType::NValuePacket):
 							{
 								FString Data(Buffer.Num(), (char*)Buffer.GetData());
-								UE_LOG(LogType, Log, TEXT("OnRecvCompleted  recv data success.  data : %s  Payload : %d  size : %d"), *Data, Buffer.Num(), Data.Len());
-								UGlobalFunctonLibrary::LoggingInWidget(Data, GetWorld());
+								UE_LOG(LogType, Log, TEXT("NValue recv data success.  N : %d"), Buffer.Num());
+								UGlobalFunctonLibrary::LoggingInWidget(FString(TEXT("NValue recv data success.  N : %d"), Buffer.Num()), GetWorld());
 								break;
 							}
 							default:
