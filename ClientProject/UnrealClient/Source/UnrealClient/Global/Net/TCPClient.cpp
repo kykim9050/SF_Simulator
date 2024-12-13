@@ -153,8 +153,13 @@ void ATCPClient::RecvData()
 								Reader << Payload;
 
 								// N값을 Client의 변수 보관소에 저장하기
+								UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 
-
+								if (Inst)
+								{
+									// 서버로부터 받은 N 값 세팅
+									Inst->SetN(Payload.N);
+								}
 
 								UE_LOG(LogType, Log, TEXT("NValue recv data success.  N : %d"), Payload.N);
 								UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("NValue recv data success.  N : %d"), Payload.N), GetWorld());

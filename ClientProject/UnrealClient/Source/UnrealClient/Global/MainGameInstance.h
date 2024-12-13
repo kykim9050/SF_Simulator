@@ -61,6 +61,16 @@ public:
 	/// <returns></returns>
 	FString ConvertToGlobalStandardTime(const FDateTime& _DateTime) const;
 
+	FORCEINLINE void SetN(int32 _Value)
+	{
+		N = _Value;
+	}
+
+	FORCEINLINE int32 GetN() const
+	{
+		return N;
+	}
+
 protected:
 
 private:
@@ -73,6 +83,12 @@ private:
 	UPROPERTY()
 	double GridUnitValue = 100.0f;
 	
+	/// <summary>
+	/// N 값
+	/// </summary>
+	UPROPERTY()
+	int32 N = -1;
+
 	/// <summary>
 	/// 방향 확인시 적용되는 오프셋 값
 	/// </summary>
