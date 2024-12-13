@@ -76,6 +76,10 @@ void ASimulatorManager::MoverAndDestPosInit(int32 _N)
 		MoversInitPosSource.Add(i + 1);
 		DestSignsInitPosSource.Add(i + 1);
 	}
+
+	// 배열의 순서를 랜덤하게 섞기
+	UGlobalFunctonLibrary::ShuffleTArray<int>(MoversInitPosSource);
+	UGlobalFunctonLibrary::ShuffleTArray<int>(DestSignsInitPosSource);
 }
 
 void ASimulatorManager::SpawnGridPlatform(FVector _Pos)

@@ -56,6 +56,29 @@ public:
 		return nullptr;
 	}
 
+	template<typename T>
+	static void ShuffleTArray(TArray<T>& _Array)
+	{
+		int RandValSource = 0;
+		uint64_t RandValSourceAddress = reinterpret_cast<uint64_t>(&RandValSource);
+
+		int32 Seed = FMath::FloorToInt(static_cast<float>(RandValSourceAddress));
+
+		FMath::RandInit(Seed);
+
+		int32 Size = _Array.Num();
+
+		for (int32 i = Size -1; i > 0; --i)
+		{
+			int32 RandomIdx = FMath::RandRange(0, i);
+
+			if (i != RandomIdx)
+			{
+				_Array.Swap(i, RandomIdx);
+			}
+		}
+	}
+
 protected:
 
 private:
