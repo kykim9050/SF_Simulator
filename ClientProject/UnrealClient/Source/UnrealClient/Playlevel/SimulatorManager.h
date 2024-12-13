@@ -26,13 +26,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
-	/// <summary>
-	/// GridPlatform을 Spawn하는 함수
-	/// _Pos : World에서 생성하고자 하는 위치 (중심)
-	/// </summary>
-	UFUNCTION(BlueprintCallable)
-	void SpawnGridPlatform(FVector _Pos = FVector(.0f, .0f, .0f));
 
+	/// <summary>
+	/// N값을 입력 받아 수행하는 SpawnGridPlatform
+	/// </summary>
+	/// <param name="_Pos"></param>
+	void GridInit(int32 _N, FVector _Pos = FVector(.0f, .0f, .0f));
 
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE void SetIsMoversSpawnable()
@@ -113,6 +112,17 @@ private:
 	void SendTargetPosInfoToMover(int _MoverID, FVector _TargetPos);
 
 private:
+	FORCEINLINE void SetNValue(int32 _N)
+	{
+		NValue = _N;
+	}
+
+	/// <summary>
+	/// GridPlatform을 Spawn하는 함수
+	/// _Pos : World에서 생성하고자 하는 위치 (중심)
+	/// </summary>
+	void SpawnGridPlatform(FVector _Pos = FVector(.0f, .0f, .0f));
+	
 	// Test용 데이터 (로봇 아이디, 경로 정보 전달 용)
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Test Prop", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UTestDataComponent> TestDataComponent = nullptr;
@@ -158,7 +168,7 @@ private:
 	/// <summary>
 	/// 서버에서 받아올 N값
 	/// </summary>
-	int NValue = 1;
+	int32 NValue = 1;
 
 	/// <summary>
 	/// Mover를 연속적으로 출력하기 위한 시그널 변수

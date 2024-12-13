@@ -2,7 +2,7 @@
 
 
 #include "Global/GlobalFunctonLibrary.h"
-#include "GlobalFunctonLibrary.h"
+#include "Playlevel/ClientPlayGameMode.h"
 
 UMainGameInstance* UGlobalFunctonLibrary::GetMainGameInstance(const UWorld* WorldContextObject)
 {
@@ -15,6 +15,25 @@ UMainGameInstance* UGlobalFunctonLibrary::GetMainGameInstance(const UWorld* Worl
 	}
 
 	return Inst;
+}
+
+AClientPlayGameMode* UGlobalFunctonLibrary::GetClientPlayGameMode(const UWorld* WorldContextObject)
+{
+	AGameModeBase* BaseGameMode = UGameplayStatics::GetGameMode(WorldContextObject);
+	if (false == BaseGameMode->IsValidLowLevel())
+	{
+		UE_LOG(LogType, Fatal, TEXT("if (false == BaseGameMode->IsValidLowLevel())"));
+		return nullptr;
+	}
+
+	AClientPlayGameMode* CastGameMode = Cast<AClientPlayGameMode>(BaseGameMode);
+	if (false == CastGameMode->IsValidLowLevel())
+	{
+		UE_LOG(LogType, Fatal, TEXT("if (false == CastGameMode->IsValidLowLevel())"));
+		return nullptr;
+	}
+
+	return CastGameMode;
 }
 
 void UGlobalFunctonLibrary::LoggingInWidget(const FString& _Log, const UWorld* WorldContextObject)

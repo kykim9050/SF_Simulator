@@ -161,6 +161,17 @@ void ATCPClient::RecvData()
 									Inst->SetN(Payload.N);
 								}
 
+								AClientPlayGameMode* CurGameMode = UGlobalFunctonLibrary::GetClientPlayGameMode(GetWorld());
+								if (CurGameMode)
+								{
+									ASimulatorManager* SM = CurGameMode->GetMainSimulator().Get();
+									if (SM)
+									{
+										// Grid »ý¼º
+										SM->GridInit(Inst->GetN());
+									}
+								}
+
 								UE_LOG(LogType, Log, TEXT("NValue recv data success.  N : %d"), Payload.N);
 								UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("NValue recv data success.  N : %d"), Payload.N), GetWorld());
 								break;

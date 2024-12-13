@@ -10,6 +10,7 @@
 #include "Networking.h"
 #include "Global/GlobalFunctonLibrary.h"
 #include "Global/Net/ClientProtocol.h"
+#include "Global/Net/ClientPacketManager.h"
 #include "TCPClient.generated.h"
 
 /**

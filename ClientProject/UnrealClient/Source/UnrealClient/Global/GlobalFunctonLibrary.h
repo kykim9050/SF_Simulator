@@ -13,6 +13,7 @@
 /**
  * 전역 함수를 사용할 수 있는 클래스
  */
+class AClientPlayGameMode;
 UCLASS()
 class UNREALCLIENT_API UGlobalFunctonLibrary : public UBlueprintFunctionLibrary
 {
@@ -21,6 +22,8 @@ public:
 	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContextObject"))
 	static UMainGameInstance* GetMainGameInstance(const UWorld* WorldContextObject);
 	
+	static AClientPlayGameMode* GetClientPlayGameMode(const UWorld* WorldContextObject);
+
 	/// <summary>
 	/// 로그 위젯에 로그 출력 함수
 	/// </summary>

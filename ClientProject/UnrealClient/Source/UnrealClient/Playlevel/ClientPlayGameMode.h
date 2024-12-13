@@ -21,6 +21,11 @@ public:
 	{
 		return TCPClient;
 	}
+
+	TObjectPtr<ASimulatorManager> GetMainSimulator() const
+	{
+		return MainSimulator;
+	}
 	
 
 protected:

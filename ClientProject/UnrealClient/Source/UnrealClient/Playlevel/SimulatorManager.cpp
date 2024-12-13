@@ -21,10 +21,6 @@ ASimulatorManager::ASimulatorManager()
 void ASimulatorManager::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// 테스트 코드 NValue Get
-	NValue = TestDataComponent->GetTestData().CourseInfo.Num();
-	InitMoverSpawnTimes(NValue);
 }
 
 void ASimulatorManager::ReleaseActor()
@@ -80,6 +76,23 @@ void ASimulatorManager::SpawnGridPlatform(FVector _Pos)
 		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(NValue * 1.0f, NValue * 1.0f, 1.0f));
 		GridPlatform = GetWorld()->SpawnActor<AGridPlatform>(GridPlatformClass, TransValue);
 	}
+}
+
+void ASimulatorManager::GridInit(int32 _N, FVector _Pos)
+{
+	SetNValue(_N);
+
+	if (5 > NValue && 10 < NValue)
+	{
+		UE_LOG(LogType, Fatal, TEXT("NValue is not valid"));
+		return;
+	}
+
+	// 초기화된 NValue 갑으로 스폰할 시간 배열 생성
+	InitMoverSpawnTimes(NValue);
+
+	// 그리드 생성
+	SpawnGridPlatform(_Pos);
 }
 
 void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
