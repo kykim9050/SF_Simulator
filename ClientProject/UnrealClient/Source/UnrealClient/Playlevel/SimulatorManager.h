@@ -111,11 +111,18 @@ private:
 	/// <param name="_TargetPos"></param>
 	void SendTargetPosInfoToMover(int _MoverID, FVector _TargetPos);
 
-private:
 	FORCEINLINE void SetNValue(int32 _N)
 	{
 		NValue = _N;
 	}
+
+	/// <summary>
+	/// 이동체와 목적지의 위치를 랜덤으로 초기화 하는 함수
+	/// </summary>
+	/// <param name="_N"></param>
+	void MoverAndDestPosInit(int32 _N);
+
+private:
 
 	/// <summary>
 	/// GridPlatform을 Spawn하는 함수
@@ -189,4 +196,10 @@ private:
 	/// 릴리즈한 Mover & DestSign 세트 수
 	/// </summary>
 	int DestroyCount = 0;
+
+	/// <summary>
+	/// Mover와 DestSign의 초기 위치를 위한 배열 소스
+	/// </summary>
+	TArray<int> MoversInitPosSource = TArray<int>();
+	TArray<int> DestSignsInitPosSource = TArray<int>();
 };

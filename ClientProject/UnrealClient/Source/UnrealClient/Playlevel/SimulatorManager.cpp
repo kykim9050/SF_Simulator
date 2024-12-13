@@ -69,6 +69,15 @@ void ASimulatorManager::Tick(float DeltaTime)
 	ReleaseActor();
 }
 
+void ASimulatorManager::MoverAndDestPosInit(int32 _N)
+{
+	for (int32 i = 0; i < _N; ++i)
+	{
+		MoversInitPosSource.Add(i + 1);
+		DestSignsInitPosSource.Add(i + 1);
+	}
+}
+
 void ASimulatorManager::SpawnGridPlatform(FVector _Pos)
 {
 	if (nullptr != GridPlatformClass)
@@ -90,6 +99,9 @@ void ASimulatorManager::GridInit(int32 _N, FVector _Pos)
 
 	// 초기화된 NValue 갑으로 스폰할 시간 배열 생성
 	InitMoverSpawnTimes(NValue);
+
+	// 이동체와 도착지의 랜덤 위치를 생성
+	MoverAndDestPosInit(NValue);
 
 	// 그리드 생성
 	SpawnGridPlatform(_Pos);
