@@ -199,6 +199,7 @@ private:
 
 	/// <summary>
 	/// Mover와 DestSign의 초기 위치를 위한 배열 소스
+	/// int값은 대상의 ID값
 	/// </summary>
 	TArray<int> MoversInitPosSource = TArray<int>();
 	TArray<int> DestSignsInitPosSource = TArray<int>();

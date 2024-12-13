@@ -56,6 +56,12 @@ public:
 		return nullptr;
 	}
 
+	/// <summary>
+	/// Fisher-Yates Shuffle 알고리즘 적용
+	/// 인덱스가 낮아지면서 랜덤하게 발생하는 인덱스와 Swap하는 알고리즘
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="_Array"></param>
 	template<typename T>
 	static void ShuffleTArray(TArray<T>& _Array)
 	{
