@@ -59,11 +59,8 @@ public:
 	template<typename T>
 	static void ShuffleTArray(TArray<T>& _Array)
 	{
-		int RandValSource = 0;
-		uint64_t RandValSourceAddress = reinterpret_cast<uint64_t>(&RandValSource);
-
-		int32 Seed = FMath::FloorToInt(static_cast<float>(RandValSourceAddress));
-
+		// 시간을 랜덤의 Seed로 설정
+		int32 Seed = FDateTime::Now().GetMillisecond();
 		FMath::RandInit(Seed);
 
 		int32 Size = _Array.Num();
