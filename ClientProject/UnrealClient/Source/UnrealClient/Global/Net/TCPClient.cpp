@@ -143,6 +143,7 @@ void ATCPClient::RecvData()
 							Reader << RecvData;
 
 							TSharedPtr<FRecvBaseProtocol> NewProtocol = Interpret->ConvertProtocol(RecvData.Type, Reader);
+							Interpret->ProcessPacket(NewProtocol);
 
 							// 해당부분을 별도의 함수 포인터형으로 만들어서 호출되게 만들기
 							// 받은 패킷이 어떤 타입인지 확인

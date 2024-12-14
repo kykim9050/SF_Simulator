@@ -9,3 +9,8 @@ TSharedPtr<FRecvBaseProtocol> UClientInterpreter::ConvertProtocol(int32 _Type, F
 
 	return nullptr;
 }
+
+void UClientInterpreter::ProcessPacket(TSharedPtr<FRecvBaseProtocol> _Packet)
+{
+	int a = 0;
+}

@@ -23,6 +23,12 @@ public:
 	/// <returns></returns>
 	TSharedPtr<FRecvBaseProtocol> ConvertProtocol(int32 _Type, FMemoryArchive& _ReadMem);
 
+	/// <summary>
+	/// 특정 패킷에 따라 실행할 Handler 호출
+	/// </summary>
+	/// <param name="_Packet"></param>
+	void ProcessPacket(TSharedPtr<FRecvBaseProtocol> _Packet);
+
 protected:
 
 private:
