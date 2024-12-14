@@ -70,4 +70,9 @@ public:
 	{
 		Type = static_cast<uint32>(_Type);
 	}
+
+	FORCEINLINE int32 GetType() const
+	{
+		return Type;
+	}
 };
