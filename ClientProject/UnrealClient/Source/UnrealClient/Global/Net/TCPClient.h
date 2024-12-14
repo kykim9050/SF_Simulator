@@ -11,6 +11,7 @@
 #include "Global/GlobalFunctonLibrary.h"
 #include "Global/Net/ClientProtocol.h"
 #include "Global/Net/ClientPacketManager.h"
+#include "Global/Net/ClientInterpreter.h"
 #include "TCPClient.generated.h"
 
 /**
@@ -63,4 +64,9 @@ private:
 	/// Client에서 통신을 담당할 소켓
 	/// </summary>
 	FSocket* TCPClientSocket = nullptr;
+
+	/// <summary>
+	/// 수신용 패킷 해석자
+	/// </summary>
+	TObjectPtr<UClientInterpreter> Interpret = nullptr;
 };
