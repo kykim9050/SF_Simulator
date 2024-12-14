@@ -20,8 +20,11 @@ enum class EPacketType : uint8
 	MoverCoursePacket,	// 이동체 경로관련 패킷
 };
 
+/// <summary>
+/// N요청용 패킷
+/// </summary>
 USTRUCT()
-struct UNREALCLIENT_API FRequestNPacket : public FClientProtocol
+struct UNREALCLIENT_API FRequestNPacket : public FMessageHeader
 {
 	GENERATED_BODY()
 public:
@@ -31,21 +34,24 @@ public:
 	}
 
 	FRequestNPacket(uint32 _Size)
-		:FClientProtocol(static_cast<uint32>(EPacketType::NValuePacket), _Size)
+		:FMessageHeader(static_cast<uint32>(EPacketType::NValuePacket), _Size)
 	{
 
 	}
 };
 
+/// <summary>
+/// N 수신용 패킷
+/// </summary>
 USTRUCT()
-struct UNREALCLIENT_API FRecvNPacket
+struct UNREALCLIENT_API FRecvNPacket: public FRecvBaseProtocol
 {
 	GENERATED_BODY()
 public:
 	FRecvNPacket()
 		: N(-1)
 	{
-
+		SetType(EPacketType::NValuePacket);
 	}
 
 	friend FArchive& operator<<(FArchive& Ar, FRecvNPacket& Packet)

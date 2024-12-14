@@ -139,7 +139,7 @@ void ATCPClient::RecvData()
 							// 수신받은 Buffer 데이터를 FMemoryReader 클래스로 받아서 해석
 							// 언리얼에서 Serialize의 Read, Write는 모두 << 연산자로 취급
 							FMemoryReader Reader(Buffer);
-							FClientProtocol RecvData;
+							FMessageHeader RecvData;
 							Reader << RecvData;
 
 							// 해당부분을 별도의 함수 포인터형으로 만들어서 호출되게 만들기
