@@ -58,6 +58,8 @@ public:
 	{
 
 	}
+
+public:
 };
 
 /// <summary>

@@ -18,11 +18,11 @@ class UNREALCLIENT_API UClientPacketManager : public UObject
 public:
 
 	template<typename EnumType>
-	static TSharedPtr<FBufferArchive> CreateRequestPacket(EnumType _RequestType)
+	static TSharedPtr<FBufferArchive> CreateRequestPacket(EnumType _RequestType, const FArrayWriter& _WArray = FArrayWriter())
 	{
 		int32 Type = static_cast<int32>(_RequestType);
 
-		FArrayWriter WriteArray = FArrayWriter();
+		FArrayWriter WriteArray = _WArray;
 
 		TSharedPtr<FBufferArchive> Packet;
 		

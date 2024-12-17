@@ -131,25 +131,29 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 
 		// Mover 생성 시 DestSign 동시 생성
 		// DestSign의 위치 좌표 생성
+		FVector DestPos = FVector();
 		for (int32 i = 0; i < DestSignsInitPosSource.Num(); i++)
 		{
 			// Mover의 ID와 같다면 해당 위치에 DestSign 생성
 			if (_MoverID == DestSignsInitPosSource[i])
 			{
 				FVector2D DestPos2D = CalDestSignInitPos(Inst->GetGridUnitValue(), NValue, i);
-				FVector DestPos = FVector(DestPos2D.X, DestPos2D.Y, .0);
+				DestPos = FVector(DestPos2D.X, DestPos2D.Y, .0);
 				SpawnDestSign(DestPos, _MoverID);
 			}
 		}
 
-		// [ID, Mover 초기 위치, DestSign 초기 위치] 정보 패킷으로 생성해서 서버에 전달
-		//TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(RequestPath, ID, Mover위치, DestSign)
-		TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(EPacketType::MoverCoursePacket);
+		// [ID, Mover 초기 위치, DestSign 초기 위치] payload 추합
+		FArrayWriter WriteArray;
+		WriteArray << _MoverID;
+		WriteArray << _Pos.X;
+		WriteArray << _Pos.Y;
+		WriteArray << DestPos.X;
+		WriteArray << DestPos.Y;
+
+		// 패킷 생성
+		TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(EPacketType::MoverCoursePacket, WriteArray);
 		//TCPClient->SendData(Packet);
-
-
-
-
 
 		//// 초기 생성시 목표 좌표를 전달 (Test용)
 		//int Size = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray.Num();

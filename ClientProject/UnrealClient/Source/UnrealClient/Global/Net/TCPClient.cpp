@@ -102,7 +102,6 @@ void ATCPClient::SendData(const FBufferArchive& _PacketData)
 					{
 						UE_LOG(LogType, Log, TEXT("Send Error"));
 						UE_LOG(LogType, Log, TEXT("End Send Phase"));
-						RecvData();
 					}
 				});
 
