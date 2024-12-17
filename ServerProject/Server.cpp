@@ -168,7 +168,11 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			Point StartPos{ _Packet->StartXPos, _Packet->StartYPos };
 			Point DestPos{ _Packet->DestXPos, _Packet->DestYPos };
 
+			std::vector<std::vector<int>> GridMap = std::vector<std::vector<int>>(N, std::vector<int>(N));
+			std::stack<Point> PathStack = std::stack<Point>();
+
 			WayPointAlgo PathAlgo{ MoverID, StartPos , DestPos };
+			PathAlgo.FindPathWithBFS(GridMap, PathStack);
 		});
 }
 
