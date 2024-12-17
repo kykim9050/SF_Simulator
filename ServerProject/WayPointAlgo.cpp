@@ -63,3 +63,8 @@ void WayPointAlgo::FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, cons
 	std::cout << "Not Found Path" << std::endl;
 	return;
 }
+
+void WayPointAlgo::FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, std::stack<Point>& _ResPath)
+{
+	FindPathWithBFS(_GridMap, StartPos, DestPos, _ResPath);
+}

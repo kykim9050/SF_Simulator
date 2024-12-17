@@ -57,6 +57,13 @@ public:
 	/// </summary>
 	void FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, const Point& _StartPos, const Point& _DestPos, std::stack<Point>& _ResPath);
 
+	/// <summary>
+	/// GridMap 정보를 받아들여서 ResPath에 경로를 입력하는 함수
+	/// </summary>
+	/// <param name="_GridMap"></param>
+	/// <param name="_ResPath"></param>
+	void FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, std::stack<Point>& _ResPath);
+
 protected:
 
 private:

@@ -3,6 +3,7 @@
 #include "ServerSerializer.h"
 #include "ServerProtocol.h"
 #include "GlobalValue.h"
+#include "WayPointAlgo.h"
 
 
 Server::Server()
@@ -167,7 +168,7 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			Point StartPos{ _Packet->StartXPos, _Packet->StartYPos };
 			Point DestPos{ _Packet->DestXPos, _Packet->DestYPos };
 
-			int a = 0;
+			WayPointAlgo PathAlgo{ MoverID, StartPos , DestPos };
 		});
 }
 
