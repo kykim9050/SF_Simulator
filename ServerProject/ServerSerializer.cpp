@@ -50,6 +50,14 @@ void ServerSerializer::operator<<(const double& _Data)
 	Write(&_Data, sizeof(double));
 }
 
+void ServerSerializer::operator<<(const std::vector<int>& _Data)
+{
+	for (size_t i = 0; i < _Data.size(); ++i)
+	{
+		Write(&_Data[i], sizeof(int));
+	}
+}
+
 void ServerSerializer::Read(void* _Data, size_t _Size)
 {
 	if (ReadOffset > WriteOffset)

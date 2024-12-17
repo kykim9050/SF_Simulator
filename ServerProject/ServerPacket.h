@@ -107,12 +107,12 @@ public:
 	{
 		ServerProtocol::Serialize(_Ser);
 		_Ser << ID;
+		_Ser << PathInfo;
 	}
 
 	void DeSerialize(ServerSerializer& _Ser) override
 	{
 		ServerProtocol::DeSerialize(_Ser);
-		_Ser >> ID;
 	}
 
 	void AddPathInfo(Point& _Pos)

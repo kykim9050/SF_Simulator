@@ -175,7 +175,8 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			PathAlgo.FindPathWithBFS(GridMap, PathStack);
 
 			std::shared_ptr<SendMoverCoursePacket> SendPacket = std::make_shared<SendMoverCoursePacket>();
-			
+			SendPacket->ID = MoverID;
+
 			while (!PathStack.empty())
 			{
 				Point Pos = PathStack.top();
@@ -183,12 +184,13 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 				PathStack.pop();
 			}
 			
-			//// BroadCast
-			//for (auto ClientSocket : ClientSockets)
-			//{
-			//	Server::Send(ClientSocket, SendPacket);
-			//}
+			// BroadCast
+			for (auto ClientSocket : ClientSockets)
+			{
+				Server::Send(ClientSocket, SendPacket);
+			}
 
+			std::cout << "Give Path Info" << std::endl;
 		});
 }
 
