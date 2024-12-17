@@ -173,6 +173,22 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 
 			WayPointAlgo PathAlgo{ MoverID, StartPos , DestPos };
 			PathAlgo.FindPathWithBFS(GridMap, PathStack);
+
+			std::shared_ptr<SendMoverCoursePacket> SendPacket = std::make_shared<SendMoverCoursePacket>();
+			
+			while (!PathStack.empty())
+			{
+				Point Pos = PathStack.top();
+				SendPacket->AddPathInfo(Pos);
+				PathStack.pop();
+			}
+			
+			//// BroadCast
+			//for (auto ClientSocket : ClientSockets)
+			//{
+			//	Server::Send(ClientSocket, SendPacket);
+			//}
+
 		});
 }
 

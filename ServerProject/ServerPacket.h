@@ -1,5 +1,6 @@
 #pragma once
 #include "ServerProtocol.h"
+#include "Point.h"
 
 // 설명 : Server 측 패킷 모음
 
@@ -91,4 +92,42 @@ public:
 	int StartYPos = -1;
 	int DestXPos = -1;
 	int DestYPos = -1;
+};
+
+// 경로 응답 패킷
+class SendMoverCoursePacket : public ServerProtocol
+{
+public:
+	SendMoverCoursePacket()
+	{
+		SetType(EPacketType::MoverCoursePacket);
+	}
+
+	void Serialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::Serialize(_Ser);
+		_Ser << ID;
+	}
+
+	void DeSerialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::DeSerialize(_Ser);
+		_Ser >> ID;
+	}
+
+	void AddPathInfo(Point& _Pos)
+	{
+		AddPathInfo(_Pos.X, _Pos.Y);
+	}
+
+public:
+	int ID = -1;
+	std::vector<int> PathInfo;
+
+private:
+	void AddPathInfo(int _X, int _Y)
+	{
+		PathInfo.push_back(_X);
+		PathInfo.push_back(_Y);
+	}
 };
