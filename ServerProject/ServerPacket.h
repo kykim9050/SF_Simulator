@@ -87,8 +87,8 @@ public:
 
 public:
 	int ID = -1;
-	double StartXPos = -1.0;
-	double StartYPos = -1.0;
-	double DestXPos = -1.0;
-	double DestYPos = -1.0;
+	int StartXPos = -1;
+	int StartYPos = -1;
+	int DestXPos = -1;
+	int DestYPos = -1;
 };
