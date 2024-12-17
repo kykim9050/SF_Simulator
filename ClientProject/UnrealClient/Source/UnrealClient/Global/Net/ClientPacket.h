@@ -41,6 +41,26 @@ public:
 };
 
 /// <summary>
+/// Mover의 Path 요청용 패킷
+/// </summary>
+USTRUCT()
+struct UNREALCLIENT_API FRequestPathPacket : public FMessageHeader
+{
+	GENERATED_BODY()
+public:
+	FRequestPathPacket()
+	{
+		SetType(EPacketType::MoverCoursePacket);
+	}
+
+	FRequestPathPacket(uint32 _Size)
+		:FMessageHeader(static_cast<uint32>(EPacketType::MoverCoursePacket), _Size)
+	{
+
+	}
+};
+
+/// <summary>
 /// N 수신용 패킷
 /// </summary>
 USTRUCT()

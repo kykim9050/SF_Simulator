@@ -7,6 +7,7 @@
 #include "Playlevel/Actor/Mover.h"
 #include "Global/GlobalFunctonLibrary.h"
 #include "Playlevel/Actor/DestSign.h"
+#include "Global/Net/ClientPacketManager.h"
 
 // Sets default values
 ASimulatorManager::ASimulatorManager()
@@ -141,20 +142,29 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 			}
 		}
 
-		// 초기 생성시 목표 좌표를 전달 (Test용)
-		int Size = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray.Num();
+		// [ID, Mover 초기 위치, DestSign 초기 위치] 정보 패킷으로 생성해서 서버에 전달
+		//TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(RequestPath, ID, Mover위치, DestSign)
+		TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(EPacketType::MoverCoursePacket);
+		//TCPClient->SendData(Packet);
 
-		// Mover에게 이동할 경로를 제공한다.
-		TArray<FVector2D> ConvertPathInfo = TArray<FVector2D>();
-		for (int i = 0; i < Size; i++)
-		{
-			FVector2D Vector = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray[i];
-			ConvertPathInfo.Add(Vector);
-		}
-		// 경로를 Mover에 보내기전에 경로를 요약한다. (꺾이는 부분이 어딘지를 기준으로, 실제 좌표로)
-		TArray<FVector2D> ModyfiedPathInfo = PathModify(ConvertPathInfo);
 
-		Obj->SetWayPoints(ModyfiedPathInfo);
+
+
+
+		//// 초기 생성시 목표 좌표를 전달 (Test용)
+		//int Size = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray.Num();
+
+		//// Mover에게 이동할 경로를 제공한다.
+		//TArray<FVector2D> ConvertPathInfo = TArray<FVector2D>();
+		//for (int i = 0; i < Size; i++)
+		//{
+		//	FVector2D Vector = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray[i];
+		//	ConvertPathInfo.Add(Vector);
+		//}
+		//// 경로를 Mover에 보내기전에 경로를 요약한다. (꺾이는 부분이 어딘지를 기준으로, 실제 좌표로)
+		//TArray<FVector2D> ModyfiedPathInfo = PathModify(ConvertPathInfo);
+
+		//Obj->SetWayPoints(ModyfiedPathInfo);
 		Movers.Add(_MoverID) = Obj;
 
 		// Mover 생성 시 생성 시간 기록

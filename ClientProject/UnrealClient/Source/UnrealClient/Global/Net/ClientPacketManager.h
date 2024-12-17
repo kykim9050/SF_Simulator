@@ -16,7 +16,7 @@ class UNREALCLIENT_API UClientPacketManager : public UObject
 {
 	GENERATED_BODY()
 public:
-	
+
 	template<typename EnumType>
 	static TSharedPtr<FBufferArchive> CreateRequestPacket(EnumType _RequestType)
 	{
@@ -31,6 +31,11 @@ public:
 		case static_cast<int>(EPacketType::NValuePacket):
 		{
 			Packet = CreatePacket<FRequestNPacket>(WriteArray.GetData(), WriteArray.Num());
+			break;
+		}
+		case static_cast<int>(EPacketType::MoverCoursePacket):
+		{
+			Packet = CreatePacket<FRequestPathPacket>(WriteArray.GetData(), WriteArray.Num());
 			break;
 		}
 		default:
