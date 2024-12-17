@@ -4,6 +4,8 @@
 #include "Global/Net/TCPClient.h"
 #include "Global/Net/ClientPacketManager.h"
 #include "Playlevel/SimulatorManager.h"
+#include "Playlevel/ClientPlayGameMode.h"
+
 
 ATCPClient::ATCPClient()
 	:TCPClientSocket(nullptr)

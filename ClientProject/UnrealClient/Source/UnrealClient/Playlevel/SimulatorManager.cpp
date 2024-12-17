@@ -8,6 +8,7 @@
 #include "Global/GlobalFunctonLibrary.h"
 #include "Playlevel/Actor/DestSign.h"
 #include "Global/Net/ClientPacketManager.h"
+#include "Playlevel/ClientPlayGameMode.h"
 
 // Sets default values
 ASimulatorManager::ASimulatorManager()
@@ -153,7 +154,12 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 
 		// 패킷 생성
 		TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(EPacketType::MoverCoursePacket, WriteArray);
-		//TCPClient->SendData(Packet);
+		//AClientPlayGameMode* CurGameMode = UGlobalFunctonLibrary::GetClientPlayGameMode(GetWorld());
+		//if (CurGameMode)
+		//{
+		//	// 서버로 패킷 송신
+		//	CurGameMode->GetTCPClient()->SendData(*(Packet.Get()));
+		//}
 
 		//// 초기 생성시 목표 좌표를 전달 (Test용)
 		//int Size = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray.Num();
