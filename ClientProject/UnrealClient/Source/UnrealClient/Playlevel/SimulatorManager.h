@@ -94,7 +94,20 @@ private:
 	/// <summary>
 	/// Mover의 생성 초기 위치를 지정해주는 함수
 	/// </summary>
+	/// <param name="_GridUintVal"></param>
+	/// <param name="_N"></param>
+	/// <param name="_Idx"></param>
+	/// <returns></returns>
 	FVector2D CalMoverInitPos(double _GridUintVal, int _N, int _Idx);
+
+	/// <summary>
+	/// DestSign의 생성 초기 위치를 지정해주는 함수
+	/// </summary>
+	/// <param name="_GridUintVal"></param>
+	/// <param name="_N"></param>
+	/// <param name="_Idx"></param>
+	/// <returns></returns>
+	FVector2D CalDestSignInitPos(double _GridUintVal, int _N, int _Idx);
 
 	/// <summary>
 	/// 일반 서버에서 받은 좌표를 실제 Unreal의 좌표로 바꾸어주는 함수

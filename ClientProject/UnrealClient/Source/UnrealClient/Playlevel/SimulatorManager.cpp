@@ -120,16 +120,28 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 		// Mover에게 ID를 부여한다.
 		Obj->SetID(_MoverID);
 
-		// 초기 생성시 목표 좌표를 전달 (Test용)
-		int Size = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray.Num();
-		
-
 		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 		if (nullptr == Inst)
 		{
 			UE_LOG(LogType, Fatal, TEXT("if (nullptr != Inst)"));
 			return;
 		}
+
+		// Mover 생성 시 DestSign 동시 생성
+		// DestSign의 위치 좌표 생성
+		for (int32 i = 0; i < DestSignsInitPosSource.Num(); i++)
+		{
+			// Mover의 ID와 같다면 해당 위치에 DestSign 생성
+			if (_MoverID == DestSignsInitPosSource[i])
+			{
+				FVector2D DestPos2D = CalDestSignInitPos(Inst->GetGridUnitValue(), NValue, i);
+				FVector DestPos = FVector(DestPos2D.X, DestPos2D.Y, .0);
+				SpawnDestSign(DestPos, _MoverID);
+			}
+		}
+
+		// 초기 생성시 목표 좌표를 전달 (Test용)
+		int Size = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray.Num();
 
 		// Mover에게 이동할 경로를 제공한다.
 		TArray<FVector2D> ConvertPathInfo = TArray<FVector2D>();
@@ -143,11 +155,6 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 
 		Obj->SetWayPoints(ModyfiedPathInfo);
 		Movers.Add(_MoverID) = Obj;
-
-		// Mover 생성 시 DestSign 동시 생성
-		FVector2D DestPos2D = Obj->GetSettingData()->WayPointsInfo[Obj->GetSettingData()->WayPointsInfo.Num() - 1];
-		FVector DestPos = FVector(DestPos2D.X, DestPos2D.Y, .0);
-		SpawnDestSign(DestPos, _MoverID);
 
 		// Mover 생성 시 생성 시간 기록
 		FDateTime CurTime = Inst->GetTimeValue();
@@ -207,6 +214,13 @@ FVector2D ASimulatorManager::CalMoverInitPos(double _GridUintVal, int _N, int _I
 	double Base = (-1.0f) * (_GridUintVal * static_cast<double>(_N ) / 2.0f) + (_GridUintVal / 2.0f);
 	FVector2D RetVal = FVector2D(Base, Base + _GridUintVal * _Idx);
  	return RetVal;
+}
+
+FVector2D ASimulatorManager::CalDestSignInitPos(double _GridUintVal, int _N, int _Idx)
+{
+	double Base = (-1.0f) * (_GridUintVal * static_cast<double>(_N) / 2.0f) + (_GridUintVal / 2.0f);
+	FVector2D RetVal = FVector2D((-1) * Base, Base + _GridUintVal * _Idx);
+	return RetVal;
 }
 
 FVector2D ASimulatorManager::ConvertToRealPos(FVector2D _Pos, double _GridUnitVal, int _N)
