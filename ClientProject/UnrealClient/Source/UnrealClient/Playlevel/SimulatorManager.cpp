@@ -182,11 +182,11 @@ void ASimulatorManager::SpawnMoverRepeatedly(float _DeltaTime)
 		// 값을 계산해서 Mover 초기 위치를 지정해준다.
 		FVector2D InitPos = CalMoverInitPos(Inst->GetGridUnitValue(), NValue, MoverSpawnCount);
 
-		int RobotID = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].MoverID;
-		// 현재 ID는 TestData에서 가져오고 있다.
+		// 초기 랜덤하게 섞인 위치 정보에 저장된 ID값 활용
+		int RobotID = MoversInitPosSource[MoverSpawnCount];
 		SpawnMover(FVector(InitPos.X, InitPos.Y, 100.0f), RobotID);
-		++MoverSpawnCount;
 
+		++MoverSpawnCount;
 		if (NValue <= MoverSpawnCount)
 		{
 			bIsMoversSpawnable = false;
