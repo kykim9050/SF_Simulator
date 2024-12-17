@@ -118,11 +118,6 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 {
 	if (nullptr != MoverClass)
 	{
-		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), _Pos, FVector(1.0f, 1.0f, 1.0f));
-		AMover* Obj = GetWorld()->SpawnActor<AMover>(MoverClass, TransValue);
-		// Mover에게 ID를 부여한다.
-		Obj->SetID(_MoverID);
-
 		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
 		if (nullptr == Inst)
 		{
@@ -130,36 +125,52 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 			return;
 		}
 
+		// Mover 생성 위치 좌표 변환
+		FVector2D StartPos = CalMoverInitPos(Inst->GetGridUnitValue(), NValue, MoverSpawnCount);
+
+		FTransform TransValue = FTransform(FRotator(.0f, .0f, .0f), FVector(StartPos.X, StartPos.Y, 100.0f), FVector(1.0f, 1.0f, 1.0f));
+		AMover* Obj = GetWorld()->SpawnActor<AMover>(MoverClass, TransValue);
+		// Mover에게 ID를 부여한다.
+		Obj->SetID(_MoverID);
+
+
 		// Mover 생성 시 DestSign 동시 생성
 		// DestSign의 위치 좌표 생성
 		FVector DestPos = FVector();
-		for (int32 i = 0; i < DestSignsInitPosSource.Num(); i++)
+		int32 DestIdx = 0;
+		for (; DestIdx < DestSignsInitPosSource.Num(); DestIdx++)
 		{
 			// Mover의 ID와 같다면 해당 위치에 DestSign 생성
-			if (_MoverID == DestSignsInitPosSource[i])
+			if (_MoverID == DestSignsInitPosSource[DestIdx])
 			{
-				FVector2D DestPos2D = CalDestSignInitPos(Inst->GetGridUnitValue(), NValue, i);
+				FVector2D DestPos2D = CalDestSignInitPos(Inst->GetGridUnitValue(), NValue, DestIdx);
 				DestPos = FVector(DestPos2D.X, DestPos2D.Y, .0);
 				SpawnDestSign(DestPos, _MoverID);
+				break;
 			}
 		}
+
+		// 간단한 정수로의 목적지 좌표 전달
+		int32 iStartXPos = StaticCast<int32>(_Pos.X);
+		int32 iStartYPos = StaticCast<int32>(_Pos.Y);
+		int32 iDestXPos = 0;
 
 		// [ID, Mover 초기 위치, DestSign 초기 위치] payload 추합
 		FArrayWriter WriteArray;
 		WriteArray << _MoverID;
-		WriteArray << _Pos.X;
-		WriteArray << _Pos.Y;
-		WriteArray << DestPos.X;
-		WriteArray << DestPos.Y;
+		WriteArray << iStartXPos;
+		WriteArray << iStartYPos;
+		WriteArray << iDestXPos;
+		WriteArray << DestIdx;
 
 		// 패킷 생성
 		TSharedPtr<FBufferArchive> Packet = UClientPacketManager::CreateRequestPacket(EPacketType::MoverCoursePacket, WriteArray);
-		AClientPlayGameMode* CurGameMode = UGlobalFunctonLibrary::GetClientPlayGameMode(GetWorld());
-		if (CurGameMode)
-		{
-			// 서버로 패킷 송신
-			CurGameMode->GetTCPClient()->SendData(*(Packet.Get()));
-		}
+		//AClientPlayGameMode* CurGameMode = UGlobalFunctonLibrary::GetClientPlayGameMode(GetWorld());
+		//if (CurGameMode)
+		//{
+		//	// 서버로 패킷 송신
+		//	CurGameMode->GetTCPClient()->SendData(*(Packet.Get()));
+		//}
 
 		//// 초기 생성시 목표 좌표를 전달 (Test용)
 		//int Size = TestDataComponent->GetTestData().CourseInfo[MoverSpawnCount].CourseArray.Num();
@@ -205,14 +216,12 @@ void ASimulatorManager::SpawnMoverRepeatedly(float _DeltaTime)
 
 	if (SpawnMoverDeltatime >= MoverSpawnTimes[MoverSpawnCount])
 	{
-		UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
-
 		// 값을 계산해서 Mover 초기 위치를 지정해준다.
-		FVector2D InitPos = CalMoverInitPos(Inst->GetGridUnitValue(), NValue, MoverSpawnCount);
+		FVector InitPos{ StaticCast<double>(NValue - 1), StaticCast<double>(MoverSpawnCount), 0. };
 
 		// 초기 랜덤하게 섞인 위치 정보에 저장된 ID값 활용
 		int RobotID = MoversInitPosSource[MoverSpawnCount];
-		SpawnMover(FVector(InitPos.X, InitPos.Y, 100.0f), RobotID);
+		SpawnMover(InitPos, RobotID);
 
 		++MoverSpawnCount;
 		if (NValue <= MoverSpawnCount)
