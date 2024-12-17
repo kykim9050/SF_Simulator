@@ -130,10 +130,11 @@ private:
 	}
 
 	/// <summary>
-	/// 이동체와 목적지의 위치를 랜덤으로 초기화 하는 함수
+	/// 특정 Array를 N 사이즈에 맞게 idx를 생성하고 랜덤하게 섞는 함수
 	/// </summary>
+	/// <param name="_Array"></param>
 	/// <param name="_N"></param>
-	void MoverAndDestPosInit(int32 _N);
+	void ObjectPosInitRandomly(TArray<int>& _Array, int32 _N);
 
 private:
 

@@ -69,17 +69,15 @@ void ASimulatorManager::Tick(float DeltaTime)
 	ReleaseActor();
 }
 
-void ASimulatorManager::MoverAndDestPosInit(int32 _N)
+void ASimulatorManager::ObjectPosInitRandomly(TArray<int>& _Array, int32 _N)
 {
 	for (int32 i = 0; i < _N; ++i)
 	{
-		MoversInitPosSource.Add(i + 1);
-		DestSignsInitPosSource.Add(i + 1);
+		_Array.Add(i + 1);
 	}
 
 	// 배열의 순서를 랜덤하게 섞기
-	UGlobalFunctonLibrary::ShuffleTArray<int>(MoversInitPosSource);
-	UGlobalFunctonLibrary::ShuffleTArray<int>(DestSignsInitPosSource);
+	UGlobalFunctonLibrary::ShuffleTArray<int>(_Array);
 }
 
 void ASimulatorManager::SpawnGridPlatform(FVector _Pos)
@@ -101,14 +99,17 @@ void ASimulatorManager::GridInit(int32 _N, FVector _Pos)
 		return;
 	}
 
+	// Mover 초기 위치 관련 정보 랜덤 구현
+	ObjectPosInitRandomly(MoversInitPosSource, NValue);
+
 	// 초기화된 NValue 갑으로 스폰할 시간 배열 생성
 	InitMoverSpawnTimes(NValue);
 
-	// 이동체와 도착지의 랜덤 위치를 생성
-	MoverAndDestPosInit(NValue);
-
 	// 그리드 생성
 	SpawnGridPlatform(_Pos);
+
+	// DestSign 초기 위치 관련 정보 랜덤 구현
+	ObjectPosInitRandomly(DestSignsInitPosSource, NValue);
 }
 
 void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
