@@ -3,6 +3,7 @@
 
 #include "Global/Net/TCPClient.h"
 #include "Global/Net/ClientPacketManager.h"
+#include "Playlevel/SimulatorManager.h"
 
 ATCPClient::ATCPClient()
 	:TCPClientSocket(nullptr)
@@ -59,6 +60,10 @@ bool ATCPClient::ConnectToServer(const FString& _IPAddress, int32 _Port)
 	// 연결 성공
 	UE_LOG(LogType, Log, TEXT("Connected to server at %s:%d"), *_IPAddress, _Port);
 	UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("Connected to server at %s:%d"), *_IPAddress, _Port), GetWorld());
+	
+	// 연결 성공시 패킷 해석정보 초기화
+	ClientPacketInit(Interpret);
+
 	return true;
 }
 
@@ -145,47 +150,6 @@ void ATCPClient::RecvData()
 							TSharedPtr<FRecvBaseProtocol> NewProtocol = Interpret->ConvertProtocol(RecvData.Type, Reader);
 							Interpret->ProcessPacket(NewProtocol);
 
-							//// 해당부분을 별도의 함수 포인터형으로 만들어서 호출되게 만들기
-							//// 받은 패킷이 어떤 타입인지 확인
-							//switch (RecvData.Type)
-							//{
-							//case static_cast<int>(EPacketType::NValuePacket):
-							//{
-							//	// 실제 N 값을 받아오는 패킷
-							//	FRecvNPacket Payload;
-							//	Reader << Payload;
-
-							//	// N값을 Client의 변수 보관소에 저장하기
-							//	UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
-
-							//	if (Inst)
-							//	{
-							//		// 서버로부터 받은 N 값 세팅
-							//		Inst->SetN(Payload.N);
-							//	}
-
-							//	AClientPlayGameMode* CurGameMode = UGlobalFunctonLibrary::GetClientPlayGameMode(GetWorld());
-							//	if (CurGameMode)
-							//	{
-							//		ASimulatorManager* SM = CurGameMode->GetMainSimulator().Get();
-							//		if (SM)
-							//		{
-							//			// Grid 생성
-							//			SM->GridInit(Inst->GetN());
-							//		}
-							//	}
-
-							//	UE_LOG(LogType, Log, TEXT("NValue recv data success.  N : %d"), Payload.N);
-							//	UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("NValue recv data success.  N : %d"), Payload.N), GetWorld());
-							//	break;
-							//}
-							//default:
-							//{
-							//	UE_LOG(LogType, Fatal, TEXT("Not Exist PacketType"));
-							//	break;
-							//}
-							//}
-
 							UE_LOG(LogType, Log, TEXT("End Recv Phase"));
 						}
 						else // 성공적으로 수신 못했다면
@@ -197,4 +161,33 @@ void ATCPClient::RecvData()
 			}
 		});
 
+}
+
+void ATCPClient::ClientPacketInit(TObjectPtr<UClientInterpreter> _Interpret)
+{
+	_Interpret->AddHandler<FRecvNPacket>([this](TSharedPtr<FRecvNPacket> _Packet)
+		{
+			// N값을 Client의 변수 보관소에 저장하기
+			UMainGameInstance* Inst = UGlobalFunctonLibrary::GetMainGameInstance(GetWorld());
+
+			if (Inst)
+			{
+				// 서버로부터 받은 N 값 세팅
+				Inst->SetN(_Packet.Get()->N);
+			}
+
+			AClientPlayGameMode* CurGameMode = UGlobalFunctonLibrary::GetClientPlayGameMode(GetWorld());
+			if (CurGameMode)
+			{
+				ASimulatorManager* SM = CurGameMode->GetMainSimulator().Get();
+				if (SM)
+				{
+					// Grid 생성
+					SM->GridInit(Inst->GetN());
+				}
+			}
+
+			UE_LOG(LogType, Log, TEXT("NValue recv data success.  N : %d"), _Packet.Get()->N);
+			UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("NValue recv data success.  N : %d"), _Packet.Get()->N), GetWorld());
+		});
 }

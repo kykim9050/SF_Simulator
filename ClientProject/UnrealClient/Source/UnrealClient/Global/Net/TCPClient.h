@@ -59,7 +59,9 @@ public:
 protected:
 
 private:
+	void ClientPacketInit(TObjectPtr<UClientInterpreter> _Interpret);
 
+private:
 	/// <summary>
 	/// Client에서 통신을 담당할 소켓
 	/// </summary>

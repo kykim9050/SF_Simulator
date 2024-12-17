@@ -30,7 +30,7 @@ public:
 	void ProcessPacket(TSharedPtr<FRecvBaseProtocol> _Packet);
 
 	template<typename PacketType>
-	void AddHandler(TFunctionRef<void(TSharedPtr<PacketType>)> _CallBack)
+	void AddHandler(TFunction<void(TSharedPtr<PacketType>)> _CallBack)
 	{
 		PacketType PacketInstance;
 		int Type = static_cast<int>(PacketInstance.GetType());
@@ -38,7 +38,7 @@ public:
 	}
 
 	template<typename PacketType>
-	void AddHandler(int _Type, TFunctionRef<void(TSharedPtr<PacketType>)> _CallBack)
+	void AddHandler(int _Type, TFunction<void(TSharedPtr<PacketType>)> _CallBack)
 	{
 		if (true == PacketHandlers.Contains(_Type))
 		{
@@ -46,23 +46,25 @@ public:
 			return;
 		}
 
-		ConvertPacketHandlers[_Type] = [=](FMemoryArchive& _ReadMem) {
+		ConvertPacketHandlers.Add(_Type, [=](FMemoryArchive& _ReadMem) {
 			TSharedPtr<PacketType> NewPacket = MakeShared<PacketType>();
-			_ReadMem << NewPacket;
+			_ReadMem << *NewPacket;
 			return NewPacket;
-			};
+			}
+		);
 
-		PacketHandlers[_Type] = [=](TSharedPtr<FRecvBaseProtocol> _Packet) {
-			TSharedPtr<PacketType> ConvertPacket = Cast<PacketType>(_Packet);
+		PacketHandlers.Add(_Type, [=](TSharedPtr<FRecvBaseProtocol> _Packet) {
+			TSharedPtr<PacketType> ConvertPacket = StaticCastSharedPtr<PacketType>(_Packet);
 
-			if (nullptr == ConvertPacket)
+			if (!ConvertPacket.IsValid())
 			{
 				UE_LOG(LogType, Fatal, TEXT("타입이 일치하지 않는 패킷입니다."));
 				return;
 			}
 
 			_CallBack(ConvertPacket);
-			};
+			}
+		);
 	}
 
 protected:
@@ -71,11 +73,11 @@ private:
 	/// <summary>
 	/// 패킷을 변환할 매소드를 포함하는 자료구조
 	/// </summary>
-	TMap<int32, TFunctionRef<TSharedPtr<FRecvBaseProtocol>(FMemoryArchive& _ReadMem)>> ConvertPacketHandlers;
+	TMap<int32, TFunction<TSharedPtr<FRecvBaseProtocol>(FMemoryArchive& _ReadMem)>> ConvertPacketHandlers;
 
 	/// <summary>
 	/// 패킷에 따라서 수행할 매소드를 포함하는 자료구조
 	/// </summary>
-	TMap<int32, TFunctionRef<void(TSharedPtr<FRecvBaseProtocol>)>> PacketHandlers;
+	TMap<int32, TFunction<void(TSharedPtr<FRecvBaseProtocol>)>> PacketHandlers;
 
 };
