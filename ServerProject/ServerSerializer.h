@@ -62,14 +62,14 @@ public:
 	}
 
 	void Write(const void* _Data, size_t _Size);
-
 	void operator<<(const int& _Data);
 	void operator<<(const unsigned int& _Data);
+	void operator<<(const double& _Data);
 
 	void Read(void* _Data, size_t _Size);
-
 	void operator>>(int& _Data);
 	void operator>>(unsigned int& _Data);
+	void operator>>(double& _Data);
 
 protected:
 

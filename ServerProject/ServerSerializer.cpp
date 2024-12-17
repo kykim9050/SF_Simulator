@@ -45,6 +45,11 @@ void ServerSerializer::operator<<(const unsigned int& _Data)
 	Write(&_Data, sizeof(unsigned int));
 }
 
+void ServerSerializer::operator<<(const double& _Data)
+{
+	Write(&_Data, sizeof(double));
+}
+
 void ServerSerializer::Read(void* _Data, size_t _Size)
 {
 	if (ReadOffset > WriteOffset)
@@ -64,5 +69,10 @@ void ServerSerializer::operator>>(int& _Data)
 void ServerSerializer::operator>>(unsigned int& _Data)
 {
 	Read(&_Data, sizeof(unsigned int));
+}
+
+void ServerSerializer::operator>>(double& _Data)
+{
+	Read(&_Data, sizeof(double));
 }
 

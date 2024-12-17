@@ -16,6 +16,13 @@ struct Point
 
 	}
 
+	Point(double _X, double _Y)
+		:X(static_cast<int>(_X))
+		, Y(static_cast<int>(_Y))
+	{
+
+	}
+
 	// 기본 소멸자
 	~Point()
 	{

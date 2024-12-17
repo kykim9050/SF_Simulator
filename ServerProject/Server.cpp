@@ -160,6 +160,15 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			}
 			}
 		});
+
+	_Interpret.AddHandler<RecvMoverCoursePacket>([this, N](std::shared_ptr<RecvMoverCoursePacket> _Packet)
+		{
+			int MoverID = _Packet->ID;
+			Point StartPos{ _Packet->StartXPos, _Packet->StartYPos };
+			Point DestPos{ _Packet->DestXPos, _Packet->DestYPos };
+
+			int a = 0;
+		});
 }
 
 int Server::Send(SOCKET _ClientSocket, std::shared_ptr<ServerProtocol> _Protocol)

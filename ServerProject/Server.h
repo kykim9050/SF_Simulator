@@ -10,6 +10,7 @@
 #include <functional>
 #include "Interpreter.h"
 #include "ServerPacket.h"
+#include "Point.h"
 
 // Ό³Έν :
 class Server

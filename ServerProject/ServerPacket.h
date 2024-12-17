@@ -10,6 +10,7 @@ enum class EPacketType
 	MoverCoursePacket,	// 이동체 경로관련 패킷
 };
 
+// NValue 요청 패킷
 class RecvNValuePacket : public ServerProtocol
 {
 public:
@@ -29,6 +30,7 @@ public:
 	}
 };
 
+// NValue 응답 패킷
 class SendNValuePacket : public ServerProtocol
 {
 public:
@@ -52,4 +54,41 @@ public:
 public:
 	// NValue 값
 	int NValue = -1;
+};
+
+// 경로 요청 패킷
+class RecvMoverCoursePacket : public ServerProtocol
+{
+public:
+	RecvMoverCoursePacket()
+	{
+		SetType(EPacketType::MoverCoursePacket);
+	}
+
+	void Serialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::Serialize(_Ser);
+		_Ser << ID;
+		_Ser << StartXPos;
+		_Ser << StartYPos;
+		_Ser << DestXPos;
+		_Ser << DestYPos;
+	}
+
+	void DeSerialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::DeSerialize(_Ser);
+		_Ser >> ID;
+		_Ser >> StartXPos;
+		_Ser >> StartYPos;
+		_Ser >> DestXPos;
+		_Ser >> DestYPos;
+	}
+
+public:
+	int ID = -1;
+	double StartXPos = -1.0;
+	double StartYPos = -1.0;
+	double DestXPos = -1.0;
+	double DestYPos = -1.0;
 };
