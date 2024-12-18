@@ -176,6 +176,7 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 
 			std::shared_ptr<SendMoverCoursePacket> SendPacket = std::make_shared<SendMoverCoursePacket>();
 			SendPacket->ID = MoverID;
+			SendPacket->PathInfoSize = static_cast<int>(PathStack.size() * 2);
 
 			while (!PathStack.empty())
 			{

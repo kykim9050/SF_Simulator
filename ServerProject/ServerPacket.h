@@ -107,6 +107,7 @@ public:
 	{
 		ServerProtocol::Serialize(_Ser);
 		_Ser << ID;
+		_Ser << PathInfoSize;
 		_Ser << PathInfo;
 	}
 
@@ -122,6 +123,7 @@ public:
 
 public:
 	int ID = -1;
+	int PathInfoSize = -1;
 	std::vector<int> PathInfo;
 
 private:
