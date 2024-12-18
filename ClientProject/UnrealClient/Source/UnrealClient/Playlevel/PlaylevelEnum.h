@@ -23,6 +23,7 @@ enum class ECurPlayState : uint8
 UENUM(BlueprintType)
 enum class EMoverState : uint8
 {
+	Wait UMETA(Displayname = "Waiting"),
 	Idle UMETA(Displayname = "Idle"),
 	Accel UMETA(Displayname = "Acceleration"),
 	Decel UMETA(Displayname = "Deceleration"),
