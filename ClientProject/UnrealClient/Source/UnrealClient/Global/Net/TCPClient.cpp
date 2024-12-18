@@ -5,6 +5,7 @@
 #include "Global/Net/ClientPacketManager.h"
 #include "Playlevel/SimulatorManager.h"
 #include "Playlevel/ClientPlayGameMode.h"
+#include "Playlevel/Actor/Mover.h"
 
 
 ATCPClient::ATCPClient()
@@ -198,6 +199,31 @@ void ATCPClient::ClientPacketInit(TObjectPtr<UClientInterpreter> _Interpret)
 			int32 PathInfoSize = _Packet->PathInfoSize;
 			TArray<int32>& PathInfo = _Packet->PathInfo;
 
-			int a = 0;
+			// Path정보 변환 (FVector2D)
+			int32 ConvertPathSize = PathInfoSize >> 2;
+			TArray<FVector2D> ConvertPathInfo;
+			ConvertPathInfo.Reserve(ConvertPathSize);
+			for (int32 i = 0; i < ConvertPathSize; ++i)
+			{
+				ConvertPathInfo.Add(FVector2D{ StaticCast<double>(PathInfo[2 * i]), StaticCast<double>(PathInfo[2 * i + 1]) });
+			}
+			
+			AClientPlayGameMode* CurGameMode = UGlobalFunctonLibrary::GetClientPlayGameMode(GetWorld());
+			if (CurGameMode)
+			{
+				ASimulatorManager* SM = CurGameMode->GetMainSimulator().Get();
+				if (SM)
+				{
+					// 경로를 Mover에 보내기전에 경로를 요약한다. (꺾이는 부분이 어딘지를 기준으로, 실제 좌표로)
+					TArray<FVector2D> ModyfiedPathInfo = SM->PathModify(ConvertPathInfo);
+
+					// SimulatorManager의 Mover에 해당되는 ID의 로봇에 Path 정보 세팅
+					SM->FindMover(MoverID)->SetWayPoints(ModyfiedPathInfo);
+
+					// SimulatorManager의 Mover에 해당되는 ID의 로봇에게 현재 상태 바꾸기 (대기 상태 테스크 노드 추가 필요)
+				}
+			}
+
+			UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("[MoverID : %d] Get path information sucessfully!"), MoverID), GetWorld());
 		});
 }

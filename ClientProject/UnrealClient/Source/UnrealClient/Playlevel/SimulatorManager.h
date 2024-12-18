@@ -49,16 +49,33 @@ public:
 		return NValue == DestroyCount;
 	}
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-private:
 	/// <summary>
 	/// 경로를 꺾이는 기점으로 구분해서 경로 데이터를 압축하는 함수
 	/// 실제 좌표로의 변환도 함께 이루어진다.
 	/// </summary>
 	TArray<FVector2D> PathModify(TArray<FVector2D>& _Course);
+
+	/// <summary>
+	/// ID에 해당되는 Mover를 탐색
+	/// </summary>
+	/// <param name="_ID"></param>
+	/// <returns></returns>
+	TObjectPtr<AMover> FindMover(int32 _ID)
+	{
+		if (false == Movers.Contains(_ID))
+		{
+			UE_LOG(LogType, Fatal, TEXT("The Mover corresponding to the ID does not exist."));
+			return nullptr;
+		}
+
+		return Movers[_ID];
+	}
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+private:
 	
 	/// <summary>
 	/// 액터를 삭제하는 함수
