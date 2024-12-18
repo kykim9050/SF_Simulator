@@ -86,3 +86,37 @@ public:
 public:
 	int32 N = -1;
 };
+
+/// <summary>
+/// Path 수신용 패킷
+/// </summary>
+USTRUCT()
+struct UNREALCLIENT_API FRecvPathPacket : public FRecvBaseProtocol
+{
+	GENERATED_BODY()
+public:
+	FRecvPathPacket()
+		: ID(-1)
+	{
+		SetType(EPacketType::MoverCoursePacket);
+	}
+
+	friend FArchive& operator<<(FArchive& Ar, FRecvPathPacket& Packet)
+	{
+		Ar << Packet.ID;
+		Ar << Packet.PathInfoSize;
+
+		int32 TempValue = -1;
+		for (int32 i = 0; i < Packet.PathInfoSize; i++)
+		{
+			Ar << TempValue;
+			Packet.PathInfo.Add(TempValue);
+		}
+		return Ar;
+	}
+
+public:
+	int32 ID = -1;
+	int32 PathInfoSize = -1;
+	TArray<int32> PathInfo;
+};

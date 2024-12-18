@@ -191,4 +191,9 @@ void ATCPClient::ClientPacketInit(TObjectPtr<UClientInterpreter> _Interpret)
 			UE_LOG(LogType, Log, TEXT("NValue recv data success.  N : %d"), _Packet.Get()->N);
 			UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("NValue recv data success.  N : %d"), _Packet.Get()->N), GetWorld());
 		});
+
+	_Interpret->AddHandler<FRecvPathPacket>([this](TSharedPtr<FRecvPathPacket> _Packet)
+		{
+			int a = 0;
+		});
 }
