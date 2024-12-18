@@ -200,7 +200,7 @@ void ATCPClient::ClientPacketInit(TObjectPtr<UClientInterpreter> _Interpret)
 			TArray<int32>& PathInfo = _Packet->PathInfo;
 
 			// Path정보 변환 (FVector2D)
-			int32 ConvertPathSize = PathInfoSize >> 2;
+			int32 ConvertPathSize = PathInfoSize >> 1;
 			TArray<FVector2D> ConvertPathInfo;
 			ConvertPathInfo.Reserve(ConvertPathSize);
 			for (int32 i = 0; i < ConvertPathSize; ++i)
