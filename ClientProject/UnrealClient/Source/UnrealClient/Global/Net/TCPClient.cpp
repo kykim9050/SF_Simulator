@@ -194,6 +194,10 @@ void ATCPClient::ClientPacketInit(TObjectPtr<UClientInterpreter> _Interpret)
 
 	_Interpret->AddHandler<FRecvPathPacket>([this](TSharedPtr<FRecvPathPacket> _Packet)
 		{
+			int32 MoverID = _Packet->ID;
+			int32 PathInfoSize = _Packet->PathInfoSize;
+			TArray<int32>& PathInfo = _Packet->PathInfo;
+
 			int a = 0;
 		});
 }

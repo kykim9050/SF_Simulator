@@ -106,8 +106,9 @@ public:
 		Ar << Packet.ID;
 		Ar << Packet.PathInfoSize;
 
+		Packet.PathInfo.Reserve(Packet.PathInfoSize);
 		int32 TempValue = -1;
-		for (int32 i = 0; i < Packet.PathInfoSize; i++)
+		for (int32 i = 0; i < Packet.PathInfoSize; ++i)
 		{
 			Ar << TempValue;
 			Packet.PathInfo.Add(TempValue);
