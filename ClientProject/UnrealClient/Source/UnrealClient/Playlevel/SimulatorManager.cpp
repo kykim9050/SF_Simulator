@@ -133,6 +133,13 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 		// Mover에게 ID를 부여한다.
 		Obj->SetID(_MoverID);
 
+		Movers.Add(_MoverID) = Obj;
+
+		// Mover 생성 시 생성 시간 기록
+		FDateTime CurTime = Inst->GetTimeValue();
+		Obj->UpdateWidgetTimeInfo(CurTime, EMoverInfoIdx::StartTime);
+		FString DateTime = Inst->ConvertToGlobalStandardTime(CurTime);
+		Obj->SettingData->StartTime = DateTime;
 
 		// Mover 생성 시 DestSign 동시 생성
 		// DestSign의 위치 좌표 생성
@@ -171,16 +178,7 @@ void ASimulatorManager::SpawnMover(FVector _Pos, int _MoverID)
 			// 서버로 패킷 송신
 			CurGameMode->GetTCPClient()->SendData(*(Packet.Get()));
 		}
-
-		Movers.Add(_MoverID) = Obj;
-
-		// Mover 생성 시 생성 시간 기록
-		FDateTime CurTime = Inst->GetTimeValue();
-		Obj->UpdateWidgetTimeInfo(CurTime, EMoverInfoIdx::StartTime);
-		FString DateTime = Inst->ConvertToGlobalStandardTime(CurTime);
-		Obj->SettingData->StartTime = DateTime;
 	}
-
 }
 
 void ASimulatorManager::SpawnDestSign(FVector _Pos, int _MoverID)
