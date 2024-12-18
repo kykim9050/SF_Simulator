@@ -221,6 +221,7 @@ void ATCPClient::ClientPacketInit(TObjectPtr<UClientInterpreter> _Interpret)
 					SM->FindMover(MoverID)->SetWayPoints(ModyfiedPathInfo);
 
 					// SimulatorManager의 Mover에 해당되는 ID의 로봇에게 현재 상태 바꾸기 (대기 상태 테스크 노드 추가 필요)
+					SM->FindMover(MoverID)->SetIsPathRecv();
 				}
 			}
 

@@ -40,6 +40,11 @@ AMover::AMover()
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 }
 
+void AMover::SetIsPathRecv()
+{
+	SettingData->bIsPathRecv = true;
+}
+
 // Called when the game starts or when spawned
 void AMover::BeginPlay()
 {

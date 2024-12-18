@@ -82,6 +82,11 @@ public:
 	/// <param name="_InfoIdx"></param>
 	void UpdateWidgetTimeInfo(FDateTime _CurTime, EMoverInfoIdx _InfoIdx);
 
+	/// <summary>
+	/// Path 세팅 완료후 해당 함수 호출해야 Mover의 상태 변환이 이루어짐
+	/// </summary>
+	void SetIsPathRecv();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

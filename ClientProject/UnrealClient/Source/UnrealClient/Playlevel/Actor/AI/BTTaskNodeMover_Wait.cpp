@@ -27,10 +27,12 @@ void UBTTaskNodeMover_Wait::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* p
 
 	if (MoverData)
 	{	
-		int a = 0;
-		// 만약 경로가 세팅되었다면
-		//	ChangeState(OwnerComp, EMoverState::Idle);
-		//	return;
+		// 만약 경로가 세팅되었다면 Idle로 상태 전환
+		if (MoverData->bIsPathRecv)
+		{
+			ChangeState(OwnerComp, EMoverState::Idle);
+			return;
+		}
 	}
 }
 

@@ -82,4 +82,8 @@ public:
 	/// </summary>
 	TArray<FVector2D> WayPointsInfo = TArray<FVector2D>();
 	
+	/// <summary>
+	/// 경로 데이터가 저장되었는지에 대한 bool 변수
+	/// </summary>
+	bool bIsPathRecv = false;
 };
