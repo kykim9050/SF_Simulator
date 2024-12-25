@@ -113,8 +113,6 @@ void ATCPClient::RecvData()
 {
 	AsyncTask(ENamedThreads::AnyThread, [this]()
 		{
-			UE_LOG(LogType, Log, TEXT("Recv Process 1"));
-
 			if (TCPClientSocket == nullptr || this == nullptr)
 			{
 				return;
@@ -129,6 +127,7 @@ void ATCPClient::RecvData()
 			// 가끔 버퍼에 데이터가 없어서 false가 뜰 때, 재시도 없이 진행해버리면 데이터 수신이 밀려서 실행되는 현상 발생
 			while (!TCPClientSocket->HasPendingData(PendingDataSize))
 			{
+				// 일정 카운트 기회를 주어서 넘어가면 문제가 있는 상황
 				if (++RetryCount > MaxRetries)
 				{
 					UE_LOG(LogType, Fatal, TEXT("No data available after waiting."));
