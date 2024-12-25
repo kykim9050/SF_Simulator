@@ -98,13 +98,11 @@ void ATCPClient::SendData(const FBufferArchive& _PacketData)
 					if (true == bSuccess)
 					{
 						UE_LOG(LogType, Log, TEXT("Send Completed"));
-						UE_LOG(LogType, Log, TEXT("End Send Phase"));
 						RecvData();
 					}
 					else
 					{
 						UE_LOG(LogType, Log, TEXT("Send Error"));
-						UE_LOG(LogType, Log, TEXT("End Send Phase"));
 					}
 				});
 
@@ -113,12 +111,17 @@ void ATCPClient::SendData(const FBufferArchive& _PacketData)
 
 void ATCPClient::RecvData()
 {
+
 	AsyncTask(ENamedThreads::AnyThread, [this]()
 		{
+			UE_LOG(LogType, Log, TEXT("Recv Process 1"));
+			
 			if (TCPClientSocket == nullptr || this == nullptr)
 			{
 				return;
 			}
+
+			UE_LOG(LogType, Log, TEXT("Recv Process 2"));
 
 			uint32 PendingDataSize = 0;
 			// Queue에 보류중인 데이터가 있는지 먼저 확인
@@ -133,12 +136,16 @@ void ATCPClient::RecvData()
 				// Recv로 서버에서 데이터 받기 (실제 데이터가 Buffer에 받아와진다)
 				bSuccessRecv = TCPClientSocket->Recv(Buffer.GetData(), Buffer.Num(), NumRead, ESocketReceiveFlags::Type::WaitAll);
 
+				UE_LOG(LogType, Log, TEXT("Recv Process 3"));
+				
 				AsyncTask(ENamedThreads::GameThread, [this, Buffer, bSuccessRecv]()
 					{
 						if (TCPClientSocket == nullptr || this == nullptr)
 						{
 							return;
 						}
+
+						UE_LOG(LogType, Log, TEXT("Recv Process 4"));
 
 						// 성공적으로 수신했다면
 						if (bSuccessRecv)
@@ -152,12 +159,11 @@ void ATCPClient::RecvData()
 							TSharedPtr<FRecvBaseProtocol> NewProtocol = Interpret->ConvertProtocol(RecvData.Type, Reader);
 							Interpret->ProcessPacket(NewProtocol);
 
-							UE_LOG(LogType, Log, TEXT("End Recv Phase"));
+							UE_LOG(LogType, Log, TEXT("Recv Completed"));
 						}
 						else // 성공적으로 수신 못했다면
 						{
 							UE_LOG(LogType, Error, TEXT("Recv Payload Failed."));
-							UE_LOG(LogType, Log, TEXT("End Recv Phase"));
 						}
 					});
 			}
@@ -198,6 +204,8 @@ void ATCPClient::ClientPacketInit(TObjectPtr<UClientInterpreter> _Interpret)
 			int32 MoverID = _Packet->ID;
 			int32 PathInfoSize = _Packet->PathInfoSize;
 			TArray<int32>& PathInfo = _Packet->PathInfo;
+
+			UE_LOG(LogType, Log, TEXT("[MoverID : %d] RecvData"), MoverID);
 
 			// Path정보 변환 (FVector2D)
 			int32 ConvertPathSize = PathInfoSize >> 1;
