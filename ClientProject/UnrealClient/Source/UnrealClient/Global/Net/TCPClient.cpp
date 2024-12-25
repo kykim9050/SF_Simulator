@@ -111,7 +111,6 @@ void ATCPClient::SendData(const FBufferArchive& _PacketData)
 
 void ATCPClient::RecvData()
 {
-
 	AsyncTask(ENamedThreads::AnyThread, [this]()
 		{
 			UE_LOG(LogType, Log, TEXT("Recv Process 1"));
@@ -121,13 +120,27 @@ void ATCPClient::RecvData()
 				return;
 			}
 
-			UE_LOG(LogType, Log, TEXT("Recv Process 2"));
-
 			uint32 PendingDataSize = 0;
+			const float SleepDuration = 0.01f;
+			const int32 MaxRetries = 100;
+			int32 RetryCount = 0;
+
+			// 버퍼에 데이터가 있을 때까지 대기
+			// 가끔 버퍼에 데이터가 없어서 false가 뜰 때, 재시도 없이 진행해버리면 데이터 수신이 밀려서 실행되는 현상 발생
+			while (!TCPClientSocket->HasPendingData(PendingDataSize))
+			{
+				if (++RetryCount > MaxRetries)
+				{
+					UE_LOG(LogType, Fatal, TEXT("No data available after waiting."));
+					return;
+				}
+
+				FPlatformProcess::Sleep(SleepDuration);
+			}
 
 			// 보류중인 데이터가 있는지 먼저 확인
 			// 헤더의 사이즈만큼 먼저 읽음
-			if (TCPClientSocket->HasPendingData(PendingDataSize) && 8 <= PendingDataSize)
+			if (8 <= PendingDataSize)
 			{
 				AsyncTask(ENamedThreads::GameThread, [this, PendingDataSize]()
 					{
@@ -155,15 +168,10 @@ void ATCPClient::RecvData()
 								// Recv로 서버에서 데이터 받기 (실제 데이터가 Buffer에 받아와진다)
 								bSuccessRecv = TCPClientSocket->Recv(Buffer.GetData(), Buffer.Num(), NumRead, ESocketReceiveFlags::Type::WaitAll);
 
-								UE_LOG(LogType, Log, TEXT("Recv Process 3"));
-
-
 								if (TCPClientSocket == nullptr || this == nullptr)
 								{
 									return;
 								}
-
-								UE_LOG(LogType, Log, TEXT("Recv Process 4"));
 
 								// 성공적으로 수신했다면
 								if (bSuccessRecv)
@@ -185,10 +193,6 @@ void ATCPClient::RecvData()
 							}
 						}
 					});
-			}
-			else
-			{
-				int a = 0;
 			}
 		});
 
