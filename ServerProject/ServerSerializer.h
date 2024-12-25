@@ -66,6 +66,12 @@ public:
 		return static_cast<int>(Data.size());
 	}
 
+	inline void Reset()
+	{
+		WriteOffset = 0;
+		ReadOffset = 0;
+	}
+
 	void DataToReadOffsetPush();
 
 	void Write(const void* _Data, size_t _Size);

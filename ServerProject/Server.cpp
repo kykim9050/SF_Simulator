@@ -120,16 +120,26 @@ void Server::ServerRecvThread(SOCKET _Socket)
 			return;
 		}
 
-		// 프로토콜을 해석
-		std::shared_ptr<ServerProtocol> NewProtocol = Interpret.ConvertProtocol(Protocol.GetPacketType(), Ser);
-		// 해당 프로토콜에 맞는 액션 실행
-		Interpret.ProcessPacket(NewProtocol);
-
-		// 시리얼라이즈 정렬
-		if (Ser.BufferSize() == Ser.GetReadOffset())
+		// 프로토콜 해석 및 시리얼라이즈 정렬
+		while (true)
 		{
-			Ser.DataToReadOffsetPush();
-			break;
+			// 프로토콜을 해석
+			std::shared_ptr<ServerProtocol> NewProtocol = Interpret.ConvertProtocol(Protocol.GetPacketType(), Ser);
+			// 해당 프로토콜에 맞는 액션 실행
+			Interpret.ProcessPacket(NewProtocol);
+
+			// 시리얼라이즈 정렬
+			if (Ser.BufferSize() == Ser.GetReadOffset())
+			{
+				Ser.DataToReadOffsetPush();
+				break;
+			}
+
+			if (Ser.GetWriteOffset() == Ser.GetReadOffset())
+			{
+				Ser.Reset();
+				break;
+			}
 		}
 
 	}
