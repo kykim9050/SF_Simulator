@@ -45,7 +45,7 @@ bool ATCPClient::ConnectToServer(const FString& _IPAddress, int32 _Port)
 
 	// TCP 소켓으로 생성
 	TCPClientSocket = SocketSubsystem->CreateSocket(FName(TEXT("Stream")), TEXT("TCP Client Socket"));
-	
+
 	// Server에 연결하기 위해 IP와 포트 정보를 FInternetAddr에 대입
 	TSharedRef<FInternetAddr> ServerAddress = SocketSubsystem->CreateInternetAddr();
 	ServerAddress->SetIp(IP.Value);
@@ -63,7 +63,7 @@ bool ATCPClient::ConnectToServer(const FString& _IPAddress, int32 _Port)
 	// 연결 성공
 	UE_LOG(LogType, Log, TEXT("Connected to server at %s:%d"), *_IPAddress, _Port);
 	UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("Connected to server at %s:%d"), *_IPAddress, _Port), GetWorld());
-	
+
 	// 연결 성공시 패킷 해석정보 초기화
 	ClientPacketInit(Interpret);
 
@@ -115,7 +115,7 @@ void ATCPClient::RecvData()
 	AsyncTask(ENamedThreads::AnyThread, [this]()
 		{
 			UE_LOG(LogType, Log, TEXT("Recv Process 1"));
-			
+
 			if (TCPClientSocket == nullptr || this == nullptr)
 			{
 				return;
@@ -129,34 +129,35 @@ void ATCPClient::RecvData()
 			// 헤더의 사이즈만큼 먼저 읽음
 			if (TCPClientSocket->HasPendingData(PendingDataSize) && 8 <= PendingDataSize)
 			{
-				// 필요한 만큼 데이터를 읽기위한 헤더 버퍼
-				TArray<uint8> HeaderBuffer;
-				HeaderBuffer.SetNumUninitialized(8);
-				int32 NumRead = 0;
-
-				if (TCPClientSocket->Recv(HeaderBuffer.GetData(), 8, NumRead, ESocketReceiveFlags::Type::WaitAll))
-				{
-					// 헤더 정보 추출
-					FMemoryReader HeaderReader(HeaderBuffer);
-					FMessageHeader HeaderRecvData;
-					HeaderReader << HeaderRecvData;
-
-					int32 DataSize = HeaderRecvData.Size;
-
-					if (static_cast<int32>(PendingDataSize) >= DataSize + 8)
+				AsyncTask(ENamedThreads::GameThread, [this, PendingDataSize]()
 					{
-						TArray<uint8> Buffer;
-						Buffer.SetNumUninitialized(DataSize);
+						// 필요한 만큼 데이터를 읽기위한 헤더 버퍼
+						TArray<uint8> HeaderBuffer;
+						HeaderBuffer.SetNumUninitialized(8);
+						int32 NumRead = 0;
 
-						bool bSuccessRecv = false;
+						if (TCPClientSocket->Recv(HeaderBuffer.GetData(), 8, NumRead, ESocketReceiveFlags::Type::WaitAll))
+						{
+							// 헤더 정보 추출
+							FMemoryReader HeaderReader(HeaderBuffer);
+							FMessageHeader HeaderRecvData;
+							HeaderReader << HeaderRecvData;
 
-						// Recv로 서버에서 데이터 받기 (실제 데이터가 Buffer에 받아와진다)
-						bSuccessRecv = TCPClientSocket->Recv(Buffer.GetData(), Buffer.Num(), NumRead, ESocketReceiveFlags::Type::WaitAll);
+							int32 DataSize = HeaderRecvData.Size;
 
-						UE_LOG(LogType, Log, TEXT("Recv Process 3"));
-
-						AsyncTask(ENamedThreads::GameThread, [this, HeaderRecvData, Buffer, bSuccessRecv]()
+							if (static_cast<int32>(PendingDataSize) >= DataSize + 8)
 							{
+								TArray<uint8> Buffer;
+								Buffer.SetNumUninitialized(DataSize);
+
+								bool bSuccessRecv = false;
+
+								// Recv로 서버에서 데이터 받기 (실제 데이터가 Buffer에 받아와진다)
+								bSuccessRecv = TCPClientSocket->Recv(Buffer.GetData(), Buffer.Num(), NumRead, ESocketReceiveFlags::Type::WaitAll);
+
+								UE_LOG(LogType, Log, TEXT("Recv Process 3"));
+
+
 								if (TCPClientSocket == nullptr || this == nullptr)
 								{
 									return;
@@ -180,9 +181,10 @@ void ATCPClient::RecvData()
 								{
 									UE_LOG(LogType, Error, TEXT("Recv Payload Failed."));
 								}
-							});
-					}
-				}
+
+							}
+						}
+					});
 			}
 			else
 			{
@@ -236,7 +238,7 @@ void ATCPClient::ClientPacketInit(TObjectPtr<UClientInterpreter> _Interpret)
 			{
 				ConvertPathInfo.Add(FVector2D{ StaticCast<double>(PathInfo[2 * i]), StaticCast<double>(PathInfo[2 * i + 1]) });
 			}
-			
+
 			AClientPlayGameMode* CurGameMode = UGlobalFunctonLibrary::GetClientPlayGameMode(GetWorld());
 			if (CurGameMode)
 			{
