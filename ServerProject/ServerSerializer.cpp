@@ -24,6 +24,22 @@ void ServerSerializer::Paste(int _Offset, const void* _Data, size_t _Size)
 	memcpy_s(&Data[_Offset], _Size, _Data, _Size);
 }
 
+void ServerSerializer::DataToReadOffsetPush()
+{
+	int ReMainSize = WriteOffset - ReadOffset;
+
+	if (0 == ReMainSize)
+	{
+		WriteOffset = 0;
+		ReadOffset = 0;
+		return;
+	}
+
+	memcpy_s(&Data[0], ReMainSize, &Data[ReadOffset], ReMainSize);
+	WriteOffset = ReMainSize;
+	ReadOffset = 0;
+}
+
 void ServerSerializer::Write(const void* _Data, size_t _Size)
 {
 	if (WriteOffset + _Size >= Data.size())

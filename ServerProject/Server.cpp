@@ -125,7 +125,13 @@ void Server::ServerRecvThread(SOCKET _Socket)
 		// 해당 프로토콜에 맞는 액션 실행
 		Interpret.ProcessPacket(NewProtocol);
 
-		// 남은 패킷 정보 읽기
+		// 시리얼라이즈 정렬
+		if (Ser.BufferSize() == Ser.GetReadOffset())
+		{
+			Ser.DataToReadOffsetPush();
+			break;
+		}
+
 	}
 }
 
