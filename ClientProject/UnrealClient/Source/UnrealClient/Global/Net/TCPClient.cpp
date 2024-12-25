@@ -124,48 +124,69 @@ void ATCPClient::RecvData()
 			UE_LOG(LogType, Log, TEXT("Recv Process 2"));
 
 			uint32 PendingDataSize = 0;
-			// Queue에 보류중인 데이터가 있는지 먼저 확인
-			if (TCPClientSocket->HasPendingData(PendingDataSize))
+
+			// 보류중인 데이터가 있는지 먼저 확인
+			// 헤더의 사이즈만큼 먼저 읽음
+			if (TCPClientSocket->HasPendingData(PendingDataSize) && 8 <= PendingDataSize)
 			{
-				// 읽어올 버퍼
-				TArray<uint8> Buffer;
-				Buffer.SetNumUninitialized(PendingDataSize);
+				// 필요한 만큼 데이터를 읽기위한 헤더 버퍼
+				TArray<uint8> HeaderBuffer;
+				HeaderBuffer.SetNumUninitialized(8);
 				int32 NumRead = 0;
-				bool bSuccessRecv = false;
 
-				// Recv로 서버에서 데이터 받기 (실제 데이터가 Buffer에 받아와진다)
-				bSuccessRecv = TCPClientSocket->Recv(Buffer.GetData(), Buffer.Num(), NumRead, ESocketReceiveFlags::Type::WaitAll);
+				if (TCPClientSocket->Recv(HeaderBuffer.GetData(), 8, NumRead, ESocketReceiveFlags::Type::WaitAll))
+				{
+					// 헤더 정보 추출
+					FMemoryReader HeaderReader(HeaderBuffer);
+					FMessageHeader HeaderRecvData;
+					HeaderReader << HeaderRecvData;
 
-				UE_LOG(LogType, Log, TEXT("Recv Process 3"));
-				
-				AsyncTask(ENamedThreads::GameThread, [this, Buffer, bSuccessRecv]()
+					int32 DataSize = HeaderRecvData.Size;
+
+					if (static_cast<int32>(PendingDataSize) >= DataSize + 8)
 					{
-						if (TCPClientSocket == nullptr || this == nullptr)
-						{
-							return;
-						}
+						TArray<uint8> Buffer;
+						Buffer.SetNumUninitialized(DataSize);
 
-						UE_LOG(LogType, Log, TEXT("Recv Process 4"));
+						bool bSuccessRecv = false;
 
-						// 성공적으로 수신했다면
-						if (bSuccessRecv)
-						{
-							// 수신받은 Buffer 데이터를 FMemoryReader 클래스로 받아서 해석
-							// 언리얼에서 Serialize의 Read, Write는 모두 << 연산자로 취급
-							FMemoryReader Reader(Buffer);
-							FMessageHeader RecvData;
-							Reader << RecvData;
+						// Recv로 서버에서 데이터 받기 (실제 데이터가 Buffer에 받아와진다)
+						bSuccessRecv = TCPClientSocket->Recv(Buffer.GetData(), Buffer.Num(), NumRead, ESocketReceiveFlags::Type::WaitAll);
 
-							TSharedPtr<FRecvBaseProtocol> NewProtocol = Interpret->ConvertProtocol(RecvData.Type, Reader);
-							Interpret->ProcessPacket(NewProtocol);
+						UE_LOG(LogType, Log, TEXT("Recv Process 3"));
 
-							UE_LOG(LogType, Log, TEXT("Recv Completed"));
-						}
-						else // 성공적으로 수신 못했다면
-						{
-							UE_LOG(LogType, Error, TEXT("Recv Payload Failed."));
-						}
-					});
+						AsyncTask(ENamedThreads::GameThread, [this, HeaderRecvData, Buffer, bSuccessRecv]()
+							{
+								if (TCPClientSocket == nullptr || this == nullptr)
+								{
+									return;
+								}
+
+								UE_LOG(LogType, Log, TEXT("Recv Process 4"));
+
+								// 성공적으로 수신했다면
+								if (bSuccessRecv)
+								{
+									// 수신받은 Buffer 데이터를 FMemoryReader 클래스로 받아서 해석
+									// 언리얼에서 Serialize의 Read, Write는 모두 << 연산자로 취급
+									FMemoryReader Reader(Buffer);
+
+									TSharedPtr<FRecvBaseProtocol> NewProtocol = Interpret->ConvertProtocol(HeaderRecvData.Type, Reader);
+									Interpret->ProcessPacket(NewProtocol);
+
+									UE_LOG(LogType, Log, TEXT("Recv Completed"));
+								}
+								else // 성공적으로 수신 못했다면
+								{
+									UE_LOG(LogType, Error, TEXT("Recv Payload Failed."));
+								}
+							});
+					}
+				}
+			}
+			else
+			{
+				int a = 0;
 			}
 		});
 
