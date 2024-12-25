@@ -140,6 +140,27 @@ void Server::ServerRecvThread(SOCKET _Socket)
 				Ser.Reset();
 				break;
 			}
+
+			int WriteOffset = Ser.GetWriteOffset();
+			int ReadOffset = Ser.GetReadOffset();
+			int RemainOffset = WriteOffset - ReadOffset;
+
+			if (4 > RemainOffset)
+			{
+				Ser.DataToReadOffsetPush();
+				break;
+			}
+
+			int Size = *(reinterpret_cast<int*>(Ser.DataCharPtrToReadOffset()));
+
+			if (Size > RemainOffset)
+			{
+				Ser.DataToReadOffsetPush();
+				break;
+			}
+
+			Protocol.DeSerialize(Ser);
+			Ser.AddReadOffset(-8);
 		}
 
 	}
