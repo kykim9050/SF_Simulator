@@ -84,6 +84,8 @@ public:
 	void operator>>(int& _Data);
 	void operator>>(unsigned int& _Data);
 	void operator>>(double& _Data);
+	void operator>>(char& _Data);
+
 
 protected:
 

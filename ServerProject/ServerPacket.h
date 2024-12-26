@@ -1,6 +1,7 @@
 #pragma once
 #include "ServerProtocol.h"
 #include "Point.h"
+#include <string>
 
 // 설명 : Server 측 패킷 모음
 
@@ -9,6 +10,7 @@ enum class EPacketType
 	None,
 	NValuePacket = 100,		// N값 관련 패킷
 	MoverCoursePacket,	// 이동체 경로관련 패킷
+	InfoSavePacket,		// 저장할 정보관련 패킷
 };
 
 // NValue 요청 패킷
@@ -132,4 +134,52 @@ private:
 		PathInfo.push_back(_X);
 		PathInfo.push_back(_Y);
 	}
+};
+
+// 정보 저장용 수신 패킷
+class RecvInfoSavePacket : public ServerProtocol
+{
+public:
+	RecvInfoSavePacket()
+	{
+		SetType(EPacketType::InfoSavePacket);
+	}
+
+	void Serialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::Serialize(_Ser);
+	}
+
+	void DeSerialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::DeSerialize(_Ser);
+		_Ser >> ID;
+		_Ser >> SpawnTimeInfoLen;
+
+		// 이동체 Spawn 정보 추출
+		SpawnTimeInfo.reserve(SpawnTimeInfoLen);
+		char TempChar = '\0';
+		for (int i = 0; i < SpawnTimeInfoLen; ++i)
+		{
+			_Ser >> TempChar;
+			SpawnTimeInfo += TempChar;
+		}
+
+		_Ser >> FinishTimeInfoLen;
+
+		// 이동체 Finish 정보 추출
+		FinishTimeInfo.reserve(FinishTimeInfoLen);
+		for (int i = 0; i < FinishTimeInfoLen; ++i)
+		{
+			_Ser >> TempChar;
+			FinishTimeInfo += TempChar;
+		}
+	}
+
+public:
+	int ID = -1;
+	int SpawnTimeInfoLen = -1;
+	std::string SpawnTimeInfo = "";
+	int FinishTimeInfoLen = -1;
+	std::string FinishTimeInfo = "";
 };

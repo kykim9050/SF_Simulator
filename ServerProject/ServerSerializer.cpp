@@ -100,3 +100,8 @@ void ServerSerializer::operator>>(double& _Data)
 	Read(&_Data, sizeof(double));
 }
 
+void ServerSerializer::operator>>(char& _Data)
+{
+	Read(&_Data, sizeof(char));
+}
+
