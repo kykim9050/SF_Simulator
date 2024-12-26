@@ -18,6 +18,7 @@ enum class EPacketType : uint8
 	None,
 	NValuePacket = 100,		// N값 관련 패킷
 	MoverCoursePacket,	// 이동체 경로관련 패킷
+	InfoSavePacket,		// 서버에 전달할 저장할 정보관련 패킷
 };
 
 /// <summary>
@@ -60,6 +61,30 @@ public:
 	}
 
 public:
+};
+
+/// <summary>
+/// Mover의 목적지 도착시 저장할 정보 전달 패킷
+/// </summary>
+USTRUCT()
+struct UNREALCLIENT_API FRequestInfoSavePacket : public FMessageHeader
+{
+	GENERATED_BODY()
+public:
+	FRequestInfoSavePacket()
+	{
+		SetType(EPacketType::InfoSavePacket);
+	}
+
+	FRequestInfoSavePacket(uint32 _Size)
+		:FMessageHeader(static_cast<uint32>(EPacketType::InfoSavePacket), _Size)
+	{
+
+	}
+
+public:
+	FString StartInfo = FString("");
+	FString FinishInfo = FString("");
 };
 
 /// <summary>
