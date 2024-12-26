@@ -34,10 +34,9 @@ void ASimulatorManager::ReleaseActor()
 	{
 		if (false == Iter->Value->bIsAllowDestroy)
 		{
-			++Iter;
 			continue;
 		}
-		
+
 		// 삭제하고자 하는 Mover에서 실제 Key(=first)값을 추출
 		// DestSigns 에도 똑같은 Key 값에 할당 되어 있기 때문에 DestroyKey로 삭제 가능
 		TObjectPtr<AMover> DestroyMover = Movers.Find(Iter->Key)->Get();
@@ -47,13 +46,15 @@ void ASimulatorManager::ReleaseActor()
 		// Mover 삭제
 		Movers.Find(Iter->Key)->Get()->Destroy();
 		Movers.Remove(Iter->Key);
-		
+
 		// DestSign 삭제
 		DestSigns.Find(DestroyKey)->Get()->Destroy();
 		DestSigns.Remove(DestroyKey);
 
 		// Destroy Count에 추가
 		++DestroyCount;
+
+		UE_LOG(LogTemp, Log, TEXT("[ID:%d] Mover & DestSign Destroyed by SimulatorManager"), DestroyKey);
 	}
 }
 
