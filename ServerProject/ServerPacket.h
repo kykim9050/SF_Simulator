@@ -155,25 +155,9 @@ public:
 		ServerProtocol::DeSerialize(_Ser);
 		_Ser >> ID;
 		_Ser >> SpawnTimeInfoLen;
-
-		// 이동체 Spawn 정보 추출
-		SpawnTimeInfo.reserve(SpawnTimeInfoLen);
-		char TempChar = '\0';
-		for (int i = 0; i < SpawnTimeInfoLen; ++i)
-		{
-			_Ser >> TempChar;
-			SpawnTimeInfo += TempChar;
-		}
-
+		_Ser >> SpawnTimeInfo;
 		_Ser >> FinishTimeInfoLen;
-
-		// 이동체 Finish 정보 추출
-		FinishTimeInfo.reserve(FinishTimeInfoLen);
-		for (int i = 0; i < FinishTimeInfoLen; ++i)
-		{
-			_Ser >> TempChar;
-			FinishTimeInfo += TempChar;
-		}
+		_Ser >> FinishTimeInfo;
 	}
 
 public:

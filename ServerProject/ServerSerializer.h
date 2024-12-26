@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 // Ό³Έν :
 class ServerSerializer
@@ -85,6 +86,7 @@ public:
 	void operator>>(unsigned int& _Data);
 	void operator>>(double& _Data);
 	void operator>>(char& _Data);
+	void operator>>(std::string& _Data);
 
 
 protected:

@@ -105,3 +105,16 @@ void ServerSerializer::operator>>(char& _Data)
 	Read(&_Data, sizeof(char));
 }
 
+void ServerSerializer::operator>>(std::string& _Data)
+{
+	int Size = 0;
+	operator>>(Size);
+
+	if (Size == 0)
+	{
+		return;
+	}
+	_Data.resize(Size);
+	Read(&_Data[0], Size);
+}
+

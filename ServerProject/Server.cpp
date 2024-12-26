@@ -87,7 +87,7 @@ void Server::ServerRecvThread(SOCKET _Socket)
 	{
 		// 현재 시리얼라이즈의 WriteOffset부터 데이터를 남은 사이즈 만큼 데이터 수신
 		int RecvSize = recv(_Socket, Ser.DataCharPtrToWriteOffset(), Ser.RemainSize(), 0);
-		
+
 		if (SOCKET_ERROR == RecvSize)
 		{
 			return;
@@ -97,7 +97,7 @@ void Server::ServerRecvThread(SOCKET _Socket)
 		{
 			return;
 		}
-		
+
 		// 시리얼라이즈에서 쓴 길이만큼을 WriteOffset 값에 추가
 		Ser.AddWriteOffset(RecvSize);
 
@@ -221,7 +221,7 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 				SendPacket->AddPathInfo(Pos);
 				PathStack.pop();
 			}
-			
+
 			// BroadCast
 			for (auto ClientSocket : ClientSockets)
 			{
@@ -229,6 +229,15 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			}
 
 			std::cout << "Give Path Info" << std::endl;
+		});
+
+	_Interpret.AddHandler<RecvInfoSavePacket>([this](std::shared_ptr<RecvInfoSavePacket> _Packet)
+		{
+			int MoverID = _Packet->ID;
+			std::string SpawnInfo = _Packet->SpawnTimeInfo;
+			std::string FinishInfo = _Packet->FinishTimeInfo;
+			
+			int a = 0;
 		});
 }
 
