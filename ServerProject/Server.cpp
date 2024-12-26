@@ -237,8 +237,22 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			std::string SpawnInfo = _Packet->SpawnTimeInfo;
 			std::string FinishInfo = _Packet->FinishTimeInfo;
 			
-			// 수신받은 정보를 기반으로 File로써 Id , 스폰 시간정보, Finish 시간정보 Text 파일로 저장 구현
-			
+			// 수신받은 정보를 기반으로 File로써 Id , 스폰 시간정보, Finish 시간정보 Text 파일로 저장
+			static FILE* SaveFile = nullptr;
+			int Res = fopen_s(&SaveFile, &GlobalFilePath::LogFilePath[0], "wt");
+
+			if (Res)
+			{
+				assert(false);
+				return;
+			}
+
+			fwrite(&MoverID, sizeof(int), 1, SaveFile);
+			fwrite(&SpawnInfo, sizeof(char), SpawnInfo.length(), SaveFile);
+			fwrite(&FinishInfo, sizeof(char), FinishInfo.length(), SaveFile);
+			fclose(SaveFile);
+
+
 			// 서버 측에 데이터 저장 완료라는 패킷 구성해서 송신
 			std::shared_ptr<SendInfoSavePacket> SendPacket = std::make_shared<SendInfoSavePacket>();
 			SendPacket->ID = MoverID;

@@ -1,4 +1,10 @@
 #pragma once
+#include <string>
+
+namespace GlobalFilePath
+{
+	const std::string LogFilePath = "LogInfo.txt";
+}
 
 class GlobalValue
 {
