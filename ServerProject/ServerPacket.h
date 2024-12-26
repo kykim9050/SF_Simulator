@@ -167,3 +167,26 @@ public:
 	int FinishTimeInfoLen = -1;
 	std::string FinishTimeInfo = "";
 };
+
+// 정보 저장 여부 송신 패킷
+class SendInfoSavePacket : public ServerProtocol
+{
+public:
+	SendInfoSavePacket()
+	{
+		SetType(EPacketType::InfoSavePacket);
+	}
+
+	void Serialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::Serialize(_Ser);
+		_Ser << ID;
+	}
+
+	void DeSerialize(ServerSerializer& _Ser) override
+	{
+		ServerProtocol::DeSerialize(_Ser);
+	}
+public:
+	int ID = -1;
+};
