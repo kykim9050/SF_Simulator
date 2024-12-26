@@ -239,7 +239,7 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			
 			// 수신받은 정보를 기반으로 File로써 Id , 스폰 시간정보, Finish 시간정보 Text 파일로 저장
 			static FILE* SaveFile = nullptr;
-			int Res = fopen_s(&SaveFile, &GlobalFilePath::LogFilePath[0], "wt");
+			static int Res = fopen_s(&SaveFile, &GlobalFilePath::LogFilePath[0], "wt");
 
 			if (Res)
 			{
@@ -247,9 +247,11 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 				return;
 			}
 
-			fwrite(&MoverID, sizeof(int), 1, SaveFile);
-			fwrite(&SpawnInfo, sizeof(char), SpawnInfo.length(), SaveFile);
-			fwrite(&FinishInfo, sizeof(char), FinishInfo.length(), SaveFile);
+			fwrite(&MoverID, sizeof(MoverID), 1, SaveFile);
+			fwrite(",", sizeof(char), 1, SaveFile);
+			fwrite(SpawnInfo.c_str(), sizeof(char), SpawnInfo.length(), SaveFile);
+			fwrite(",", sizeof(char), 1, SaveFile);
+			fwrite(FinishInfo.c_str(), sizeof(char), FinishInfo.length(), SaveFile);
 			fwrite("\n", sizeof(char), 1, SaveFile);
 			fclose(SaveFile);
 
