@@ -3,7 +3,7 @@
 
 namespace GlobalFilePath
 {
-	const std::string LogFilePath = "LogInfo.txt";
+	const std::string LogFilePath = "Bin\\LogInfo.txt";
 }
 
 class GlobalValue

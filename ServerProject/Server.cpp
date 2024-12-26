@@ -250,6 +250,7 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			fwrite(&MoverID, sizeof(int), 1, SaveFile);
 			fwrite(&SpawnInfo, sizeof(char), SpawnInfo.length(), SaveFile);
 			fwrite(&FinishInfo, sizeof(char), FinishInfo.length(), SaveFile);
+			fwrite("\n", sizeof(char), 1, SaveFile);
 			fclose(SaveFile);
 
 
