@@ -59,8 +59,6 @@ public:
 	{
 
 	}
-
-public:
 };
 
 /// <summary>
@@ -81,10 +79,6 @@ public:
 	{
 
 	}
-
-public:
-	FString StartInfo = FString("");
-	FString FinishInfo = FString("");
 };
 
 /// <summary>

@@ -38,6 +38,11 @@ public:
 			Packet = CreatePacket<FRequestPathPacket>(WriteArray.GetData(), WriteArray.Num());
 			break;
 		}
+		case static_cast<int>(EPacketType::InfoSavePacket):
+		{
+			Packet = CreatePacket<FRequestInfoSavePacket>(WriteArray.GetData(), WriteArray.Num());
+			break;
+		}
 		default:
 			UE_LOG(LogType, Fatal, TEXT("This is not Request type"));
 			break;
