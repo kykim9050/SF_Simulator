@@ -261,4 +261,11 @@ void ATCPClient::ClientPacketInit(TObjectPtr<UClientInterpreter> _Interpret)
 
 			UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("[MoverID : %d] Get path information sucessfully!"), MoverID), GetWorld());
 		});
+
+	_Interpret->AddHandler<FRecvInfoSavePacket>([this](TSharedPtr<FRecvInfoSavePacket> _Packet)
+		{
+			int32 MoverID = _Packet->ID;
+
+			UGlobalFunctonLibrary::LoggingInWidget(FString::Printf(TEXT("[MoverID : %d] Data Saved in Server"), MoverID), GetWorld());
+		});
 }

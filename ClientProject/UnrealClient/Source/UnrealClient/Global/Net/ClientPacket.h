@@ -140,3 +140,28 @@ public:
 	int32 PathInfoSize = -1;
 	TArray<int32> PathInfo;
 };
+
+/// <summary>
+/// 정보 저장 관련 응답 패킷
+/// </summary>
+USTRUCT()
+struct FRecvInfoSavePacket : public FRecvBaseProtocol
+{
+	GENERATED_BODY()
+public:
+	FRecvInfoSavePacket()
+		:ID(-1)
+	{
+		SetType(EPacketType::InfoSavePacket);
+	}
+
+	friend FArchive& operator<<(FArchive& Ar, FRecvInfoSavePacket& Packet)
+	{
+		Ar << Packet.ID;
+
+		return Ar;
+	}
+
+public:
+	int32 ID = -1;
+};
