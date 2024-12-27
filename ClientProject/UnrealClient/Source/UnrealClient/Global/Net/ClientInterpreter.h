@@ -14,6 +14,33 @@
 DECLARE_DELEGATE_RetVal_OneParam(TSharedPtr<FRecvBaseProtocol>, FConvertPacketHandlerDelegate, FMemoryArchive&)
 DECLARE_DELEGATE_OneParam(FPacketHandlerDelegate, TSharedPtr<FRecvBaseProtocol>)
 
+/// <summary>
+/// 패킷을 해석하는 핸들러가 포함되어있는 구조체
+/// </summary>
+USTRUCT()
+struct FConvertPacketHandlerMap
+{
+	GENERATED_BODY()
+public:
+	/// <summary>
+	/// 패킷을 변환할 매소드를 포함하는 자료구조
+	/// </summary>
+	TMap<int32, FConvertPacketHandlerDelegate> Handlers;
+};
+
+/// <summary>
+/// 특정 패킷의 핸들러 매소드가 저장되어있는 구조체
+/// </summary>
+USTRUCT()
+struct FPacketHandlerMap
+{
+	GENERATED_BODY()
+public:
+	/// <summary>
+	/// 패킷에 따라서 수행할 매소드를 포함하는 자료구조
+	/// </summary>
+	TMap<int32, FPacketHandlerDelegate> Handlers;
+};
 
 UCLASS()
 class UNREALCLIENT_API UClientInterpreter : public UObject
@@ -45,20 +72,20 @@ public:
 	template<typename PacketType>
 	void AddHandler(int _Type, TFunction<void(TSharedPtr<PacketType>)> _CallBack)
 	{
-		if (true == PacketHandlers.Contains(_Type))
+		if (true == PacketHandlers.Handlers.Contains(_Type))
 		{
 			UE_LOG(LogType, Fatal, TEXT("This handler is already registered."));
 			return;
 		}
 
-		ConvertPacketHandlers.Add(_Type, FConvertPacketHandlerDelegate::CreateLambda([=](FMemoryArchive& _ReadMem)->TSharedPtr<FRecvBaseProtocol> {
+		ConvertPacketHandlers.Handlers.Add(_Type, FConvertPacketHandlerDelegate::CreateLambda([=](FMemoryArchive& _ReadMem)->TSharedPtr<FRecvBaseProtocol> {
 			TSharedPtr<PacketType> NewPacket = MakeShared<PacketType>();
 			_ReadMem << *NewPacket;
 			return NewPacket;
 			})
 		);
 
-		PacketHandlers.Add(_Type, FPacketHandlerDelegate::CreateLambda([=](TSharedPtr<FRecvBaseProtocol> _Packet) {
+		PacketHandlers.Handlers.Add(_Type, FPacketHandlerDelegate::CreateLambda([=](TSharedPtr<FRecvBaseProtocol> _Packet) {
 			TSharedPtr<PacketType> ConvertPacket = StaticCastSharedPtr<PacketType>(_Packet);
 
 			if (!ConvertPacket.IsValid())
@@ -75,14 +102,10 @@ public:
 protected:
 
 private:
-	/// <summary>
-	/// 패킷을 변환할 매소드를 포함하는 자료구조
-	/// </summary>
-	TMap<int32, FConvertPacketHandlerDelegate> ConvertPacketHandlers;
+	UPROPERTY()
+	FConvertPacketHandlerMap ConvertPacketHandlers;
 
-	/// <summary>
-	/// 패킷에 따라서 수행할 매소드를 포함하는 자료구조
-	/// </summary>
-	TMap<int32, FPacketHandlerDelegate> PacketHandlers;
-
+	UPROPERTY()
+	FPacketHandlerMap PacketHandlers;
+	
 };
