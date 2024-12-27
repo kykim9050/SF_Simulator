@@ -10,6 +10,11 @@
 /**
  * 패킷 종류에 따라 패킷을 해석하는 클래스
  */
+
+DECLARE_DELEGATE_RetVal_OneParam(TSharedPtr<FRecvBaseProtocol>, FConvertPacketHandlerDelegate, FMemoryArchive&)
+DECLARE_DELEGATE_OneParam(FPacketHandlerDelegate, TSharedPtr<FRecvBaseProtocol>)
+
+
 UCLASS()
 class UNREALCLIENT_API UClientInterpreter : public UObject
 {
@@ -46,14 +51,14 @@ public:
 			return;
 		}
 
-		ConvertPacketHandlers.Add(_Type, [=](FMemoryArchive& _ReadMem) {
+		ConvertPacketHandlers.Add(_Type, FConvertPacketHandlerDelegate::CreateLambda([=](FMemoryArchive& _ReadMem)->TSharedPtr<FRecvBaseProtocol> {
 			TSharedPtr<PacketType> NewPacket = MakeShared<PacketType>();
 			_ReadMem << *NewPacket;
 			return NewPacket;
-			}
+			})
 		);
 
-		PacketHandlers.Add(_Type, [=](TSharedPtr<FRecvBaseProtocol> _Packet) {
+		PacketHandlers.Add(_Type, FPacketHandlerDelegate::CreateLambda([=](TSharedPtr<FRecvBaseProtocol> _Packet) {
 			TSharedPtr<PacketType> ConvertPacket = StaticCastSharedPtr<PacketType>(_Packet);
 
 			if (!ConvertPacket.IsValid())
@@ -63,7 +68,7 @@ public:
 			}
 
 			_CallBack(ConvertPacket);
-			}
+			})
 		);
 	}
 
@@ -73,11 +78,11 @@ private:
 	/// <summary>
 	/// 패킷을 변환할 매소드를 포함하는 자료구조
 	/// </summary>
-	TMap<int32, TFunction<TSharedPtr<FRecvBaseProtocol>(FMemoryArchive& _ReadMem)>> ConvertPacketHandlers;
+	TMap<int32, FConvertPacketHandlerDelegate> ConvertPacketHandlers;
 
 	/// <summary>
 	/// 패킷에 따라서 수행할 매소드를 포함하는 자료구조
 	/// </summary>
-	TMap<int32, TFunction<void(TSharedPtr<FRecvBaseProtocol>)>> PacketHandlers;
+	TMap<int32, FPacketHandlerDelegate> PacketHandlers;
 
 };

@@ -11,7 +11,7 @@ TSharedPtr<FRecvBaseProtocol> UClientInterpreter::ConvertProtocol(int32 _Type, F
 		return nullptr;
 	}
 
-	return ConvertPacketHandlers[_Type](_ReadMem);
+	return ConvertPacketHandlers[_Type].Execute(_ReadMem);
 }
 
 void UClientInterpreter::ProcessPacket(TSharedPtr<FRecvBaseProtocol> _Packet)
@@ -23,5 +23,5 @@ void UClientInterpreter::ProcessPacket(TSharedPtr<FRecvBaseProtocol> _Packet)
 		return;
 	}
 
-	return PacketHandlers[_Packet->GetType()](_Packet);
+	return PacketHandlers[_Packet->GetType()].Execute(_Packet);
 }
