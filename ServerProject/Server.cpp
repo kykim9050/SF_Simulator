@@ -229,7 +229,7 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 				Server::Send(ClientSocket, SendPacket);
 			}
 
-			std::cout << "Give Path Info" << std::endl;
+			std::cout << "Give path info to mover" << MoverID << std::endl;
 		});
 
 	_Interpret.AddHandler<RecvInfoSavePacket>([this](std::shared_ptr<RecvInfoSavePacket> _Packet)
@@ -242,6 +242,7 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			std::string LogStr = "";
 			LogStr += std::to_string(MoverID) + ":" + SpawnInfo + "," + FinishInfo;
 			Savefile.Logging(LogStr);
+			std::cout << "[ID:" << MoverID << " Data completely saved!" << std::endl;
 
 			// 서버 측에 데이터 저장 완료라는 패킷 구성해서 송신
 			std::shared_ptr<SendInfoSavePacket> SendPacket = std::make_shared<SendInfoSavePacket>();
