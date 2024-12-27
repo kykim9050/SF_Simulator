@@ -70,5 +70,6 @@ private:
 	/// <summary>
 	/// 수신용 패킷 해석자
 	/// </summary>
+	UPROPERTY()
 	TObjectPtr<UClientInterpreter> Interpret = nullptr;
 };

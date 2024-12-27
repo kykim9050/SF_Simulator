@@ -16,9 +16,8 @@ TSharedPtr<FRecvBaseProtocol> UClientInterpreter::ConvertProtocol(int32 _Type, F
 
 void UClientInterpreter::ProcessPacket(TSharedPtr<FRecvBaseProtocol> _Packet)
 {
-	if (false == ConvertPacketHandlers.Handlers.Contains(_Packet->GetType()))
+	if (false == PacketHandlers.Handlers.Contains(_Packet->GetType()))
 	{
-		// 추후 Fatal로 변경 필요
 		UE_LOG(LogType, Fatal, TEXT("This is a packet with no processing method specified."));
 		return;
 	}
