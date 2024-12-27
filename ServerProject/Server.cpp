@@ -4,6 +4,7 @@
 #include "ServerProtocol.h"
 #include "GlobalValue.h"
 #include "WayPointAlgo.h"
+#include <fstream>
 
 
 Server::Server()
@@ -236,25 +237,11 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			int MoverID = _Packet->ID;
 			std::string SpawnInfo = _Packet->SpawnTimeInfo;
 			std::string FinishInfo = _Packet->FinishTimeInfo;
-			
-			// 수신받은 정보를 기반으로 File로써 Id , 스폰 시간정보, Finish 시간정보 Text 파일로 저장
-			static FILE* SaveFile = nullptr;
-			static int Res = fopen_s(&SaveFile, &GlobalFilePath::LogFilePath[0], "wt");
 
-			if (Res)
-			{
-				assert(false);
-				return;
-			}
-
-			fwrite(&MoverID, sizeof(MoverID), 1, SaveFile);
-			fwrite(",", sizeof(char), 1, SaveFile);
-			fwrite(SpawnInfo.c_str(), sizeof(char), SpawnInfo.length(), SaveFile);
-			fwrite(",", sizeof(char), 1, SaveFile);
-			fwrite(FinishInfo.c_str(), sizeof(char), FinishInfo.length(), SaveFile);
-			fwrite("\n", sizeof(char), 1, SaveFile);
-			fclose(SaveFile);
-
+			//// 수신받은 정보를 기반으로 File로써 Id , 스폰 시간정보, Finish 시간정보 Text 파일로 저장
+			std::ofstream Savefile(&GlobalFilePath::LogFilePath[0], std::ios_base::app);
+			Savefile << MoverID << ":" << SpawnInfo << "," << FinishInfo << std::endl;
+			Savefile.close();
 
 			// 서버 측에 데이터 저장 완료라는 패킷 구성해서 송신
 			std::shared_ptr<SendInfoSavePacket> SendPacket = std::make_shared<SendInfoSavePacket>();
