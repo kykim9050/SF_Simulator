@@ -11,6 +11,7 @@
 #include "Interpreter.h"
 #include "ServerPacket.h"
 #include "Point.h"
+#include "LogFIle.h"
 
 // 설명 :
 class Server
@@ -76,6 +77,11 @@ private:
 
 	// 서버 전용 해석자
 	Interpreter Interpret = Interpreter();
+
+	/// <summary>
+	/// 이동체 정보 로그 파일
+	/// </summary>
+	LogFIle Savefile = LogFIle();
 
 private:
 	int Send(SOCKET _ClientSocket, std::shared_ptr<ServerProtocol> _Protocol);

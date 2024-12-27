@@ -239,9 +239,9 @@ void Server::ServerPacketInit(Interpreter& _Interpret)
 			std::string FinishInfo = _Packet->FinishTimeInfo;
 
 			//// 수신받은 정보를 기반으로 File로써 Id , 스폰 시간정보, Finish 시간정보 Text 파일로 저장
-			std::ofstream Savefile(&GlobalFilePath::LogFilePath[0], std::ios_base::app);
-			Savefile << MoverID << ":" << SpawnInfo << "," << FinishInfo << std::endl;
-			Savefile.close();
+			std::string LogStr = "";
+			LogStr += std::to_string(MoverID) + ":" + SpawnInfo + "," + FinishInfo;
+			Savefile.Logging(LogStr);
 
 			// 서버 측에 데이터 저장 완료라는 패킷 구성해서 송신
 			std::shared_ptr<SendInfoSavePacket> SendPacket = std::make_shared<SendInfoSavePacket>();

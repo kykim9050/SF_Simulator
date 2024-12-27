@@ -160,6 +160,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="LogFIle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Point.cpp">
       <SubType>
@@ -193,6 +197,10 @@
     </ClInclude>
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="Interpreter.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="LogFIle.h">
       <SubType>
       </SubType>
     </ClInclude>
