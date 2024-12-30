@@ -19,9 +19,17 @@ void WayPointAlgo::FindPathWithBFS(std::vector<std::vector<int>>& _GridMap, cons
 	
 	// 최종 위치는 미리 Stack에 넣어놓는다.
 	_ResPath.push(EndPos);
-	// 목적지 앞까지 올 수 있도록 X값 +1
-	EndPos.X += 1;
-
+	// 다른 로봇과의 이동 경로에서 행의 중복을 방지
+	static int RowCnt = 1;
+	if (RowCnt < Size - 1)
+	{
+		EndPos.X += RowCnt++;
+	}
+	else
+	{
+		RowCnt = 1;
+		EndPos.X += RowCnt;
+	}
 
 	// Q에 넣은 좌표들을 Pop하면서 좌표 이동
 	// _DestPos에 같아질 때 경로를 찾은 것
